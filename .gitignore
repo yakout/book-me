@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+# Intellij IDEA
+**/.idea/workspace.xml **/.idea/tasks.xml
+
 # BlueJ files
 *.ctxt
 
