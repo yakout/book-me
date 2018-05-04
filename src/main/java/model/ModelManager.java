@@ -5,19 +5,22 @@ import java.sql.*;
 /**
  * This should connects to database to get, insert, update or delete data.
  */
-public class Model {
-    private static Model model;
+public class ModelManager {
+    private static String url = "jdbc:mysql://localhost:3306/library";
+    private static String user = "root";
+    private static String pass = "yakout";
+    private static ModelManager model;
     private Connection connection;
 
-    public static synchronized Model getInstance()
+    public static synchronized ModelManager getInstance()
     {
         if (model == null) {
-            model = new Model();
+            model = new ModelManager();
         }
         return model;
     }
 
-    public void startConnection(String url, String user, String pass) {
+    public void startConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pass);
