@@ -37,4 +37,24 @@ public class BookDAO {
 
     }
 
+    public static void findByTitle() {
+
+    }
+
+    public static void findByISBN() {
+
+    }
+
+    public static void findByAuthor() {
+
+    }
+
+    public static void findByCategory() {
+
+    }
+
+    public static void findByPublisher() {
+
+    }
+
 }

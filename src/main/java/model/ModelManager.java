@@ -12,6 +12,10 @@ public class ModelManager {
     private static ModelManager model;
     private Connection connection;
 
+    private ModelManager() {
+        startConnection();
+    }
+
     public static synchronized ModelManager getInstance()
     {
         if (model == null) {
@@ -29,19 +33,13 @@ public class ModelManager {
         }
     }
 
-    public void executeQuery(String query) {
+    public ResultSet executeQuery(String query) {
         Statement statement = null;
+        ResultSet resultSet = null;
         try {
             statement = connection.createStatement();
             statement.execute(query);
-            ResultSet resultSet = statement.getResultSet();
-            for (int i  = 0; i < 10; i++) {
-                if (resultSet.next()) {
-                    System.out.print(resultSet.getString("BOOK_ID") + " | ");
-                    System.out.print(resultSet.getString("TITLE") + " | ");
-                    System.out.println(resultSet.getString("PUBLISHER_NAME"));
-                }
-            }
+            resultSet = statement.getResultSet();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -53,6 +51,8 @@ public class ModelManager {
                 e.printStackTrace();
             }
         }
+
+        return resultSet;
     }
 
     public void closeConnection() {
