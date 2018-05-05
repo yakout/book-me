@@ -6,7 +6,7 @@ import java.sql.*;
  * This should connects to database to get, insert, update or delete data.
  */
 public class ModelManager {
-    private static String url = "jdbc:mysql://localhost:3306/library";
+    private static String url = "jdbc:mysql://localhost:3306/bookme";
     private static String user = "root";
     private static String pass = "yakout";
     private static ModelManager model;
