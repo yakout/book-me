@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="book-me">
-    <output-path>$PROJECT_DIR$/out/artifacts/book_me</output-path>
-    <root id="root" />
-  </artifact>
-</component>
