@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/target</output-path>
     <root id="archive" name="BookMe-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="book-me:war exploded" />
-      <element id="javaee-facet-resources" facet="book-me/web/Web" />
     </root>
   </artifact>
 </component>
