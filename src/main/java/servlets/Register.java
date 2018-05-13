@@ -1,5 +1,6 @@
 package servlets;
 
+import beans.User;
 import model.UserDAO;
 
 import javax.servlet.ServletException;
@@ -7,23 +8,32 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.Console;
 import java.io.IOException;
 
 /**
- * Created by ahmedyakout on 5/2/18.
+ * Created by ahmedyakout on 5/5/18.
  */
-@WebServlet(name = "login", urlPatterns = "/login")
-public class Login extends HttpServlet {
+@WebServlet(name = "register", urlPatterns = "/register")
+public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String pass = request.getParameter("pass");
+        User user = new User(
+                request.getParameter("email"),
+                request.getParameter("pass"),
+                request.getParameter("FName"),
+                request.getParameter("LName"),
+                request.getParameter("PhoneNumber"),
+                request.getParameter("ShippingAddress")
+        );
 
-        if (UserDAO.login(email, pass)) {
+        if (UserDAO.register(user)) {
             response.sendRedirect("welcome.jsp");
         } else {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("register.jsp");
             request.setAttribute("errorMessage", "ERROR!");
         }
+
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

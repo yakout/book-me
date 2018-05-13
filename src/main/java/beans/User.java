@@ -6,33 +6,60 @@ import java.util.List;
  * Created by ahmedyakout on 5/4/18.
  */
 public class User {
-    private int UserID;
+    private int userID;
     private String password;
+    private byte[] encryptedPassword;
+    private byte[] salt;
     private String email;
-    private String FName;
-    private String LName;
-    private String PhoneNumber;
+    private String fName;
+    private String lName;
+    private String phoneNumber;
     private String shippingAddress;
     private boolean isManager;
 
     private List<Book> shoppingCart;
 
+    public User() {
+
+    }
+
+    public User(String email, String password, String fName, String lName, String phoneNumber, String shippingAddress) {
+        this.email = email;
+        this.password = password;
+        this.fName = fName;
+        this.lName = lName;
+        this.phoneNumber = phoneNumber;
+        this.shippingAddress = shippingAddress;
+    }
+
 
     // GETTERS
     public int getUserID() {
-        return UserID;
+        return userID;
+    }
+
+    public byte[] getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public byte[] getSalt() {
+        return salt;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getFName() {
-        return FName;
+    public String getfName() {
+        return fName;
     }
 
-    public String getLName() {
-        return LName;
+    public String getlName() {
+        return lName;
+    }
+
+    public boolean isManager() {
+        return isManager;
     }
 
     public String getPassword() {
@@ -40,7 +67,7 @@ public class User {
     }
 
     public String getPhoneNumber() {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
     public String getShippingAddress() {
@@ -54,16 +81,24 @@ public class User {
         this.email = email;
     }
 
-    public void setFName(String FName) {
-        this.FName = FName;
+    public void setlName(String lName) {
+        this.lName = lName;
     }
 
-    public void setLName(String LName) {
-        this.LName = LName;
+    public void setfName(String fName) {
+        this.fName = fName;
+    }
+
+    public void setEncryptedPassword(byte[] encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
 
     public void setManager(boolean manager) {
-        isManager = manager;
+        this.isManager = manager;
     }
 
     public void setPassword(String password) {
@@ -71,7 +106,7 @@ public class User {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public void setShippingAddress(String shippingAddress) {
@@ -79,7 +114,7 @@ public class User {
     }
 
     public void setUserID(int userID) {
-        UserID = userID;
+        this.userID = userID;
     }
 
 
@@ -154,5 +189,15 @@ public class User {
 
     }
 
-
+    @Override
+    public String toString() {
+        return "email: " + email + "\n"
+                + "fName: " + fName + "\n"
+                + "lName: " + lName + "\n"
+                + "password: " + password + "\n"
+                + "encryptedPassword: " + encryptedPassword + "\n"
+                + "phoneNumber: " + phoneNumber + "\n"
+                + "shippingAddress: " + shippingAddress + "\n"
+                + "isManager: " + isManager + "\n";
+    }
 }

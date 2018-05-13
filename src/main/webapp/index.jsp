@@ -9,13 +9,18 @@
 <html>
 <head>
     <title>Login</title>
-    <form action="Login" method="post">
-        Enter User Name <input type="text" name="user"><br>
-        Enter Password <input type="password" name="pass"><br>
-        <input type="submit" value="login">
-    </form>
 </head>
 <body>
+<form action="Login" method="post">
+    Enter User Email <input type="text" name="email"><br>
+    Enter Password <input type="password" name="pass"><br>
+    <input type="submit" value="login">
+</form>
 
+<% if(request.getAttribute("errorMessage") != null) { %>
+<p>${errorMessage}</p>
+<% } %>
+
+</form>
 </body>
 </html>
