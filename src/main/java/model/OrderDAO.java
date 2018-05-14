@@ -1,5 +1,9 @@
 package model;
 
+import beans.Order;
+import com.sun.istack.internal.NotNull;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 /**
  * Created by ahmedyakout on 5/4/18.
  *
@@ -15,7 +19,20 @@ public class OrderDAO {
      * (the minimum quantity in stock) to below the given threshold.
      *
      */
-    public static void placeOrder() {
+    public static void placeOrder(@NotNull Order newOrder) {
+        /**
+         *
+         *  Inserting new Order.
+         *
+         * */
+        String query = "INSERT INTO Order VALUES"
+                + "( "
+                + "'"  + newOrder.getOrderID() + "'" + " , "
+                + newOrder.getISBN() + " , "
+                + newOrder.getQuantity() + " , "
+                + " );" ;
+
+        ModelManager.getInstance().executeQuery(query);
 
     }
 
@@ -26,8 +43,18 @@ public class OrderDAO {
      * Assume that deleting the order means that the order is received from publisher
      *
      */
-    public static void confirmOrder() {
+    public static void confirmOrder(@NotNull Order confirmedOrder) {
+        /**
+         *
+         * Deleting the confirmed order.
+         *
+         * */
 
+        String query = "DELETE FROM Order"
+                        + " WHERE " + " order_id "
+                        + " = " + confirmedOrder.getOrderID();
+
+        ModelManager.getInstance().executeQuery(query);
     }
 
 }
