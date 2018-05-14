@@ -1,5 +1,8 @@
 package model;
 
+import beans.Book;
+import com.sun.istack.internal.NotNull;
+
 /**
  * Created by ahmedyakout on 5/4/18.
  *
@@ -11,11 +14,38 @@ package model;
  */
 public class BookDAO {
 
+    @
     /**
-     * this should take book attributes + threshold.
+     * @param newBook : the new book we want to add into our store.
      */
-    public static void addNewBook() {
+    public static void addNewBook(@NotNull Book newBook) {
+        /**
+         * adding the new book.
+         */
+        String query = "INSERT INTO BOOK VALUES"
+                + "( "
+                + newBook.getISBN() + " , "
+                + "'" + newBook.getTitle() + "'" + " , "
+                + "'" + newBook.getPublisherName() + "'" + " , "
+                + "'" + newBook.getCategory() + "'" + " , "
+                + newBook.getPrice() + " , "
+                + newBook.getThreshold() + " , "
+                + newBook.getNumberOfCopies() + " , "
+                + " );" ;
 
+        ModelManager.getInstance().executeQuery(query);
+
+        /**
+         * adding the book authors associated with the new book.
+         */
+        for(String authorName : newBook.getAuthorsNames()){
+            query = "INSERT INTO AUTHOR VALUES"
+                    + "( "
+                    + "'" + authorName + "'" + " , "
+                    + newBook.getISBN()
+                    + " );" ;
+            ModelManager.getInstance().executeQuery(query);
+        }
     }
 
     /**

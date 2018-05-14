@@ -1,5 +1,7 @@
 package beans;
 
+import java.util.ArrayList;
+
 /**
  * Created by ahmedyakout on 5/4/18.
  */
@@ -11,6 +13,8 @@ public class Book {
     private float price;
     private BookCategory category;
     private int threshold;
+    private int numberOfCopies;
+    private ArrayList<String> authorsNames;
 
     // GETTERS
     public int getISBN() {
@@ -41,6 +45,14 @@ public class Book {
         return threshold;
     }
 
+    public int getNumberOfCopies() {
+        return numberOfCopies;
+    }
+
+    public ArrayList<String> getAuthorsNames() {
+        return authorsNames;
+    }
+
     // SETTERS
     public void setCategory(BookCategory category) {
         this.category = category;
@@ -68,5 +80,13 @@ public class Book {
 
     public void setThreshold(int threshold) {
         this.threshold = threshold;
+    }
+
+    public void setNumberOfCopies(int numberOfCopies) {
+        this.numberOfCopies = numberOfCopies;
+    }
+
+    public void setAuthorsNames(ArrayList<String> authorsNames) {
+        this.authorsNames = authorsNames;
     }
 }
