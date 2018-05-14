@@ -16,6 +16,7 @@ public class BookDAO {
 
 
     /**
+     * To add a new book to the online store.
      * @param newBook : the new book we want to add into our store.
      */
     public static void addNewBook(@NotNull Book newBook) {
@@ -30,7 +31,7 @@ public class BookDAO {
                 + "'" + newBook.getCategory() + "'" + " , "
                 + newBook.getPrice() + " , "
                 + newBook.getThreshold() + " , "
-                + newBook.getNumberOfCopies() + " , "
+                + newBook.getNumberOfCopies()
                 + " );" ;
 
         ModelManager.getInstance().executeQuery(query);
@@ -53,11 +54,24 @@ public class BookDAO {
      * For a given book, the user can update the quantity in stock when a copy or more of the book is sold.
      * The user cannot update the quantity of a book if this update will cause the quantity of a book in stock to be
      * negative.
-     *
+     * @param updatedBook : the modified book attributes
      */
-    public static void modifyBook() {
+    public static void modifyBook(Book updatedBook) {
+        /**
+         * update the existing book.
+         */
+        String query = "UPDATE BOOK SET"
+                + "title = " + "'" + updatedBook.getTitle() + "'" + " , "
+                + "publisher = " + "'" + updatedBook.getPublisherName() + "'" + " , "
+                + "category = " + "'" + updatedBook.getCategory() + "'" + " , "
+                + "price = " + updatedBook.getPrice() + " , "
+                + "threshold = " + updatedBook.getThreshold() + " , "
+                + "copies = " + updatedBook.getNumberOfCopies()
+                + "where ISBN = " + updatedBook.getISBN() + ";" ;
 
+        ModelManager.getInstance().executeQuery(query);
     }
+
 
     /**
      * The user can search for a book by ISBN, and title. The user can search for books of a specific Category,
