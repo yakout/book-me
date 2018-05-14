@@ -1,7 +1,11 @@
 package model;
 
 import beans.Book;
+import beans.BookCategory;
 import com.sun.istack.internal.NotNull;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by ahmedyakout on 5/4/18.
@@ -56,7 +60,7 @@ public class BookDAO {
      * negative.
      * @param updatedBook : the modified book attributes
      */
-    public static void modifyBook(Book updatedBook) {
+    public static void modifyBook(@NotNull Book updatedBook) {
         /**
          * update the existing book.
          */
@@ -77,28 +81,66 @@ public class BookDAO {
      * The user can search for a book by ISBN, and title. The user can search for books of a specific Category,
      * author or publisher.
      */
-    public static void searchBook() {
 
+
+    /**
+     * find only one book or nothing by searching by title.
+     * @param title : the title we search by
+     * @return the matched book.
+     */
+    public static Book findByTitle(@NotNull String title) {
+        String query = "SELECT FROM BOOK"
+                        + "WHERE TITLE = " + "'" + title + "'" + ";";
+
+        ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
+        return buildBook(resultSet);
     }
 
-    public static void findByTitle() {
-
-    }
-
+    /**
+     * find only one book or nothing by searching by ISBN.
+     */
     public static void findByISBN() {
 
     }
 
+    /**
+     * find many books by searching by Author Name.
+     */
     public static void findByAuthor() {
 
     }
 
+    /**
+     * find many books by searching by category.
+     */
     public static void findByCategory() {
 
     }
 
+    /**
+     * find many books by searching by publisher Name.
+     */
     public static void findByPublisher() {
 
+    }
+
+
+    private static Book buildBook(@NotNull ResultSet rs){
+        Book book = new Book();
+        try {
+            book.setISBN(Integer.parseInt(rs.getString("ISBN")));
+            book.setTitle(rs.getString("title"));
+            book.setPublisherName(rs.getString("publisher"));
+            book.setCategory(BookCategory.valueOf(rs.getString("category")));
+            book.setPrice(Integer.parseInt(rs.getString("price")));
+            book.setThreshold(Integer.parseInt(rs.getString("threshold")));
+            book.setNumberOfCopies(Integer.parseInt(rs.getString("copies")));
+        } catch (SQLException | NullPointerException e){
+            book = null;
+            e.printStackTrace();
+        } finally {
+            return book;
+        }
     }
 
 }

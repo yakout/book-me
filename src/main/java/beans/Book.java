@@ -16,6 +16,15 @@ public class Book {
     private int numberOfCopies;
     private ArrayList<String> authorsNames;
 
+
+    // default constructor if we don't know the values yet
+    public Book(){
+        price = 10;
+        threshold = 0;
+        copies = 0;
+        publisherDate = "";
+    }
+
     // GETTERS
     public int getISBN() {
         return ISBN;
