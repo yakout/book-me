@@ -25,7 +25,6 @@ public class Register extends HttpServlet {
                 request.getParameter("PhoneNumber"),
                 request.getParameter("ShippingAddress")
         );
-
         if (UserDAO.register(user)) {
             response.sendRedirect("welcome.jsp");
         } else {
