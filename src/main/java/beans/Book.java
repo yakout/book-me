@@ -21,7 +21,7 @@ public class Book {
     public Book(){
         price = 10;
         threshold = 0;
-        copies = 0;
+        numberOfCopies = 0;
         publisherDate = "";
     }
 
