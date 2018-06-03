@@ -26,10 +26,13 @@ public class Register extends HttpServlet {
                 request.getParameter("ShippingAddress")
         );
         if (UserDAO.register(user)) {
-            response.sendRedirect("welcome.jsp");
+
+            //response.sendRedirect("welcome.jsp");
+            /* forward request to login servlet to handle the login process. */
+            request.getRequestDispatcher("/login").forward(request,response);
         } else {
             response.sendRedirect("register.jsp");
-            request.setAttribute("errorMessage", "ERROR!");
+            request.setAttribute("errorMessage", "ERROR!, in register. ");
         }
 
 

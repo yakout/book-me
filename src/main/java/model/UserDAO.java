@@ -102,4 +102,11 @@ public class UserDAO {
 
         return status;
     }
+
+    /**
+     *  This should return the user associated with this email
+     *  */
+    public static User getUser(String email){
+        return null;
+    }
 }
