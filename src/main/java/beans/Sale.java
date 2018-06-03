@@ -10,7 +10,15 @@ public class Sale {
     private Date sale_date;
     private int copies;
 
+
     public Sale() { }
+
+    public Sale(String user_id, int ISBN, Date sale_date, int copies) {
+        this.user_id = user_id;
+        this.ISBN = ISBN;
+        this.sale_date = sale_date;
+        this.copies = copies;
+    }
 
     public Sale(String sale_id, String user_id, int ISBN, Date sale_date, int copies) {
         this.sale_id = sale_id;

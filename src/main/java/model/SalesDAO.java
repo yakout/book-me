@@ -1,7 +1,9 @@
 package model;
 
 import beans.*;
+import com.sun.istack.internal.NotNull;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -114,6 +116,24 @@ public class SalesDAO {
             e.printStackTrace();
         }
         return top_ten;
+    }
+
+    public static boolean checkout(@NotNull ArrayList<Sale> sales , @NotNull String creditCard, @NotNull String expiryDate ){
+
+        // check the validation for the credit card, but i don't know how ? :/
+
+        for(Sale sale : sales){
+            String query = "INSERT INTO SALE VALUES "
+                + "("
+                + " UUID() " + " , "
+                + sale.getUser_id() + " , "
+                + sale.getISBN() + " , "
+                + "NOW()" + " , "
+                + sale.getCopies()
+                + ");";
+            ModelManager.getInstance().executeQuery(query);
+        }
+        return true;
     }
 
 
