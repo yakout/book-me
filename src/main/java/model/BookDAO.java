@@ -28,7 +28,7 @@ public class BookDAO {
         /**
          * adding the new book.
          */
-        String query = "INSERT INTO BOOK VALUES"
+        String query = "INSERT INTO BOOK VALUES "
                 + "( "
                 + newBook.getISBN() + " , "
                 + "'" + newBook.getTitle() + "'" + " , "
@@ -45,7 +45,7 @@ public class BookDAO {
          * adding the book authors associated with the new book.
          */
         for(String authorName : newBook.getAuthorsNames()){
-            query = "INSERT INTO AUTHOR VALUES"
+            query = "INSERT INTO AUTHOR VALUES "
                     + "( "
                     + "'" + authorName + "'" + " , "
                     + newBook.getISBN()
@@ -65,7 +65,7 @@ public class BookDAO {
         /**
          * update the existing book.
          */
-        String query = "UPDATE BOOK SET"
+        String query = "UPDATE BOOK SET "
                 + "title = " + "'" + updatedBook.getTitle() + "'" + " , "
                 + "publisher = " + "'" + updatedBook.getPublisherName() + "'" + " , "
                 + "category = " + "'" + updatedBook.getCategory() + "'" + " , "
@@ -90,7 +90,7 @@ public class BookDAO {
      * @return the matched book.
      */
     public static Book findByTitle(@NotNull String title) {
-        String query = "SELECT FROM BOOK"
+        String query = "SELECT FROM BOOK "
                         + "WHERE TITLE = " + "'" + title + "'" + ";";
 
         ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
@@ -103,7 +103,7 @@ public class BookDAO {
      * @return the matched book.
      */
     public static Book findByISBN(int ISBN) {
-        String query = "SELECT FROM BOOK"
+        String query = "SELECT FROM BOOK "
                 + "WHERE ISBN = " + ISBN + ";";
 
         ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
@@ -116,7 +116,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByAuthor(@NotNull String authorName) {
-        String query = "SELECT FROM BOOK"
+        String query = "SELECT FROM BOOK "
                 + "WHERE Author = " + "'" + authorName + "'" + ";";
 
         return getMatchedBooks(query);
@@ -128,7 +128,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByCategory(@NotNull BookCategory category) {
-        String query = "SELECT FROM BOOK"
+        String query = "SELECT FROM BOOK "
                 + "WHERE category = " + "'" + category.name() + "'" + ";";
 
         return getMatchedBooks(query);
@@ -140,11 +140,67 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByPublisher(@NotNull String publisherName) {
-        String query = "SELECT FROM BOOK"
+        String query = "SELECT FROM BOOK "
                 + "WHERE publisher = " + "'" + publisherName + "'" + ";";
         return getMatchedBooks(query);
     }
 
+    /**
+     * find many books by searching using optional attributes.
+     * @return the matched books.
+     */
+    public static ArrayList<Book> find(Integer ISBN, String title, String publisherName, BookCategory category, String authorName) {
+        ArrayList<Book> matchedBooks = new ArrayList<>();
+        Boolean whereClause = false;
+        String query = "SELECT FROM ";
+        if(authorName != Null){
+            query += "( BOOK NATURAL JOIN AUTHOR ) " + "WHERE author_name = " + "'" + authorName + "'";
+            whereClause = true;
+        }
+        else{
+            query += "BOOK";   
+        }
+        List<String> conditions = new ArrayList<String>();
+        conditions.add(makeCondition("ISBN", ISBN));
+        conditions.add(makeCondition("title", title));
+        conditions.add(makeCondition("publisherName", publisherName));
+        conditions.add(makeCondition("category", category));
+        for(String cond : conditions){
+            if(cond != Null){
+                if(whereClause){
+                    query += " AND " + cond;
+                }
+                else{
+                    query += " WHERE " + cond;
+                    whereClause = true;
+                }
+            }
+        }
+        query += ";";
+        try{
+            ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
+            while(resultSet.next()){
+                matchedBooks.add(buildBook(resultSet));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            return matchedBooks;
+        }
+    }
+
+    
+    private static String makeCondition(String attributeName, Object attribute_value){
+        if(attribute_value == Null){
+            return Null;
+        }
+        if(attribute_value instanceof Integer){
+            return attributeName + " = " + attribute_value.toString();
+        }
+        else{
+            return attributeName + " = " + "'" + attribute_value.toString() + "'";    
+        }
+    }
 
     /**
      *
