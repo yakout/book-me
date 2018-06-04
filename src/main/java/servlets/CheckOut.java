@@ -1,7 +1,6 @@
 package servlets;
 
 import beans.Cart;
-import beans.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
