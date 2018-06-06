@@ -39,8 +39,10 @@ public class Login extends HttpServlet {
             response.sendRedirect("home.jsp");
 
         } else {
-            // TODO
             System.out.println("LOGIN FAILURE");
+            System.out.println("email: " + email);
+            System.out.println("pass: " + pass);
+
             response.sendRedirect("home.jsp");
             request.setAttribute("errorMessage", "ERROR!, Wrong email or password.");
         }

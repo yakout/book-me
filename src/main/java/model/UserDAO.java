@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  *
@@ -32,17 +33,25 @@ public class UserDAO {
         );
         
         try {
-            while(rs.next()){
+            while(rs.next()) {
                 try {
                     if(pw.authenticate(pass, rs.getBytes("password"), rs.getBytes("salt"))) {
+                        System.out.println("CORRECT PASSWORD");
                         status = true;
                     } else {
+                        System.out.println(
+                                "WRONG PASSWORD: "
+                                        + Arrays.toString(rs.getBytes("password"))
+                                        + " with "
+                                        + Arrays.toString(rs.getBytes("salt"))
+                        );
                         status = false;
                     }
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException | SQLException e) {
                     e.printStackTrace();
                 }
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

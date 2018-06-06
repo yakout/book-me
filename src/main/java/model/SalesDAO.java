@@ -130,7 +130,14 @@ public class SalesDAO {
                 + "NOW()" + " , "
                 + sale.getCopies()
                 + ");";
-            ModelManager.getInstance().executeQuery(query);
+            ResultSet rs = ModelManager.getInstance().executeQuery(query);
+
+            // TODO process rs
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return true;
     }
