@@ -1,8 +1,5 @@
 package beans;
 
-/**
- * Created by ahmedyakout on 5/4/18.
- */
 public class Manager extends User {
 
     // ****************************************

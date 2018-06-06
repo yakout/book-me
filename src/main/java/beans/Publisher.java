@@ -2,9 +2,6 @@ package beans;
 
 import java.util.List;
 
-/**
- * Created by ahmedyakout on 5/4/18.
- */
 public class Publisher {
     private String name;
     private List<String> addresses;

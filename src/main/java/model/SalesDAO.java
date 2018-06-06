@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Created by ahmedyakout on 5/4/18.
  *
  * Responsible for getting any statistics on sales for the last 3 months.
  *

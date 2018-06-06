@@ -2,9 +2,6 @@ package beans;
 
 import java.util.ArrayList;
 
-/**
- * Created by ahmedyakout on 5/4/18.
- */
 public class Book {
     private int ISBN;
     private String title;

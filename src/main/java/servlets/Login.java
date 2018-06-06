@@ -14,9 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by ahmedyakout on 5/2/18.
- */
 @WebServlet(name = "login", urlPatterns = "/login")
 public class Login extends HttpServlet {
 
@@ -31,8 +28,7 @@ public class Login extends HttpServlet {
             Cart cart = new Cart();
 
             /* get new session or create new if it doesn't exist */
-            HttpSession session = request.getSession();
-
+            HttpSession session = request.getSession(false);
             /* adding user to session to access it in other servlets */
             session.setAttribute("user",user);
 
