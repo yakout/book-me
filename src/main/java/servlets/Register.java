@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Console;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by ahmedyakout on 5/5/18.
@@ -17,6 +18,9 @@ import java.io.IOException;
 @WebServlet(name = "register", urlPatterns = "/register")
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        response.sendRedirect("welcome.jsp");
+        /*
         User user = new User(
                 request.getParameter("email"),
                 request.getParameter("pass"),
@@ -27,15 +31,14 @@ public class Register extends HttpServlet {
         );
         if (UserDAO.register(user)) {
 
-            //response.sendRedirect("welcome.jsp");
-            /* forward request to login servlet to handle the login process. */
-            request.getRequestDispatcher("/login").forward(request,response);
+            response.sendRedirect("welcome.jsp");
+            // forward request to login servlet to handle the login process.
+            //request.getRequestDispatcher("/login").forward(request,response);
         } else {
             response.sendRedirect("register.jsp");
             request.setAttribute("errorMessage", "ERROR!, in register. ");
         }
-
-
+*/
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -11,7 +11,7 @@
     <title>Register</title>
 </head>
 <body>
-<form action="Register" method="post">
+<form action="/register" method="post">
     Email <input type="text" name="email"><br>
     First Name <input type="text" name="FName"><br>
     Last Name <input type="text" name="LName"><br>

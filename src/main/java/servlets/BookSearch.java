@@ -13,11 +13,5 @@ public class BookSearch extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        /**
-         *
-         *  Search for books with given parameter to the request. then return it to the view.
-         *
-         * */
-
     }
 }

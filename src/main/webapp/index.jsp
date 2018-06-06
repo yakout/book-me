@@ -11,7 +11,7 @@
     <title>Login</title>
 </head>
 <body>
-<form action="Login" method="post">
+<form action="/Login" method="post">
     Enter User Email <input type="text" name="email"><br>
     Enter Password <input type="password" name="pass"><br>
     <input type="submit" value="login">

@@ -7,6 +7,7 @@ import com.sun.istack.internal.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ahmedyakout on 5/4/18.
@@ -153,7 +154,7 @@ public class BookDAO {
         ArrayList<Book> matchedBooks = new ArrayList<>();
         Boolean whereClause = false;
         String query = "SELECT FROM ";
-        if(authorName != Null){
+        if(authorName != null){
             query += "( BOOK NATURAL JOIN AUTHOR ) " + "WHERE author_name = " + "'" + authorName + "'";
             whereClause = true;
         }
@@ -166,7 +167,7 @@ public class BookDAO {
         conditions.add(makeCondition("publisherName", publisherName));
         conditions.add(makeCondition("category", category));
         for(String cond : conditions){
-            if(cond != Null){
+            if(cond != null){
                 if(whereClause){
                     query += " AND " + cond;
                 }
@@ -177,22 +178,13 @@ public class BookDAO {
             }
         }
         query += ";";
-        try{
-            ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
-            while(resultSet.next()){
-                matchedBooks.add(buildBook(resultSet));
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        } finally {
-            return matchedBooks;
-        }
+        return getMatchedBooks(query);
     }
 
     
     private static String makeCondition(String attributeName, Object attribute_value){
-        if(attribute_value == Null){
-            return Null;
+        if(attribute_value == null){
+            return null;
         }
         if(attribute_value instanceof Integer){
             return attributeName + " = " + attribute_value.toString();
