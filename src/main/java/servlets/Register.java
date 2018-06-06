@@ -16,7 +16,6 @@ import java.io.PrintWriter;
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        response.sendRedirect("welcome.jsp");
         User user = new User(
                 request.getParameter("email"),
                 request.getParameter("pass"),
@@ -34,7 +33,7 @@ public class Register extends HttpServlet {
             //response.sendRedirect("welcome.jsp");
             request.setAttribute("successMessage", "Registration successful. You can sign in now.");
             /* forward request to login servlet to handle the login process. */
-            response.sendRedirect("welcome.jsp");
+            response.sendRedirect("home.jsp");
 //            request.getRequestDispatcher("/login").forward(request,response);
 
         } else {
