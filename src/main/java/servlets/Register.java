@@ -19,8 +19,6 @@ import java.io.PrintWriter;
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        response.sendRedirect("welcome.jsp");
-        /*
         User user = new User(
                 request.getParameter("email"),
                 request.getParameter("pass"),
@@ -31,14 +29,14 @@ public class Register extends HttpServlet {
         );
         if (UserDAO.register(user)) {
 
-            response.sendRedirect("welcome.jsp");
+            //response.sendRedirect("welcome.jsp");
             // forward request to login servlet to handle the login process.
-            //request.getRequestDispatcher("/login").forward(request,response);
+            request.getRequestDispatcher("/login").forward(request,response);
         } else {
             response.sendRedirect("register.jsp");
             request.setAttribute("errorMessage", "ERROR!, in register. ");
         }
-*/
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "checkout", urlPatterns = "/checkout")
-public class CheckOut extends HttpServlet {
 
+@WebServlet(name = "home", urlPatterns = "/home")
+public class Home extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -21,6 +21,4 @@ public class CheckOut extends HttpServlet {
         /* return to the home page. */
         response.sendRedirect("welcome.jsp");
     }
-
-
 }
