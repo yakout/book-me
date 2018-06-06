@@ -4,29 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <servlet>
-        <servlet-name>login</servlet-name>
-        <servlet-class>servlets.Login</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>logout</servlet-name>
-        <servlet-class>servlets.Logout</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>register</servlet-name>
-        <servlet-class>servlets.Register</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>checkout</servlet-name>
-        <servlet-class>servlets.CheckOut</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>booksearch</servlet-name>
-        <servlet-class>servlets.BookSearch</servlet-class>
-    </servlet>
-
-
-
     <servlet-mapping>
         <servlet-name>checkout</servlet-name>
         <url-pattern>/checkout</url-pattern>
