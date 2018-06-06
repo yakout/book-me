@@ -25,17 +25,14 @@ public class Register extends HttpServlet {
                 request.getParameter("ShippingAddress")
         );
 
-        System.out.println("REGISTER SUCCESS");
-
         if (UserDAO.register(user)) {
             System.out.println("REGISTER SUCCESS");
             log("REGISTER SUCCESS");
             //response.sendRedirect("welcome.jsp");
             request.setAttribute("successMessage", "Registration successful. You can sign in now.");
             /* forward request to login servlet to handle the login process. */
-            response.sendRedirect("home.jsp");
-//            request.getRequestDispatcher("/login").forward(request,response);
-
+//            response.sendRedirect("home.jsp");
+            request.getRequestDispatcher("/login").forward(request,response);
         } else {
             System.out.println("REGISTER FAILURE");
             log("REGISTER FAILURE");

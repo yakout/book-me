@@ -27,7 +27,7 @@ public class UserDAO {
         PasswordEncryptionService pw = new PasswordEncryptionService();
         ResultSet rs = ModelManager.getInstance().executeQuery(
                 " SELECT password, salt from user where email = "
-                        + email
+                        + "'" + email + "'"
                         + ";"
         );
         
@@ -74,21 +74,21 @@ public class UserDAO {
 
         // check if the email is already registered.
         ResultSet rs = ModelManager.getInstance().executeQuery(
-                " SELECT * FROM USER WHERE email = " + user.getEmail() + ";");
+                " SELECT * FROM USER WHERE email = " + "'" + user.getEmail() + "'" + ";");
 
         try {
             if (!rs.isBeforeFirst()) {
                 // email is not registered.
                 ModelManager.getInstance().executeQuery(
                         "INSERT INTO USER VALUES ("
-                                + "UUID()"
-                                + user.getEmail()
-                                + new String(user.getEncryptedPassword())
-                                + new String(user.getSalt())
-                                + user.getfName()
-                                + user.getlName()
-                                + user.getPhoneNumber()
-                                + user.getShippingAddress()
+                                + "UUID()" + ","
+                                + "'" + user.getEmail() + "',"
+                                + "'" + user.getfName() + "',"
+                                + "'" + user.getlName() + "',"
+                                + "'" + new String(user.getEncryptedPassword()) + "',"
+                                + "'" + new String(user.getSalt()) + "',"
+                                + "'" + user.getPhoneNumber() + "',"
+                                + "'" + user.getShippingAddress() + "',"
                                 + (user.isManager() ? "'0'" : "'1'")
                                 + ");"
                 );
@@ -96,6 +96,7 @@ public class UserDAO {
             } else {
                 status = false;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -22,6 +22,7 @@ public class Login extends HttpServlet {
         String pass = request.getParameter("pass");
 
         if (UserDAO.login(email, pass)) {
+            System.out.println("LOGIN SUCCESS");
             /* Get the current user */
             User user = UserDAO.getUser(email);
 
@@ -30,15 +31,17 @@ public class Login extends HttpServlet {
             /* get new session or create new if it doesn't exist */
             HttpSession session = request.getSession(false);
             /* adding user to session to access it in other servlets */
-            session.setAttribute("user",user);
+            session.setAttribute("user", user);
 
-            session.setAttribute("cart",cart);
+            session.setAttribute("cart", cart);
 
             /* send it to welcome page */
             response.sendRedirect("home.jsp");
 
         } else {
-            response.sendRedirect("index.jsp");
+            // TODO
+            System.out.println("LOGIN FAILURE");
+            response.sendRedirect("home.jsp");
             request.setAttribute("errorMessage", "ERROR!, Wrong email or password.");
         }
     }
