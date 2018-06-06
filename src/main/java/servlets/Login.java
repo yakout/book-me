@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
             System.out.println("email: " + email);
             System.out.println("pass: " + pass);
 
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("index.jsp");
             request.setAttribute("errorMessage", "ERROR!, Wrong email or password.");
         }
     }

@@ -33,6 +33,10 @@ public class ModelManager {
         }
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     public ResultSet executeQuery(String query) {
         Statement statement = null;
         ResultSet resultSet = null;
