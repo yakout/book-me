@@ -19,6 +19,7 @@ import java.util.ArrayList;
  */
 @WebServlet(name = "login", urlPatterns = "/login")
 public class Login extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
@@ -31,13 +32,14 @@ public class Login extends HttpServlet {
 
             /* get new session or create new if it doesn't exist */
             HttpSession session = request.getSession();
+
             /* adding user to session to access it in other servlets */
             session.setAttribute("user",user);
 
             session.setAttribute("cart",cart);
 
             /* send it to welcome page */
-            response.sendRedirect("welcome.jsp");
+            response.sendRedirect("home.jsp");
 
         } else {
             response.sendRedirect("index.jsp");

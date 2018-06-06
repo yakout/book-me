@@ -1,5 +1,8 @@
 package servlets;
 
+import beans.User;
+import model.UserDAO;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,5 +19,12 @@ public class Profile extends HttpServlet {
          * Used to update the profile attributes.
          *
          * */
+        User user = (User) req.getSession().getAttribute("user");
+        if(UserDAO.updateUser(user)){
+            resp.sendRedirect("home.jsp");
+        }else{
+            req.setAttribute("errorMessage", "ERROR!, Didn't update the Profile");
+            resp.sendRedirect("profile.jsp");
+        }
     }
 }

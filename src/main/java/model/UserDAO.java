@@ -107,6 +107,12 @@ public class UserDAO {
      *  This should return the user associated with this email
      *  */
     public static User getUser(String email){
+        //TODO
         return null;
+    }
+
+    public static boolean updateUser(User user){
+        //TODO
+        return false;
     }
 }

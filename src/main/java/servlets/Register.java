@@ -29,9 +29,10 @@ public class Register extends HttpServlet {
         );
         if (UserDAO.register(user)) {
 
-            //response.sendRedirect("welcome.jsp");
+            //response.sendRedirect("home.jsp");
             // forward request to login servlet to handle the login process.
             request.getRequestDispatcher("/login").forward(request,response);
+
         } else {
             response.sendRedirect("register.jsp");
             request.setAttribute("errorMessage", "ERROR!, in register. ");
