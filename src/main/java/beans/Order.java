@@ -1,8 +1,5 @@
 package beans;
 
-/**
- * Created by ahmedyakout on 5/4/18.
- */
 public class Order {
     private int orderID;
     private int ISBN;

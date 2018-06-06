@@ -26,6 +26,7 @@
     </servlet>
 
 
+
     <servlet-mapping>
         <servlet-name>checkout</servlet-name>
         <url-pattern>/checkout</url-pattern>
@@ -51,7 +52,7 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
-    
+
     <welcome-file-list>
         <welcome-file>register.jsp</welcome-file>
     </welcome-file-list>

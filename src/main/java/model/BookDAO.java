@@ -19,7 +19,6 @@ import java.util.ArrayList;
  */
 public class BookDAO {
 
-
     /**
      * To add a new book to the online store.
      * @param newBook the new book we want to add into our store.

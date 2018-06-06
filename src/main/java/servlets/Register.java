@@ -11,10 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.Console;
 import java.io.IOException;
 
-/**
- * Created by ahmedyakout on 5/5/18.
- */
-@WebServlet(name = "register", urlPatterns = "/register")
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User(
@@ -25,17 +21,23 @@ public class Register extends HttpServlet {
                 request.getParameter("PhoneNumber"),
                 request.getParameter("ShippingAddress")
         );
-        if (UserDAO.register(user)) {
 
+        System.out.println("REGISTER SUCCESS");
+
+        if (UserDAO.register(user)) {
+            System.out.println("REGISTER SUCCESS");
+            log("REGISTER SUCCESS");
             //response.sendRedirect("welcome.jsp");
+            request.setAttribute("successMessage", "Registration successful. You can sign in now.");
             /* forward request to login servlet to handle the login process. */
             request.getRequestDispatcher("/login").forward(request,response);
+
         } else {
+            System.out.println("REGISTER FAILURE");
+            log("REGISTER FAILURE");
             response.sendRedirect("register.jsp");
             request.setAttribute("errorMessage", "ERROR!, in register. ");
         }
-
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

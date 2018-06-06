@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by ahmedyakout on 5/4/18.
+ *
+ * Created by ahmed yakout on 5/4/18.
  *
  * Responsible for:
  *      1. register user.
@@ -18,7 +19,6 @@ import java.sql.SQLException;
  *
  */
 public class UserDAO {
-
     /**
      *
      */
