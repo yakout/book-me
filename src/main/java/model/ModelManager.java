@@ -33,6 +33,10 @@ public class ModelManager {
         }
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     public ResultSet executeQuery(String query) {
         Statement statement = null;
         ResultSet resultSet = null;
@@ -42,15 +46,16 @@ public class ModelManager {
             resultSet = statement.getResultSet();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+//        finally {
+//            try {
+//                if (statement != null) {
+//                    statement.close();
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         return resultSet;
     }

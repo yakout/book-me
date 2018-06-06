@@ -193,6 +193,7 @@ public class User {
                 + "lName: " + lName + "\n"
                 + "password: " + password + "\n"
                 + "encryptedPassword: " + encryptedPassword + "\n"
+                + "salt: " + salt + "\n"
                 + "phoneNumber: " + phoneNumber + "\n"
                 + "shippingAddress: " + shippingAddress + "\n"
                 + "isManager: " + isManager + "\n";

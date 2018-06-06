@@ -39,7 +39,14 @@ public class BookDAO {
                 + newBook.getNumberOfCopies()
                 + " );" ;
 
-        ModelManager.getInstance().executeQuery(query);
+        ResultSet rs1 = ModelManager.getInstance().executeQuery(query);
+
+        // TODO process rs
+        try {
+            rs1.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         /**
          * adding the book authors associated with the new book.
@@ -50,7 +57,15 @@ public class BookDAO {
                     + "'" + authorName + "'" + " , "
                     + newBook.getISBN()
                     + " );" ;
-            ModelManager.getInstance().executeQuery(query);
+
+            ResultSet rs2 = ModelManager.getInstance().executeQuery(query);
+
+            // TODO process rs
+            try {
+                rs2.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -75,6 +90,15 @@ public class BookDAO {
                 + "where ISBN = " + updatedBook.getISBN() + ";" ;
 
         ModelManager.getInstance().executeQuery(query);
+
+        ResultSet rs = ModelManager.getInstance().executeQuery(query);
+
+        // TODO process rs
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -208,6 +232,7 @@ public class BookDAO {
             book.setPrice(Integer.parseInt(rs.getString("price")));
             book.setThreshold(Integer.parseInt(rs.getString("threshold")));
             book.setNumberOfCopies(Integer.parseInt(rs.getString("copies")));
+            rs.close();
         } catch (SQLException | NullPointerException e){
             book = null;
             e.printStackTrace();
@@ -227,6 +252,7 @@ public class BookDAO {
             while(resultSet.next()){
                 matchedBooks.add(buildBook(resultSet));
             }
+            resultSet.close();
         } catch (SQLException e){
             e.printStackTrace();
         } finally {

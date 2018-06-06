@@ -1,12 +1,13 @@
 package model;
 
 import beans.User;
+import java.sql.PreparedStatement;
 import services.PasswordEncryptionService;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  *
@@ -27,22 +28,30 @@ public class UserDAO {
         PasswordEncryptionService pw = new PasswordEncryptionService();
         ResultSet rs = ModelManager.getInstance().executeQuery(
                 " SELECT password, salt from user where email = "
-                        + email
+                        + "'" + email + "'"
                         + ";"
         );
         
         try {
-            while(rs.next()){
+            while(rs.next()) {
                 try {
                     if(pw.authenticate(pass, rs.getBytes("password"), rs.getBytes("salt"))) {
+                        System.out.println("CORRECT PASSWORD");
                         status = true;
                     } else {
+                        System.out.println(
+                                "WRONG PASSWORD: "
+                                        + Arrays.toString(rs.getBytes("password"))
+                                        + " with "
+                                        + Arrays.toString(rs.getBytes("salt"))
+                        );
                         status = false;
                     }
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException | SQLException e) {
                     e.printStackTrace();
                 }
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,28 +83,46 @@ public class UserDAO {
 
         // check if the email is already registered.
         ResultSet rs = ModelManager.getInstance().executeQuery(
-                " SELECT * FROM USER WHERE email = " + user.getEmail() + ";");
+                " SELECT * FROM USER WHERE email = " + "'" + user.getEmail() + "'" + ";");
 
         try {
             if (!rs.isBeforeFirst()) {
                 // email is not registered.
-                ModelManager.getInstance().executeQuery(
-                        "INSERT INTO USER VALUES ("
-                                + "UUID()"
-                                + user.getEmail()
-                                + new String(user.getEncryptedPassword())
-                                + new String(user.getSalt())
-                                + user.getfName()
-                                + user.getlName()
-                                + user.getPhoneNumber()
-                                + user.getShippingAddress()
-                                + (user.isManager() ? "'0'" : "'1'")
-                                + ");"
-                );
-                status = true;
+                 PreparedStatement pst = ModelManager.getInstance().getConnection().prepareStatement(
+                        "INSERT INTO USER VALUES (UUID()," + "? , ? , ? , ? , ? , ?, ?, ?)");
+
+                pst.setString(1, user.getEmail());
+                pst.setBytes(2, user.getEncryptedPassword());
+                pst.setBytes(3, user.getSalt());
+                pst.setString(4, user.getfName());
+                pst.setString(5, user.getlName());
+                pst.setString(6, user.getPhoneNumber());
+                pst.setString(7, user.getShippingAddress());
+                pst.setString(8, user.isManager() ? "1" : "0");
+
+                if (pst.executeUpdate() == 1) {
+                    status = true;
+                }
+
+//                ModelManager.getInstance().executeQuery(
+//                        "INSERT INTO USER VALUES ("
+//                                + "UUID()" + ","
+//                                + "'" + user.getEmail() + "',"
+//                                + "'" + new String(user.getEncryptedPassword()) + "',"
+//                                + "'" + new String(user.getSalt()) + "',"
+//                                + "'" + user.getfName() + "',"
+//                                + "'" + user.getlName() + "',"
+//                                + "'" + user.getPhoneNumber() + "',"
+//                                + "'" + user.getShippingAddress() + "',"
+//                                + (user.isManager() ? "'1'" : "'0'")
+//                                + ");"
+//                );
+//                status = true;
             } else {
+                // TODO email is already registered
                 status = false;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

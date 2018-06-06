@@ -130,13 +130,40 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bookme`.`User` (
   `user_id` VARCHAR(36) NOT NULL,
-  `passowrd` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(50) NOT NULL,
+  `salt` VARCHAR(50) NOT NULL,
   `first_name` VARCHAR(30) NOT NULL,
   `last_name` VARCHAR(30) NOT NULL,
   `phone_number` VARCHAR(45) NOT NULL,
   `shipping_address` VARCHAR(100) NOT NULL,
   `is_manger` TINYINT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bookme`.`Sale`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bookme`.`Sale` (
+  `sale_id` VARCHAR(36) NOT NULL,
+  `user_id` VARCHAR(36) NULL,
+  `ISBN` INT UNSIGNED NULL,
+  `sale_date` DATE NULL,
+  `copies` INT UNSIGNED NULL,
+  PRIMARY KEY (`sale_id`),
+  INDEX `fk_user_id_user_idx` (`user_id` ASC),
+  INDEX `fk_book_id_book_idx` (`ISBN` ASC),
+  CONSTRAINT `fk_user_id_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `bookme`.`User` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_book_id_book`
+    FOREIGN KEY (`ISBN`)
+    REFERENCES `bookme`.`Book` (`ISBN`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 USE `bookme`;
@@ -147,7 +174,7 @@ CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`ModifyBook` BEFORE UPDATE ON `Bo
 BEGIN
 
 if new.copies < 0 then
-	signal sqlstate '45000';	
+	signal sqlstate '45000';
 end if;
 
 END$$
@@ -160,7 +187,7 @@ declare to_order INT;
 
 set to_order = new.copies - new.threshold;
 
-if to_order < 0 then 
+if to_order < 0 then
 	insert into bookme.order values (UUID(), new.ISBN, to_order);
  end if;
 
@@ -174,10 +201,15 @@ update book set copies = copies + old.quantity where ISBN = old.ISBN;
 
 END$$
 
+USE `bookme`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`Sale_AFTER_INSERT` AFTER INSERT ON `Sale` FOR EACH ROW
+BEGIN
+	update `bookme`.Book set copies = copies - new.copies where ISBN = new.ISBN;
+END$$
+
 
 DELIMITER ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-

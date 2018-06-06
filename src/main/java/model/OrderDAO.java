@@ -4,6 +4,9 @@ import beans.Order;
 import com.sun.istack.internal.NotNull;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * Responsible for:
@@ -31,7 +34,14 @@ public class OrderDAO {
                 + newOrder.getQuantity() + " , "
                 + " );" ;
 
-        ModelManager.getInstance().executeQuery(query);
+        ResultSet rs = ModelManager.getInstance().executeQuery(query);
+
+        // TODO process rs
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -53,7 +63,15 @@ public class OrderDAO {
                         + " WHERE " + " order_id "
                         + " = " + confirmedOrder.getOrderID() + " ; ";
 
-        ModelManager.getInstance().executeQuery(query);
+
+        ResultSet rs = ModelManager.getInstance().executeQuery(query);
+
+        // TODO process rs
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
