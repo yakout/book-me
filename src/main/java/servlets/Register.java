@@ -34,7 +34,7 @@ public class Register extends HttpServlet {
             request.setAttribute("successMessage", "Registration successful. You can sign in now.");
             /* forward request to login servlet to handle the login process. */
             response.sendRedirect("home.jsp");
-//            request.getRequestDispatcher("/login").forward(request,response);
+            //request.getRequestDispatcher("/login").forward(request,response);
 
         } else {
             System.out.println("REGISTER FAILURE");
