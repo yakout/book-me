@@ -11,14 +11,11 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 /**
- *
- * Created by ahmed yakout on 5/4/18.
- *
  * Responsible for:
  *      1. register user.
  *      2. login user.
- *      3.
- *
+ *      3. get user as bean.
+ *      4. update user.
  */
 public class UserDAO {
     /**
@@ -66,21 +63,6 @@ public class UserDAO {
      */
     public static boolean register(User user) {
         boolean status = false;
-        PasswordEncryptionService pw = new PasswordEncryptionService();
-
-        user.setManager(false);
-
-        byte[] encryptedPwd = null;
-        byte[] salt = null;
-
-        try {
-            salt = pw.generateSalt();
-            encryptedPwd = pw.getEncryptedPassword(user.getPassword(), salt);
-            user.setSalt(salt);
-            user.setEncryptedPassword(encryptedPwd);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
 
         // check if the email is already registered.
         ResultSet rs = ModelManager.getInstance().executeQuery(
@@ -104,21 +86,6 @@ public class UserDAO {
                 if (pst.executeUpdate() == 1) {
                     status = true;
                 }
-
-//                ModelManager.getInstance().executeQuery(
-//                        "INSERT INTO USER VALUES ("
-//                                + "UUID()" + ","
-//                                + "'" + user.getEmail() + "',"
-//                                + "'" + new String(user.getEncryptedPassword()) + "',"
-//                                + "'" + new String(user.getSalt()) + "',"
-//                                + "'" + user.getfName() + "',"
-//                                + "'" + user.getlName() + "',"
-//                                + "'" + user.getPhoneNumber() + "',"
-//                                + "'" + user.getShippingAddress() + "',"
-//                                + (user.isManager() ? "'1'" : "'0'")
-//                                + ");"
-//                );
-//                status = true;
             } else {
                 // TODO email is already registered
                 status = false;
@@ -132,15 +99,62 @@ public class UserDAO {
     }
 
     /**
-     *  This should return the user associated with this email
-     *  */
-    public static User getUser(String email){
-        //TODO
-        return null;
+     * This should return the user associated with the given email
+     * @param email
+     * @return User bean
+     */
+    public static User getUser(String email) {
+        User user = null;
+
+        String query = "SELECT * FROM USER WHERE EMAIL = '" + email + "';";
+        ResultSet rs = ModelManager.getInstance().executeQuery(query);
+
+        try {
+            while (rs.next()) {
+                user.setfName(rs.getString("first_name"));
+                user.setlName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setUserID(rs.getString("user_id"));
+                user.setManager(rs.getInt("is_manager") == 1);
+                user.setPhoneNumber(rs.getString("phone_number"));
+                user.setShippingAddress(rs.getString("shipping_address"));
+                user.setEncryptedPassword(rs.getBytes("password"));
+                user.setSalt(rs.getBytes("salt"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
-    public static boolean updateUser(User user){
-        //TODO
+    /**
+     * update user with the same associated id in the user bean with new info in the given bean.
+     * @param user
+     * @return true if success.
+     */
+    public static boolean updateUser(User user) {
+        try {
+            PreparedStatement pst = ModelManager.getInstance().getConnection().prepareStatement(
+                    "UPDATE USER SET email = ?, password = ?, first_name = ?, last_name = ?," +
+                            "phone_number = ?, shipping_address = ?, is_manager = ? WHERE user_id = ?;");
+            pst.setString(1, user.getEmail());
+            pst.setBytes(2, user.getEncryptedPassword());
+            pst.setString(3, user.getfName());
+            pst.setString(4, user.getlName());
+            pst.setString(5, user.getPhoneNumber());
+            pst.setString(6, user.getShippingAddress());
+            pst.setString(7, user.isManager() ? "1" : "0");
+            pst.setString(8, user.getUserID());
+
+            if (pst.executeUpdate() == 1) {
+                return true;
+            }
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 }

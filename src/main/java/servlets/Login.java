@@ -27,13 +27,13 @@ public class Login extends HttpServlet {
             Cart cart = new Cart();
 
             /* get new session or create new if it doesn't exist */
-            HttpSession session = request.getSession(false);
+            HttpSession session = request.getSession(true);
             /* adding user to session to access it in other servlets */
             session.setAttribute("user", user);
             session.setAttribute("cart", cart);
 
             /* send it to welcome page */
-//            request.setAttribute("successMessage", "Success.");
+            request.setAttribute("successMessage", "Success.");
             response.sendRedirect("index.jsp");
         } else {
             System.out.println("LOGIN FAILURE");

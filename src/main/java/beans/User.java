@@ -3,8 +3,7 @@ package beans;
 import java.util.List;
 
 public class User {
-    private int userID;
-    private String password;
+    private String userID;
     private byte[] encryptedPassword;
     private byte[] salt;
     private String email;
@@ -20,9 +19,8 @@ public class User {
 
     }
 
-    public User(String email, String password, String fName, String lName, String phoneNumber, String shippingAddress) {
+    public User(String email, String fName, String lName, String phoneNumber, String shippingAddress) {
         this.email = email;
-        this.password = password;
         this.fName = fName;
         this.lName = lName;
         this.phoneNumber = phoneNumber;
@@ -31,7 +29,7 @@ public class User {
 
 
     // GETTERS
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
@@ -57,10 +55,6 @@ public class User {
 
     public boolean isManager() {
         return isManager;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getPhoneNumber() {
@@ -98,9 +92,6 @@ public class User {
         this.isManager = manager;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -110,7 +101,7 @@ public class User {
         this.shippingAddress = shippingAddress;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
@@ -191,7 +182,6 @@ public class User {
         return "email: " + email + "\n"
                 + "fName: " + fName + "\n"
                 + "lName: " + lName + "\n"
-                + "password: " + password + "\n"
                 + "encryptedPassword: " + encryptedPassword + "\n"
                 + "salt: " + salt + "\n"
                 + "phoneNumber: " + phoneNumber + "\n"
