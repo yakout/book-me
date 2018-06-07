@@ -63,7 +63,7 @@
     <!-- form card register -->
     <div class="card card-outline-secondary">
         <div class="card-header">
-            <h3 class="mb-0">Sign Up</h3>
+            <h3 class="mb-0">Profile</h3>
         </div>
         <div class="card-body">
             <form class="form" role="form" autocomplete="off" method="post" action="/profile">
