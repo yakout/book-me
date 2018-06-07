@@ -59,16 +59,18 @@ public class SalesDAO {
         try {
 
             while (result.next()){
-                String email,  password,  fName,  lName,  phoneNumber,  shippingAddress;
+                String email,  fName,  lName,  phoneNumber,  shippingAddress;
+                byte[] password;
 
                 email = result.getString("email");
-                password = result.getString("password");
+                password = result.getBytes("password");
                 fName = result.getString("first_name");
                 lName = result.getString("last_name");
                 phoneNumber = result.getString("phone_number");
                 shippingAddress = result.getString("shipping_address");
 
-                User u = new User(email,password,fName,lName,phoneNumber,shippingAddress);
+                User u = new User(email,fName,lName,phoneNumber,shippingAddress);
+                u.setEncryptedPassword(password);
 
                 top_five.add(u);
 
