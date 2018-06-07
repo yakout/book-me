@@ -67,11 +67,11 @@
 
                 <% if (session.getAttribute("user") != null) { %>
 
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="index.jsp" class="nav-link">Home</a>
                     <span class="sr-only">(current)</span>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" active>
                     <a href="profile.jsp" class="nav-link">
                         <%= ((User) session.getAttribute("user")).getfName() %>
                         <%= ((User) session.getAttribute("user")).getlName() %>
