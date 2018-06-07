@@ -28,6 +28,11 @@
             $("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
                 $("#error-alert").slideUp(500);
             });
+
+            // success alert auto close
+            $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+            });
         })
 
     </script>
@@ -36,12 +41,17 @@
 <body>
 
 <% if(request.getAttribute("errorMessage") != null) { %>
-
 <div class="alert alert-danger" id="error-alert">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>Error!</strong> ${errorMessage}
 </div>
+<% } %>
 
+<% if(request.getAttribute("successMessage") != null) { %>
+<div class="alert alert-success" id="success-alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> ${successMessage}
+</div>
 <% } %>
 
 <!-- Navigation -->
@@ -105,7 +115,7 @@
                 <div class="form-group">
                     <label for="inputPassword2">New Password</label>
                     <input type="password" class="form-control" value="" id="inputPassword2" name="new_pass"
-                           placeholder="Password" required>
+                           placeholder="Password">
                 </div>
 
                 <div class="form-group">

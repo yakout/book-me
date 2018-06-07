@@ -41,7 +41,7 @@ public class Profile extends HttpServlet {
             } else {
                 System.out.println("Old Password did not match.");
                 request.setAttribute("errorMessage", "Wrong password.");
-                response.sendRedirect("profile.jsp");
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
                 return;
             }
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
@@ -55,11 +55,11 @@ public class Profile extends HttpServlet {
         if (UserDAO.updateUser(new_user)) {
             System.out.println("UPDATE PROFILE SUCCESS.");
             request.setAttribute("successMessage", "Updated profile successfully.");
-            response.sendRedirect("profile.jsp");
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
         } else {
             System.out.println("UPDATE PROFILE FAIL.");
             request.setAttribute("errorMessage", "Updating profile failed.");
-            response.sendRedirect("profile.jsp");
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
         }
     }
 }
