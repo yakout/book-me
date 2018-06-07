@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `bookme`.`Book` (
   `ISBN` INT UNSIGNED NOT NULL,
   `title` VARCHAR(300) NOT NULL,
   `publisher` VARCHAR(100) NOT NULL,
-  `publication_year` DATE NULL DEFAULT NULL,
+  `publication_year` CHAR(4),
   `category` VARCHAR(45) NOT NULL,
   `price` DOUBLE UNSIGNED NULL DEFAULT 10,
   `threshold` INT UNSIGNED NULL DEFAULT 0,
