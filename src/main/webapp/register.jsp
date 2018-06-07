@@ -17,9 +17,27 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            // error alert auto close.
+            $("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#error-alert").slideUp(500);
+            });
+        })
+    </script>
+
 
 </head>
 <body>
+
+<% if(request.getAttribute("errorMessage") != null) { %>
+
+<div class="alert alert-danger" id="error-alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Error!</strong> ${errorMessage}
+</div>
+
+<% } %>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">

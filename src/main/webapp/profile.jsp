@@ -20,14 +20,36 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            // TODO validation for update profile form
+
+            // error alert auto close
+            $("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#error-alert").slideUp(500);
+            });
+        })
+
+    </script>
+
 </head>
 <body>
+
+<% if(request.getAttribute("errorMessage") != null) { %>
+
+<div class="alert alert-danger" id="error-alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Error!</strong> ${errorMessage}
+</div>
+
+<% } %>
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="#">Book Me</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -36,7 +58,7 @@
                 <% if (session.getAttribute("user") != null) { %>
 
                 <li class="nav-item active">
-                    <a href="#" class="nav-link">Home</a>
+                    <a href="index.jsp" class="nav-link">Home</a>
                     <span class="sr-only">(current)</span>
                 </li>
                 <li class="nav-item">
@@ -69,36 +91,49 @@
             <form class="form" role="form" autocomplete="off" method="post" action="/profile">
                 <div class="form-group">
                     <label for="inputEmail3">Email</label>
-                    <input type="email" class="form-control" value="<%= ((User) session.getAttribute("user")).getEmail()%>" id="inputEmail3" name="email" placeholder="Email" required>
+                    <input type="email" class="form-control"
+                           value="<%= ((User) session.getAttribute("user")).getEmail()%>" id="inputEmail3"
+                           name="email" placeholder="Email" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputPassword3">Password</label>
-                    <input type="password" class="form-control" value="" id="inputPassword3" name="pass" placeholder="Password" required>
+                    <label for="inputPassword1">Old Password</label>
+                    <input type="password" class="form-control" value="" id="inputPassword1" name="old_pass"
+                           placeholder="Password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPassword2">New Password</label>
+                    <input type="password" class="form-control" value="" id="inputPassword2" name="new_pass"
+                           placeholder="Password" required>
                 </div>
 
                 <div class="form-group">
                     <label for="inputName1">First Name</label>
                     <input type="text" class="form-control" value="<%=
-                    ((User) session.getAttribute("user")).getfName()%>" id="inputName1" name="FName" placeholder="First name" required>
+                    ((User) session.getAttribute("user")).getfName()%>" id="inputName1" name="FName"
+                           placeholder="First name" required>
                 </div>
 
                 <div class="form-group">
                     <label for="inputName2">Last Name</label>
                     <input type="text" class="form-control" value="<%=
-                    ((User) session.getAttribute("user")).getlName()%>" id="inputName2" name="LName" placeholder="Last name" required>
+                    ((User) session.getAttribute("user")).getlName()%>" id="inputName2" name="LName"
+                           placeholder="Last name" required>
                 </div>
 
                 <div class="form-group">
                     <label for="inputName3">Phone Number</label>
                     <input type="text" class="form-control" value="<%=
-                    ((User) session.getAttribute("user")).getPhoneNumber()%>"  id="inputName3" name="PhoneNumber" placeholder="(+20) 112 345 6789" required>
+                    ((User) session.getAttribute("user")).getPhoneNumber()%>"  id="inputName3" name="PhoneNumber"
+                           placeholder="(+20) 112 345 6789" required>
                 </div>
 
                 <div class="form-group">
                     <label for="inputName4">Shipping Address</label>
                     <input type="text" class="form-control" value="<%=
-                    ((User) session.getAttribute("user")).getShippingAddress() %>" id="inputName4" name="ShippingAddress" placeholder="10 Mohammed Salah St." required>
+                    ((User) session.getAttribute("user")).getShippingAddress() %>" id="inputName4"
+                           name="ShippingAddress" placeholder="10 Mohammed Salah St." required>
                 </div>
 
                 <div class="form-group">
