@@ -10,22 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ahmedyakout on 5/4/18.
- *
  * Responsible for:
  *     1. add new books.
  *     2. modify existing books.
  *     3. search for books.
- *
+ *     4. fetch books.
  */
 public class BookDAO {
 
     /**
-     * get 100 books
+     * fetch constant number of books = count.
+     * @param count
+     * @return array of book beans.
      */
-    public static ArrayList<Book> get100Books()
+    public static ArrayList<Book> getBooks(Integer count)
     {
-        String query = "SELECT * FROM BOOK limit 100;";
+        String query = "SELECT * FROM BOOK LIMIT " + count + ";";
         return getMatchedBooks(query);
     }
 
@@ -35,7 +35,7 @@ public class BookDAO {
      */
     public static ArrayList<String> getCategories()
     {
-        String query = "SELECT * FROM Category;";
+        String query = "SELECT * FROM CATEGORY;";
 
         ArrayList<String> categories = new ArrayList<>();
         try{
@@ -59,7 +59,7 @@ public class BookDAO {
         /**
          * adding the new book.
          */
-        String query = "INSERT INTO Book VALUES "
+        String query = "INSERT INTO BOOK VALUES "
                 + "( "
                 + newBook.getISBN() + " , "
                 + "'" + newBook.getTitle() + "'" + " , "
@@ -111,16 +111,14 @@ public class BookDAO {
         /**
          * update the existing book.
          */
-        String query = "UPDATE Book SET "
+        String query = "UPDATE BOOK SET "
                 + "title = " + "'" + updatedBook.getTitle() + "'" + " , "
                 + "publisher = " + "'" + updatedBook.getPublisherName() + "'" + " , "
                 + "category = " + "'" + updatedBook.getCategory() + "'" + " , "
                 + "price = " + updatedBook.getPrice() + " , "
                 + "threshold = " + updatedBook.getThreshold() + " , "
                 + "copies = " + updatedBook.getNumberOfCopies()
-                + "where ISBN = " + updatedBook.getISBN() + ";" ;
-
-        ModelManager.getInstance().executeQuery(query);
+                + "WHERE ISBN = " + updatedBook.getISBN() + ";" ;
 
         ResultSet rs = ModelManager.getInstance().executeQuery(query);
 
@@ -145,7 +143,7 @@ public class BookDAO {
      * @return the matched book.
      */
     public static Book findByTitle(@NotNull String title) {
-        String query = "SELECT FROM Book "
+        String query = "SELECT FROM BOOK "
                         + "WHERE TITLE = " + "'" + title + "'" + ";";
 
         ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
@@ -158,7 +156,7 @@ public class BookDAO {
      * @return the matched book.
      */
     public static Book findByISBN(int ISBN) {
-        String query = "SELECT FROM Book "
+        String query = "SELECT FROM BOOK "
                 + "WHERE ISBN = " + ISBN + ";";
 
         ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
@@ -171,7 +169,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByAuthor(@NotNull String authorName) {
-        String query = "SELECT FROM Book "
+        String query = "SELECT FROM BOOK "
                 + "WHERE Author = " + "'" + authorName + "'" + ";";
         return getMatchedBooks(query);
     }
@@ -182,7 +180,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByCategory(@NotNull BookCategory category) {
-        String query = "SELECT FROM Book "
+        String query = "SELECT FROM BOOK "
                 + "WHERE category = " + "'" + category.name() + "'" + ";";
         return getMatchedBooks(query);
     }
@@ -193,7 +191,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByPublisher(@NotNull String publisherName) {
-        String query = "SELECT FROM Book "
+        String query = "SELECT FROM BOOK "
                 + "WHERE publisher = " + "'" + publisherName + "'" + ";";
         return getMatchedBooks(query);
     }
@@ -246,7 +244,7 @@ public class BookDAO {
     }
 
     /**
-     *
+     * build book bean from result set row.
      * @param rs the result set after executing the query
      * @return the matched book if it exists
      */
