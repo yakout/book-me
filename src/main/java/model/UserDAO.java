@@ -28,7 +28,7 @@ public class UserDAO {
         boolean status = false;
         PasswordEncryptionService pw = new PasswordEncryptionService();
         ResultSet rs = ModelManager.getInstance().executeQuery(
-                " SELECT password, salt from user where email = "
+                " SELECT password, salt from User where email = "
                         + "'" + email + "'"
                         + ";"
         );
@@ -84,7 +84,7 @@ public class UserDAO {
 
         // check if the email is already registered.
         ResultSet rs = ModelManager.getInstance().executeQuery(
-                " SELECT * FROM USER WHERE email = " + "'" + user.getEmail() + "'" + ";");
+                " SELECT * FROM User WHERE email = " + "'" + user.getEmail() + "'" + ";");
 
         try {
             if (!rs.isBeforeFirst()) {

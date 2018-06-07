@@ -124,7 +124,7 @@ public class SalesDAO {
         // check the validation for the credit card, but i don't know how ? :/
 
         for(Sale sale : sales){
-            String query = "INSERT INTO SALE VALUES "
+            String query = "INSERT INTO Sale VALUES "
                 + "("
                 + " UUID() " + " , "
                 + sale.getUser_id() + " , "
