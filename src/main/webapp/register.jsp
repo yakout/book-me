@@ -46,7 +46,10 @@
                 <li class="nav-item">
                     <a href="logout" class="nav-link">Logout</a>
                 </li>
-                <% } else {	%>
+                <%
+                    response.sendRedirect("index.jsp");
+                } else { %>
+
                 <li class="nav-item">
                     <a href="login.jsp" class="nav-link">Login</a>
                 </li>
@@ -79,23 +82,25 @@
             </div>
 
             <div class="form-group">
-                <label for="inputName">First Name</label>
-                <input type="text" class="form-control" id="inputName" name="FName" placeholder="First name" required>
+                <label for="inputName1">First Name</label>
+                <input type="text" class="form-control" id="inputName1" name="FName" placeholder="First name" required>
             </div>
 
             <div class="form-group">
-                <label for="inputName">Last Name</label>
-                <input type="text" class="form-control" id="inputName" name="LName" placeholder="Last name" required>
+                <label for="inputName2">Last Name</label>
+                <input type="text" class="form-control" id="inputName2" name="LName" placeholder="Last name" required>
             </div>
 
             <div class="form-group">
-                <label for="inputName">Phone Number</label>
-                <input type="text" class="form-control" id="inputName" name="PhoneNumber" placeholder="(+20) 112 345 6789" required>
+                <label for="inputName3">Phone Number</label>
+                <input type="text" class="form-control" id="inputName3" name="PhoneNumber"
+                       placeholder="(+20) 112 345 6789" required>
             </div>
 
             <div class="form-group">
-                <label for="inputName">Shipping Address</label>
-                <input type="text" class="form-control" id="inputName" name="ShippingAddress" placeholder="10 Mohammed Salah St." required>
+                <label for="inputName4">Shipping Address</label>
+                <input type="text" class="form-control" id="inputName4" name="ShippingAddress"
+                       placeholder="10 Mohammed Salah St." required>
             </div>
 
             <div class="form-group">
@@ -109,23 +114,6 @@
 <!-- /form card register -->
 </div>
 
-<!--
-    back-up form
-<form action="/register" method="post">
-    Email* <input type="text" name="email" required><br>
-    First Name* <input type="text" name="FName" required><br>
-    Last Name* <input type="text" name="LName" required ><br>
-    Phone Number* <input type="text" name="PhoneNumber" required><br>
-    Shipping Address* <input type="text" name="ShippingAddress" required><br>
-    Password* <input type="password" name="pass" required><br>
-    <input type="submit" value="login">
-</form>
-
--->
-
-<% if(request.getAttribute("errorMessage") != null) { %>
-<p>${errorMessage}</p>
-<% } %>
 
 </body>
 </html>

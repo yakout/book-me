@@ -21,6 +21,4 @@ public class Logout extends HttpServlet {
 
         request.getRequestDispatcher("register.jsp").include(request,response);
     }
-
-
 }

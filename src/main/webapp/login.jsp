@@ -109,15 +109,5 @@
     <!-- /form card register -->
 </div>
 
-<!--
-
-<form action="/login" method="post">
-    Enter User Email <input type="text" name="email"><br>
-    Enter Password <input type="password" name="pass"><br>
-    <input type="submit" value="login">
-</form>
-
--->
-
 </body>
 </html>

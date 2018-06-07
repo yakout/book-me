@@ -74,27 +74,31 @@
 
                 <div class="form-group">
                     <label for="inputPassword3">Password</label>
-                    <input type="password" class="form-control" value="<%= ((User) session.getAttribute("user")).getPassword() %>" id="inputPassword3" name="pass" placeholder="Password" required>
+                    <input type="password" class="form-control" value="" id="inputPassword3" name="pass" placeholder="Password" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName">First Name</label>
-                    <input type="text" class="form-control" value="<%= ((User) session.getAttribute("user")).getfName()%>" id="inputName" name="FName" placeholder="First name" required>
+                    <label for="inputName1">First Name</label>
+                    <input type="text" class="form-control" value="<%=
+                    ((User) session.getAttribute("user")).getfName()%>" id="inputName1" name="FName" placeholder="First name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName">Last Name</label>
-                    <input type="text" class="form-control" value="<%= ((User) session.getAttribute("user")).getlName()%>" id="inputName" name="LName" placeholder="Last name" required>
+                    <label for="inputName2">Last Name</label>
+                    <input type="text" class="form-control" value="<%=
+                    ((User) session.getAttribute("user")).getlName()%>" id="inputName2" name="LName" placeholder="Last name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName">Phone Number</label>
-                    <input type="text" class="form-control" value="<%= ((User) session.getAttribute("user")).getPhoneNumber()%>"  id="inputName" name="PhoneNumber" placeholder="(+20) 112 345 6789" required>
+                    <label for="inputName3">Phone Number</label>
+                    <input type="text" class="form-control" value="<%=
+                    ((User) session.getAttribute("user")).getPhoneNumber()%>"  id="inputName3" name="PhoneNumber" placeholder="(+20) 112 345 6789" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName">Shipping Address</label>
-                    <input type="text" class="form-control" value="<%= ((User) session.getAttribute("user")).getShippingAddress() %>" id="inputName" name="ShippingAddress" placeholder="10 Mohammed Salah St." required>
+                    <label for="inputName4">Shipping Address</label>
+                    <input type="text" class="form-control" value="<%=
+                    ((User) session.getAttribute("user")).getShippingAddress() %>" id="inputName4" name="ShippingAddress" placeholder="10 Mohammed Salah St." required>
                 </div>
 
                 <div class="form-group">
@@ -107,6 +111,14 @@
     </div>
     <!-- /form card register -->
 </div>
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; BookMe.com 2017</p>
+    </div>
+    <!-- /.container -->
+</footer>
 
 </body>
 </html>
