@@ -104,13 +104,14 @@ public class UserDAO {
      * @return User bean
      */
     public static User getUser(String email) {
-        User user = null;
+        User user = new User();
 
         String query = "SELECT * FROM USER WHERE EMAIL = '" + email + "';";
         ResultSet rs = ModelManager.getInstance().executeQuery(query);
 
         try {
-            while (rs.next()) {
+            if (rs.next()) {
+                System.out.println(rs.getString("first_name"));
                 user.setfName(rs.getString("first_name"));
                 user.setlName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
@@ -122,10 +123,11 @@ public class UserDAO {
                 user.setSalt(rs.getBytes("salt"));
             }
             rs.close();
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return null;
     }
 
     /**
