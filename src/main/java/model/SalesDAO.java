@@ -1,9 +1,11 @@
 package model;
 
-import beans.*;
+import beans.Book;
+import beans.BookCategory;
+import beans.Sale;
+import beans.User;
 import com.sun.istack.internal.NotNull;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -8,7 +8,7 @@ import java.sql.*;
 public class ModelManager {
     private static String url = "jdbc:mysql://localhost:3306/bookme";
     private static String user = "root";
-    private static String pass = "yakout";
+    private static String pass = "admin";
     private static ModelManager model;
     private Connection connection;
 
@@ -29,6 +29,7 @@ public class ModelManager {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (SQLException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }

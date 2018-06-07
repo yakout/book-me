@@ -1,10 +1,11 @@
 package model;
 
 import beans.User;
-import java.sql.PreparedStatement;
 import services.PasswordEncryptionService;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
