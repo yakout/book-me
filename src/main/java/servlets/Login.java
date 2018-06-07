@@ -32,7 +32,6 @@ public class Login extends HttpServlet {
             HttpSession session = request.getSession(false);
             /* adding user to session to access it in other servlets */
             session.setAttribute("user", user);
-
             session.setAttribute("cart", cart);
 
             /* send it to welcome page */
