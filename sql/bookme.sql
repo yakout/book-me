@@ -131,8 +131,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `bookme`.`User` (
   `user_id` VARCHAR(36) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(50) NOT NULL,
-  `salt` VARCHAR(50) NOT NULL,
+  `password` blob NOT NULL,
+  `salt` blob NOT NULL,
   `first_name` VARCHAR(30) NOT NULL,
   `last_name` VARCHAR(30) NOT NULL,
   `phone_number` VARCHAR(45) NOT NULL,

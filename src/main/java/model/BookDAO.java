@@ -21,6 +21,38 @@ import java.util.List;
 public class BookDAO {
 
     /**
+     * get 100 books
+     */
+    public static ArrayList<Book> get100Books()
+    {
+        String query = "SELECT * FROM BOOK limit 100;";
+
+        return getMatchedBooks(query);
+    }
+
+    /**
+     * returns all book's categories in the shop.
+     * @return
+     */
+    public static ArrayList<String> getCategories()
+    {
+        String query = "SELECT * FROM Category;";
+
+        ArrayList<String> categories = new ArrayList<>();
+        try{
+            ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
+            while(resultSet.next()){
+                categories.add(resultSet.getString("name"));
+            }
+            resultSet.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            return categories;
+        }
+    }
+
+    /**
      * To add a new book to the online store.
      * @param newBook the new book we want to add into our store.
      */
@@ -222,14 +254,14 @@ public class BookDAO {
      * @param rs the result set after executing the query
      * @return the matched book if it exists
      */
-    private static Book buildBook(@NotNull ResultSet rs){
+    private static Book buildBook(@NotNull ResultSet rs) {
         Book book = new Book();
         try {
             book.setISBN(Integer.parseInt(rs.getString("ISBN")));
             book.setTitle(rs.getString("title"));
             book.setPublisherName(rs.getString("publisher"));
             book.setCategory(BookCategory.valueOf(rs.getString("category")));
-            book.setPrice(Integer.parseInt(rs.getString("price")));
+            book.setPrice((float) Double.parseDouble(rs.getString("price")));
             book.setThreshold(Integer.parseInt(rs.getString("threshold")));
             book.setNumberOfCopies(Integer.parseInt(rs.getString("copies")));
             rs.close();
