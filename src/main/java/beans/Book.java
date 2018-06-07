@@ -6,8 +6,8 @@ public class Book {
     private int ISBN;
     private String title;
     private String publisherName;
-    private String publisherDate;
-    private float price;
+    private String publicationYear;
+    private Double price;
     private BookCategory category;
     private int threshold;
     private int numberOfCopies;
@@ -15,11 +15,11 @@ public class Book {
 
 
     // default constructor if we don't know the values yet
-    public Book(){
-        price = 10;
+    public Book() {
+        price = 10d;
         threshold = 0;
         numberOfCopies = 0;
-        publisherDate = "";
+        publicationYear = "";
     }
 
     // GETTERS
@@ -31,7 +31,7 @@ public class Book {
         return category;
     }
 
-    public float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -39,8 +39,8 @@ public class Book {
         return publisherName;
     }
 
-    public String getPublisherDate() {
-        return publisherDate;
+    public String getPublicationYear() {
+        return publicationYear;
     }
 
     public String getTitle() {
@@ -68,12 +68,12 @@ public class Book {
         this.ISBN = ISBN;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public void setPublisherDate(String publisherDate) {
-        this.publisherDate = publisherDate;
+    public void setPublicationYear(String publicationYear) {
+        this.publicationYear = publicationYear;
     }
 
     public void setPublisherName(String publisherName) {

@@ -107,7 +107,7 @@ public class SalesDAO {
                 book.setTitle(result.getString("title"));
                 book.setPublisherName(result.getString("publisher"));
                 book.setCategory(BookCategory.valueOf(result.getString("category")));
-                book.setPrice(result.getInt("price"));
+                book.setPrice(result.getDouble("price"));
                 book.setThreshold(result.getInt("threshold"));
                 book.setNumberOfCopies(result.getInt("copies"));
 

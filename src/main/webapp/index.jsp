@@ -101,7 +101,7 @@
                                         <%= book.getPrice() + "$" %>
                                     </h5>
                                     <p class="card-text">
-                                        <%= book.getCategory() %>
+                                        <%= book.getCategory().toString() %>
                                     </p>
                                 </div>
                                 <div class="card-footer">

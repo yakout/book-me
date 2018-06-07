@@ -25,8 +25,7 @@ public class BookDAO {
      */
     public static ArrayList<Book> get100Books()
     {
-        String query = "SELECT * FROM Book limit 100;";
-
+        String query = "SELECT * FROM BOOK limit 100;";
         return getMatchedBooks(query);
     }
 
@@ -174,7 +173,6 @@ public class BookDAO {
     public static ArrayList<Book> findByAuthor(@NotNull String authorName) {
         String query = "SELECT FROM Book "
                 + "WHERE Author = " + "'" + authorName + "'" + ";";
-
         return getMatchedBooks(query);
     }
 
@@ -186,7 +184,6 @@ public class BookDAO {
     public static ArrayList<Book> findByCategory(@NotNull BookCategory category) {
         String query = "SELECT FROM Book "
                 + "WHERE category = " + "'" + category.name() + "'" + ";";
-
         return getMatchedBooks(query);
     }
 
@@ -238,13 +235,12 @@ public class BookDAO {
 
     
     private static String makeCondition(String attributeName, Object attribute_value){
-        if(attribute_value == null){
+        if (attribute_value == null) {
             return null;
         }
-        if(attribute_value instanceof Integer){
+        if (attribute_value instanceof Integer) {
             return attributeName + " = " + attribute_value.toString();
-        }
-        else{
+        } else {
             return attributeName + " = " + "'" + attribute_value.toString() + "'";    
         }
     }
@@ -260,17 +256,16 @@ public class BookDAO {
             book.setISBN(Integer.parseInt(rs.getString("ISBN")));
             book.setTitle(rs.getString("title"));
             book.setPublisherName(rs.getString("publisher"));
+            book.setPublicationYear(rs.getString("publication_year"));
             book.setCategory(BookCategory.valueOf(rs.getString("category")));
-            book.setPrice((float) Double.parseDouble(rs.getString("price")));
+            book.setPrice(Double.parseDouble(rs.getString("price")));
             book.setThreshold(Integer.parseInt(rs.getString("threshold")));
             book.setNumberOfCopies(Integer.parseInt(rs.getString("copies")));
-            rs.close();
-        } catch (SQLException | NullPointerException e){
-            book = null;
-            e.printStackTrace();
-        } finally {
             return book;
+        } catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -281,14 +276,13 @@ public class BookDAO {
         ArrayList<Book> matchedBooks = new ArrayList<>();
         try{
             ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 matchedBooks.add(buildBook(resultSet));
             }
             resultSet.close();
         } catch (SQLException e){
             e.printStackTrace();
-        } finally {
-            return matchedBooks;
         }
+        return matchedBooks;
     }
 }

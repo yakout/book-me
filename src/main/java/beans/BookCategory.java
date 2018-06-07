@@ -1,9 +1,9 @@
 package beans;
 
 public enum BookCategory {
-    ART,
-    SCIENCE,
-    RELIGION,
-    HISTORY,
-    GEOGRAPHY
+    Art,
+    Science,
+    Religion,
+    History,
+    Geography
 }
