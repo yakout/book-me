@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `bookme`.`User` (
   `last_name` VARCHAR(30) NOT NULL,
   `phone_number` VARCHAR(45) NOT NULL,
   `shipping_address` VARCHAR(100) NOT NULL,
-  `is_manger` TINYINT NULL DEFAULT 0,
+  `is_manager` TINYINT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB;
 
