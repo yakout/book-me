@@ -33,15 +33,14 @@ public class Login extends HttpServlet {
             session.setAttribute("cart", cart);
 
             /* send it to welcome page */
-            response.sendRedirect("home.jsp");
-
+//            request.setAttribute("successMessage", "Success.");
+            response.sendRedirect("index.jsp");
         } else {
             System.out.println("LOGIN FAILURE");
             System.out.println("email: " + email);
-            System.out.println("pass: " + pass);
 
-            response.sendRedirect("index.jsp");
-            request.setAttribute("errorMessage", "ERROR!, Wrong email or password.");
+            request.setAttribute("errorMessage", "Wrong email or password.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 

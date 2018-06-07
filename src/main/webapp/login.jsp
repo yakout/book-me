@@ -1,10 +1,4 @@
-<%@ page import="beans.User" %><%--
-  Created by IntelliJ IDEA.
-  User: ahmedyakout
-  Date: 6/7/18
-  Time: 1:20 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="beans.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -40,11 +34,27 @@
 
                 form.addClass('was-validated');
             });
+
+            // error alert auto close
+            $("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#error-alert").slideUp(500);
+            });
         })
+
     </script>
+
 
 </head>
 <body>
+
+<% if(request.getAttribute("errorMessage") != null) { %>
+
+<div class="alert alert-danger" id="error-alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Error!</strong> ${errorMessage}
+</div>
+
+<% } %>
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -108,9 +118,6 @@
 </form>
 
 -->
-<% if(request.getAttribute("errorMessage") != null) { %>
-<p>${errorMessage}</p>
-<% } %>
 
 </body>
 </html>

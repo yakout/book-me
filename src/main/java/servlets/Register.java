@@ -34,8 +34,8 @@ public class Register extends HttpServlet {
         } else {
             System.out.println("REGISTER FAILURE");
             log("REGISTER FAILURE");
-            response.sendRedirect("register.jsp");
             request.setAttribute("errorMessage", "ERROR!, in register. ");
+            response.sendRedirect("register.jsp");
         }
     }
 
