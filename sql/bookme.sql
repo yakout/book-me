@@ -188,7 +188,7 @@ declare to_order INT;
 set to_order = new.copies - new.threshold;
 
 if to_order < 0 then
-	insert into bookme.order values (UUID(), new.ISBN, to_order);
+	insert into bookme.order values (UUID(), new.ISBN, -1*to_order);
  end if;
 
 END$$

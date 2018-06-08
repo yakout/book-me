@@ -18,6 +18,9 @@ insert into Book values (4, "1984", "Unknown", "2003", "History", 27.0, 5, 10);
 insert into Book values (5, "The New Drawing on the Right Side of the Brain (Paperback) ", "Unknown", "2011", "Art", 39.0, 5, 10);
 
 
+
+
+
 insert into Author values("Yakout", 0);
 insert into Author values("Ahmed", 1);
 insert into Author values("Essam", 2);
