@@ -4,6 +4,10 @@
 
 <%
     if ( session != null && session.getAttribute("cart") != null) {
+        if (request.getParameter("action").equals("Edit")) {
+            request.getRequestDispatcher("editBook.jsp").forward(request, response);
+            return;
+        }
         Sale sale = new Sale();
 
         sale.setCopies(Integer.parseInt(request.getParameter("quantity")));

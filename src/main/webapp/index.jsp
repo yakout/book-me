@@ -37,6 +37,15 @@
         })
     </script>
 
+    <style>
+        <% if (session.getAttribute("user") == null || !((User)session.getAttribute("user")).isManager()) {%>
+            #editsubmit
+            {
+                visibility: hidden;
+            }
+        <% } %>
+    </style>
+
 </head>
 <body>
 
@@ -217,7 +226,10 @@
                                             <input type="hidden" value="<%=book.getTitle()%>" name="name">
                                             <input type="hidden" value="<%=book.getISBN()%>" name="ISBN">
                                             <input type="hidden" value="<%=book.getPrice()%>" name="price">
-                                            <input type="submit" class="btn btn-primary" value="Add to Cart"/>
+                                            <input type="submit" class="btn btn-primary" name="action"
+                                                   value="Add to Cart"/>
+                                            <input id="editsubmit" type="submit" class="btn btn-primary" name="action"
+                                                   value="Edit"/>
                                         </form>
                                     </div>
                                 </div>
