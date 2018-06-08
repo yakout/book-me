@@ -1,6 +1,7 @@
 <%@ page import="beans.User" %>
 <%@ page import="model.BookDAO" %>
 <%@ page import="beans.Book" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -34,7 +35,6 @@
                 $("#success-alert").slideUp(500);
             });
         })
-
     </script>
 
 </head>
@@ -110,6 +110,52 @@
             <div class="col-lg-3">
 
                 <h1 class="my-4">Book Me</h1>
+                <p>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Search for ...
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <form action="search.jsp">
+                            <div class="input-group">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Book title">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ISBN">ISBN</label>
+                                    <input type="text" class="form-control" id="ISBN" name="ISBN" placeholder="Book ISBN">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="author">Author</label>
+                                    <input type="text" class="form-control" id="author" name="author" placeholder="Book Author">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <input type="text" class="form-control" id="category" name="category" placeholder="Book Category">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="publisher">Publisher</label>
+                                    <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Book Publisher">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="pub_year">Publication Year</label>
+                                    <input type="text" class="form-control" id="pub_year" name="pub_year" placeholder="Publication Year">
+                                </div>
+
+                                <input class="btn btn-default" type="submit" name="" value="Search">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <br>
                 <div class="list-group">
                     <% for(String category : BookDAO.getCategories()) {%>
                         <a href="<%=category%>" class="list-group-item">
@@ -127,7 +173,15 @@
 
                 <div class="row">
 
-                    <%for (Book book : BookDAO.getBooks(20) ) {%>
+                    <% ArrayList<Book> books = null;
+                        if (request.getAttribute("searchResults") != null) {
+                            books = (ArrayList<Book>) request.getAttribute("searchResults");
+                        } else {
+                            books = BookDAO.getBooks(20);
+                        }
+                    %>
+
+                    <%for (Book book : books ) {%>
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
                                     <a

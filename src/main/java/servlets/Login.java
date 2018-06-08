@@ -24,8 +24,7 @@ public class Login extends HttpServlet {
             /* Get the current user */
             User user = UserDAO.getUser(email);
 
-            Cart cart = new Cart();
-
+            Cart cart = new Cart(user.getUserID());
             /* get new session or create new if it doesn't exist */
             HttpSession session = request.getSession(true);
             /* adding user to session to access it in other servlets */

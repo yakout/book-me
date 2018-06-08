@@ -23,7 +23,7 @@ public class Home extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Cart cart = (Cart) request.getSession().getAttribute("cart");
-        cart.checkOut("","");
+        cart.checkOut();
         cart.clearCart();
         /* return to the home page. */
         response.sendRedirect("home.jsp");
@@ -42,7 +42,7 @@ public class Home extends HttpServlet {
         BookCategory category = BookCategory.valueOf(req.getParameter("category"));
 
         //call for search
-        ArrayList<Book> books = BookDAO.find(ISBN,title,publisherName,category,authorName);
+        ArrayList<Book> books = BookDAO.find(ISBN,title,publisherName,category,authorName, null);
 
         //send the books to the User Interface.
         req.getSession().setAttribute("search_books",books);

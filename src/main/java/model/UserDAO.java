@@ -24,12 +24,18 @@ public class UserDAO {
     public static boolean login(String email, String pass) {
         boolean status = false;
         PasswordEncryptionService pw = new PasswordEncryptionService();
-        ResultSet rs = ModelManager.getInstance().executeQuery(
-                " SELECT password, salt from User where email = "
-                        + "'" + email + "'"
-                        + ";"
-        );
-        
+        ResultSet rs = null;
+        try {
+            rs = ModelManager.getInstance().executeQuery(
+                    " SELECT password, salt from User where email = "
+                            + "'" + email + "'"
+                            + ";"
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
         try {
             while(rs.next()) {
                 try {
@@ -65,8 +71,14 @@ public class UserDAO {
         boolean status = false;
 
         // check if the email is already registered.
-        ResultSet rs = ModelManager.getInstance().executeQuery(
-                " SELECT * FROM User WHERE email = " + "'" + user.getEmail() + "'" + ";");
+        ResultSet rs = null;
+        try {
+            rs = ModelManager.getInstance().executeQuery(
+                    " SELECT * FROM User WHERE email = " + "'" + user.getEmail() + "'" + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
 
         try {
             if (!rs.isBeforeFirst()) {
@@ -107,7 +119,13 @@ public class UserDAO {
         User user = new User();
 
         String query = "SELECT * FROM USER WHERE EMAIL = '" + email + "';";
-        ResultSet rs = ModelManager.getInstance().executeQuery(query);
+        ResultSet rs = null;
+        try {
+            rs = ModelManager.getInstance().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
 
         try {
             if (rs.next()) {

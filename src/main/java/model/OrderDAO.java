@@ -33,13 +33,12 @@ public class OrderDAO {
                 + newOrder.getQuantity() + " , "
                 + " );" ;
 
-        ResultSet rs = ModelManager.getInstance().executeQuery(query);
-
-        // TODO process rs
+        ResultSet rs = null;
         try {
-            rs.close();
+            ModelManager.getInstance().executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
+            return;
         }
 
     }
@@ -63,14 +62,13 @@ public class OrderDAO {
                         + " = " + confirmedOrder.getOrderID() + " ; ";
 
 
-        ResultSet rs = ModelManager.getInstance().executeQuery(query);
-
-        // TODO process rs
+        ResultSet rs = null;
         try {
-            rs.close();
+            ModelManager.getInstance().executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
 }

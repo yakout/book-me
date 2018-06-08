@@ -5,10 +5,11 @@ import model.SalesDAO;
 import java.util.ArrayList;
 
 public class Cart {
-
+    private String user_id;
     ArrayList<Sale> cart;
 
-    public Cart(){
+    public Cart(String user_id) {
+        this.user_id = user_id;
         cart = new ArrayList<>();
     }
 
@@ -71,14 +72,20 @@ public class Cart {
         return sum;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     /**
      * check out items.
-     * @param creditCard
-     * @param expiryDate
      * @return
      */
-    public boolean checkOut(String creditCard, String expiryDate){
-        return SalesDAO.checkout(cart,creditCard,expiryDate);
+    public void checkOut() {
+        SalesDAO.checkout(cart, user_id);
     }
 
 }

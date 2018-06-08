@@ -208,11 +208,11 @@
 
     <!-- Page Content -->
     <div class="container">
-        <p></p>
+        <br>
         <div class="row">
             <div class="col-75">
                 <div class="checkout-form-container">
-                    <form action="">
+                    <form action="/checkout" method="post">
 
                         <div class="row">
                             <div class="col-50">
@@ -275,7 +275,9 @@
             </div>
             <div class="col-25">
                 <div class="checkout-form-container">
-                    <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>4</b></span></h4>
+                    <h4>Cart
+                        <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b><%=((Cart)
+                        session.getAttribute("cart")).getCart().size()%></b></span></h4>
                     <% for(Sale sale : ((Cart) session.getAttribute("cart")).getCart()) {%>
                     <p><a href="#"><%=sale.getSale_name()%></a>
                         <span class="price"><%=sale.getPrice() * sale.getCopies()%></span></p>
@@ -288,7 +290,7 @@
                 </div>
             </div>
         </div>
-        <p></p>
+        <br>
     </div>
 
 

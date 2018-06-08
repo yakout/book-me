@@ -18,8 +18,40 @@
 
     <!-- Custom styles for this template -->
     <link href="css/shop-homepage.css" rel="stylesheet">
+
+    <script>
+        $(document).ready(function() {
+            // TODO validation for update profile form
+
+            // error alert auto close
+            $("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#error-alert").slideUp(500);
+            });
+
+            // success alert auto close
+            $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+            });
+        })
+
+    </script>
+
 </head>
 <body>
+
+    <% if(request.getAttribute("errorMessage") != null) { %>
+    <div class="alert alert-danger" id="error-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error!</strong> ${errorMessage}
+    </div>
+    <% } %>
+
+    <% if(request.getAttribute("successMessage") != null) { %>
+    <div class="alert alert-success" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> ${successMessage}
+    </div>
+    <% } %>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">

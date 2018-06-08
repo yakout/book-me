@@ -26,7 +26,12 @@ public class SalesDAO {
                 + " WHERE " + " YEAR(sale_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) "
                 + " AND MONTH(sale_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) ;";
 
-        ResultSet result = ModelManager.getInstance().executeQuery(query);
+        ResultSet result = null;
+        try {
+            result = ModelManager.getInstance().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         int total_sales = -1;
 
@@ -43,7 +48,7 @@ public class SalesDAO {
      * The top 5 customers who purchase the most purchase amount in descending order for the last three months.
      */
     public static ArrayList<User> getTopFiveCustomers() {
-
+        ArrayList<User> top_five = new ArrayList<>();
         String query = "SELECT User.* , SUM(copies) AS sum_copies "
                 + " FROM Sale , User"
                 + " WHERE " + " YEAR(sale_date) = YEAR(CURRENT_DATE - INTERVAL 3 MONTH) "
@@ -53,8 +58,13 @@ public class SalesDAO {
                 + " ORDER BY sum_copies DESC"
                 + " LIMIT 5 ;";
 
-        ResultSet result = ModelManager.getInstance().executeQuery(query);
-        ArrayList<User> top_five = new ArrayList<>();
+        ResultSet result = null;
+        try {
+            result = ModelManager.getInstance().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return top_five;
+        }
 
         try {
 
@@ -88,6 +98,7 @@ public class SalesDAO {
      * The top 10 selling books for the last three months.
      */
     public static ArrayList<Book> getTopTenBooks() {
+        ArrayList<Book> top_ten = new ArrayList<>();
 
         String query = "SELECT Book.* , SUM(copies) AS sum_copies "
                 + " FROM Sale , Book"
@@ -97,8 +108,13 @@ public class SalesDAO {
                 + " ORDER BY sum_copies DESC"
                 + " LIMIT 10 ;";
 
-        ResultSet result = ModelManager.getInstance().executeQuery(query);
-        ArrayList<Book> top_ten = new ArrayList<>();
+        ResultSet result = null;
+        try {
+            result = ModelManager.getInstance().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return top_ten;
+        }
 
         try {
             while (result.next()){
@@ -121,29 +137,33 @@ public class SalesDAO {
         return top_ten;
     }
 
-    public static boolean checkout(@NotNull ArrayList<Sale> sales , @NotNull String creditCard, @NotNull String expiryDate ){
+    public static void checkout(@NotNull ArrayList<Sale> sales, String user_id) {
+        ArrayList<Boolean> status = new ArrayList<>();
 
-        // check the validation for the credit card, but i don't know how ? :/
-
-        for(Sale sale : sales){
+        for (int i = 0; i < sales.size(); i++) {
             String query = "INSERT INTO Sale VALUES "
                 + "("
                 + " UUID() " + " , "
-                + sale.getUser_id() + " , "
-                + sale.getISBN() + " , "
+                + "'" + user_id + "'" + " , "
+                + sales.get(i).getISBN() + " , "
                 + "NOW()" + " , "
-                + sale.getCopies()
+                + sales.get(i).getCopies()
                 + ");";
-            ResultSet rs = ModelManager.getInstance().executeQuery(query);
 
-            // TODO process rs
+            System.out.println("checkout query: " + query);
             try {
-                rs.close();
+                ModelManager.getInstance().executeQuery(query);
+                status.add(i, true);
             } catch (SQLException e) {
-                e.printStackTrace();
+                status.add(i, false);
             }
         }
-        return true;
+
+        for (int i = sales.size() - 1; i >= 0; i--) {
+            if (status.get(i)) {
+                sales.remove(i);
+            }
+        }
     }
 
 

@@ -54,7 +54,13 @@ public class BookDAO {
     static public ArrayList<String> getBookAuthors(Integer ISBN) {
         ArrayList<String> authors = new ArrayList<>();
         String query = "SELECT author_name FROM AUTHOR WHERE ISBN = '" + ISBN + "';";
-        ResultSet rs = ModelManager.getInstance().executeQuery(query);
+        ResultSet rs = null;
+        try {
+            rs = ModelManager.getInstance().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return authors;
+        }
         try {
             while (rs.next()) {
                 authors.add(rs.getString("author_name"));
@@ -85,7 +91,13 @@ public class BookDAO {
                 + newBook.getNumberOfCopies()
                 + " );" ;
 
-        ResultSet rs1 = ModelManager.getInstance().executeQuery(query);
+        ResultSet rs1 = null;
+        try {
+            rs1 = ModelManager.getInstance().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         // TODO process rs
         try {
@@ -104,14 +116,12 @@ public class BookDAO {
                     + newBook.getISBN()
                     + " );" ;
 
-            ResultSet rs2 = ModelManager.getInstance().executeQuery(query);
-
-            // TODO process rs
             try {
-                rs2.close();
+                ModelManager.getInstance().executeQuery(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
@@ -135,11 +145,8 @@ public class BookDAO {
                 + "copies = " + updatedBook.getNumberOfCopies()
                 + "WHERE ISBN = " + updatedBook.getISBN() + ";" ;
 
-        ResultSet rs = ModelManager.getInstance().executeQuery(query);
-
-        // TODO process rs
         try {
-            rs.close();
+            ModelManager.getInstance().executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -161,7 +168,13 @@ public class BookDAO {
         String query = "SELECT FROM BOOK "
                         + "WHERE TITLE = " + "'" + title + "'" + ";";
 
-        ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
+        ResultSet resultSet = null;
+        try {
+            resultSet = ModelManager.getInstance().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
         return buildBook(resultSet);
     }
 
@@ -174,7 +187,13 @@ public class BookDAO {
         String query = "SELECT FROM BOOK "
                 + "WHERE ISBN = " + ISBN + ";";
 
-        ResultSet resultSet = ModelManager.getInstance().executeQuery(query);
+        ResultSet resultSet = null;
+        try {
+            resultSet = ModelManager.getInstance().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
         return buildBook(resultSet);
     }
 
@@ -184,7 +203,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByAuthor(@NotNull String authorName) {
-        String query = "SELECT FROM BOOK "
+        String query = "SELECT * FROM BOOK "
                 + "WHERE Author = " + "'" + authorName + "'" + ";";
         return getMatchedBooks(query);
     }
@@ -195,7 +214,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByCategory(@NotNull BookCategory category) {
-        String query = "SELECT FROM BOOK "
+        String query = "SELECT * FROM BOOK "
                 + "WHERE category = " + "'" + category.name() + "'" + ";";
         return getMatchedBooks(query);
     }
@@ -206,8 +225,14 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByPublisher(@NotNull String publisherName) {
-        String query = "SELECT FROM BOOK "
+        String query = "SELECT * FROM BOOK "
                 + "WHERE publisher = " + "'" + publisherName + "'" + ";";
+        return getMatchedBooks(query);
+    }
+
+    public static ArrayList<Book> findByPubYear(String year) {
+        String query = "SELECT * FROM BOOK "
+                + "WHERE publication_year = " + "'" + year + "'" + ";";
         return getMatchedBooks(query);
     }
 
@@ -215,10 +240,11 @@ public class BookDAO {
      * find many books by searching using optional attributes.
      * @return the matched books.
      */
-    public static ArrayList<Book> find(Integer ISBN, String title, String publisherName, BookCategory category, String authorName) {
+    public static ArrayList<Book> find(Integer ISBN, String title, String publisherName, BookCategory category,
+                                       String authorName, String pub_year) {
         ArrayList<Book> matchedBooks = new ArrayList<>();
         Boolean whereClause = false;
-        String query = "SELECT FROM ";
+        String query = "SELECT * FROM ";
         if(authorName != null){
             query += "( Book NATURAL JOIN Author ) " + "WHERE author_name = " + "'" + authorName + "'";
             whereClause = true;
@@ -227,10 +253,15 @@ public class BookDAO {
             query += "Book";
         }
         List<String> conditions = new ArrayList<String>();
+
+        System.out.println(title);
         conditions.add(makeCondition("ISBN", ISBN));
         conditions.add(makeCondition("title", title));
+        System.out.println("1: " + conditions.get(conditions.size() - 1));
+
         conditions.add(makeCondition("publisherName", publisherName));
         conditions.add(makeCondition("category", category));
+        conditions.add(makeCondition("publication_year", pub_year));
         for(String cond : conditions){
             if(cond != null){
                 if(whereClause){
@@ -243,6 +274,7 @@ public class BookDAO {
             }
         }
         query += ";";
+        System.out.println(query);
         return getMatchedBooks(query);
     }
 
@@ -298,4 +330,5 @@ public class BookDAO {
         }
         return matchedBooks;
     }
+
 }
