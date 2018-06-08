@@ -1,4 +1,6 @@
 <%@ page import="beans.User" %>
+<%@ page import="beans.Sale" %>
+<%@ page import="beans.Cart" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,7 +24,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Book Me</a>
+            <a class="navbar-brand" href="index.jsp">Book Me</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -48,7 +50,7 @@
                         <a href="logout" class="nav-link">Logout</a>
                     </li>
 
-                    <li class="nav-item" active>
+                    <li class="nav-item active">
                         <a class="nav-link cart-item-count" href="cart.jsp"
                            data-cesta-feira-items-count>
                             <span class="fa fa-shopping-cart"></span> Shopping Cart</a>
@@ -84,13 +86,23 @@
                     </tr>
                     </thead>
                     <tbody id="cart-items">
+                    <% for (Sale sale : ((Cart) session.getAttribute("cart")).getCart()) {%>
+                    <tr>
+                        <td><%=sale.getSale_name()%></td>
+                        <td><%=sale.getCopies()%></td>
+                        <td><%=sale.getPrice()%></td>
+                        <td><%=sale.getPrice() * sale.getCopies()%></td>
+                        <td>  </td>
+                    </tr>
+                    <% } %>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td><a href="javascript:;" class="btn btn-danger" data-cesta-feira-clear-basket>Clear Cart</a></td>
-                        <td>  </td>
+                        <td><a href="" class="btn btn-danger">Clear Cart</a></td>
+                        <td><a href="" class="btn btn-success">Check Out</a></td>
                         <td>Total</td>
-                        <td class="text-right" id="total-value"><strong>$0</strong></td>
+                        <td class="text-right" id="total-value">
+                            <strong><%=((Cart)session.getAttribute("cart")).getTotalPrice()%></strong></td>
                         <td>  </td>
                     </tr>
                     </tfoot>
@@ -100,7 +112,7 @@
     </div>
     <!-- /.container -->
 
-    
+
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">

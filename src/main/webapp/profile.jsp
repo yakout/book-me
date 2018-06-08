@@ -57,7 +57,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">Book Me</a>
+        <a class="navbar-brand" href="index.jsp">Book Me</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -71,7 +71,7 @@
                     <a href="index.jsp" class="nav-link">Home</a>
                     <span class="sr-only">(current)</span>
                 </li>
-                <li class="nav-item" active>
+                <li class="nav-item active">
                     <a href="profile.jsp" class="nav-link">
                         <%= ((User) session.getAttribute("user")).getfName() %>
                         <%= ((User) session.getAttribute("user")).getlName() %>

@@ -9,6 +9,8 @@ public class Sale {
     private int ISBN;
     private Date sale_date;
     private int copies;
+    private Double price;
+    private String sale_name;
 
 
     public Sale() { }
@@ -47,4 +49,20 @@ public class Sale {
     public Date getSale_date() { return sale_date; }
 
     public void setSale_date(Date sale_date) { this.sale_date = sale_date; }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public String getSale_name() {
+        return sale_name;
+    }
+
+    public void setSale_name(String sale_name) {
+        this.sale_name = sale_name;
+    }
 }

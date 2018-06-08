@@ -24,6 +24,18 @@ public class Cart {
         cart.clear();
     }
 
+    public ArrayList<Sale> getCart() {
+        return cart;
+    }
+
+    public int getTotalPrice() {
+        int sum = 0;
+        for (Sale sale : cart) {
+            sum += sale.getCopies() * sale.getPrice();
+        }
+        return sum;
+    }
+
     public boolean checkOut(String creditCard, String expiryDate){
         return SalesDAO.checkout(cart,creditCard,expiryDate);
     }

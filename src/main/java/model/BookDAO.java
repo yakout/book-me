@@ -51,6 +51,21 @@ public class BookDAO {
         }
     }
 
+    static public ArrayList<String> getBookAuthors(Integer ISBN) {
+        ArrayList<String> authors = new ArrayList<>();
+        String query = "SELECT author_name FROM AUTHOR WHERE ISBN = '" + ISBN + "';";
+        ResultSet rs = ModelManager.getInstance().executeQuery(query);
+        try {
+            while (rs.next()) {
+                authors.add(rs.getString("author_name"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return authors;
+    }
+
     /**
      * To add a new book to the online store.
      * @param newBook the new book we want to add into our store.

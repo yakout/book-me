@@ -19,13 +19,45 @@
 
     <!-- Custom styles for this template -->
     <link href="css/shop-homepage.css" rel="stylesheet">
+
+    <script>
+        $(document).ready(function() {
+            // TODO validation for update profile form
+
+            // error alert auto close
+            $("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#error-alert").slideUp(500);
+            });
+
+            // success alert auto close
+            $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+            });
+        })
+
+    </script>
+
 </head>
 <body>
+
+    <% if(request.getAttribute("errorMessage") != null) { %>
+    <div class="alert alert-danger" id="error-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error!</strong> ${errorMessage}
+    </div>
+    <% } %>
+
+    <% if(request.getAttribute("successMessage") != null) { %>
+    <div class="alert alert-success" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> ${successMessage}
+    </div>
+    <% } %>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Book Me</a>
+            <a class="navbar-brand" href="index.jsp">Book Me</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -48,7 +80,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="logout" class="nav-link">Logout</a>
+                        <a href="logout" class="nav-link"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
                     </li>
 
                     <li class="nav-item">
@@ -70,7 +102,6 @@
         </div>
     </nav>
 
-
     <!-- Page Content -->
     <div class="container">
 
@@ -81,7 +112,7 @@
                 <h1 class="my-4">Book Me</h1>
                 <div class="list-group">
                     <% for(String category : BookDAO.getCategories()) {%>
-                        <a href="#" class="list-group-item">
+                        <a href="<%=category%>" class="list-group-item">
                             <%= category %>
                         </a>
                     <% } %>
@@ -99,7 +130,10 @@
                     <%for (Book book : BookDAO.getBooks(20) ) {%>
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
-                                    <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                    <a
+                                            href="#"><img class="card-img-top"
+                                                               src="img/rhema-kallianpur-471933.jpg"
+                                                          alt=""></a>
                                     <div class="card-body">
                                         <h4 class="card-title">
                                             <a href="#">
@@ -109,23 +143,26 @@
                                         <h5>
                                             <%= book.getPrice() + "$" %>
                                         </h5>
-                                        <p class="card-text">
-                                            <strong>Category: </strong><%= book.getCategory().toString() %>
-                                            <br>
-                                            <strong>Book Authors: </strong>
-                                            <br>
-                                            <%-- TODO add authors and other book's details --%>
-                                        </p>
+                                        <p class="card-text"></p>
+                                        <ul>
+                                            <li><strong>Category: </strong><%= book.getCategory().toString() %></li>
+                                            <li><strong>Book Authors: </strong></li>
+                                            <ul>
+                                                <% for (String author : BookDAO.getBookAuthors(book.getISBN())) { %>
+                                                    <li> <%=author%> </li>
+                                                <% } %>
+                                            </ul>
+                                        </ul>
                                     </div>
                                     <div class="card-footer">
-                                        <form action="" class="form" data-cesta-feira-form>
+                                        <form action="addToCart.jsp" class="form">
                                             <div class="form-group">
-                                                <input type="number" min="1" value="1" class="form-control" name="quantity" data-cesta-feira-attribute placeholder="Quantity">
+                                                <input type="number" min="1" value="1" class="form-control"
+                                                       name="quantity" placeholder="Quantity">
                                             </div>
-                                            <input type="hidden" value="Product 4" name="product_name" data-cesta-feira-attribute>
-                                            <input type="hidden" value="2.02" name="unity_price" data-cesta-feira-attribute>
-                                            <input type="hidden" value="other" name="item_type" data-cesta-feira-attribute>
-                                            <input type="hidden" value="4" data-cesta-feira-item-id />
+                                            <input type="hidden" value="<%=book.getTitle()%>" name="name">
+                                            <input type="hidden" value="<%=book.getISBN()%>" name="ISBN">
+                                            <input type="hidden" value="<%=book.getPrice()%>" name="price">
                                             <input type="submit" class="btn btn-primary" value="Add to Cart"/>
                                         </form>
                                     </div>
