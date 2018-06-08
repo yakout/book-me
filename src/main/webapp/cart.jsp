@@ -35,7 +35,7 @@
                     <% if (session.getAttribute("user") != null) { %>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Home</a>
+                        <a href="index.jsp" class="nav-link">Home</a>
                         <span class="sr-only">(current)</span>
                     </li>
 
@@ -92,7 +92,12 @@
                         <td><%=sale.getCopies()%></td>
                         <td><%=sale.getPrice()%></td>
                         <td><%=sale.getPrice() * sale.getCopies()%></td>
-                        <td><a href="" class="btn btn-danger">Remove</a></td>
+                        <td>
+                            <form action="removeFromCart.jsp" class="form">
+                                <input type="hidden" value="<%=sale.getISBN()%>" name="ISBN">
+                                <input type="submit" class="btn btn-danger" value="Remove Item"/>
+                            </form>
+                        </td>
                     </tr>
                     <% } %>
                     </tbody>

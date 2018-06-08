@@ -5,5 +5,6 @@
 </head>
 <body>
  this is checkout page you should provide your credit card info to checkout.
+ <%-- TODO --%>
 </body>
 </html>
