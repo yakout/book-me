@@ -68,7 +68,7 @@
                     <% if (session.getAttribute("user") != null) { %>
 
                     <li class="nav-item active">
-                        <a href="#" class="nav-link">Home</a>
+                        <a href="index.jsp" class="nav-link">Home</a>
                         <span class="sr-only">(current)</span>
                     </li>
 
