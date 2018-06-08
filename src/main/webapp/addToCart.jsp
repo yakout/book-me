@@ -4,8 +4,8 @@
 
 <%
     if ( session != null && session.getAttribute("cart") != null) {
-
         Sale sale = new Sale();
+
         sale.setCopies(Integer.parseInt(request.getParameter("quantity")));
         sale.setISBN(Integer.parseInt(request.getParameter("ISBN")));
         sale.setPrice(Double.parseDouble(request.getParameter("price")));

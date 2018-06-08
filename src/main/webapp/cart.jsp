@@ -92,14 +92,14 @@
                         <td><%=sale.getCopies()%></td>
                         <td><%=sale.getPrice()%></td>
                         <td><%=sale.getPrice() * sale.getCopies()%></td>
-                        <td>  </td>
+                        <td><a href="" class="btn btn-danger">Remove</a></td>
                     </tr>
                     <% } %>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td><a href="" class="btn btn-danger">Clear Cart</a></td>
-                        <td><a href="" class="btn btn-success">Check Out</a></td>
+                        <td><a href="clearCart.jsp" class="btn btn-danger">Clear Cart</a></td>
+                        <td><a href="checkout.jsp" class="btn btn-success">Check Out</a></td>
                         <td>Total</td>
                         <td class="text-right" id="total-value">
                             <strong><%=((Cart)session.getAttribute("cart")).getTotalPrice()%></strong></td>
