@@ -16,7 +16,7 @@ public class User {
     /**
      *  will be used by Statistics.
      * */
-    int sum_copies;
+    int sum_copies, sum_cost;
 
     public int getSum_copies() {
         return sum_copies;
@@ -24,6 +24,14 @@ public class User {
 
     public void setSum_copies(int sum_copies) {
         this.sum_copies = sum_copies;
+    }
+
+    public int getSum_cost() {
+        return sum_cost;
+    }
+
+    public void setSum_cost(int sum_cost) {
+        this.sum_cost = sum_cost;
     }
 
 

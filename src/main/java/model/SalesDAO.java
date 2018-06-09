@@ -73,12 +73,12 @@ public class SalesDAO {
      */
     public static ArrayList<User> getTopFiveCustomers() {
         ArrayList<User> top_five = new ArrayList<>();
-        String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies "
-                + " FROM (Sale NATURAL JOIN User)"
+        String query = "SELECT User.* , SUM(Sale.copies * Book.price) AS sum_cost , SUM(Sale.copies) AS sum_copies"
+                + " FROM (Sale NATURAL JOIN User NATURAL JOIN Book)"
                 + " WHERE " + " YEAR(sale_date) = YEAR(CURRENT_DATE - INTERVAL 3 MONTH) "
                 + " AND MONTH(sale_date) = MONTH(CURRENT_DATE - INTERVAL 3 MONTH) "
                 + " GROUP BY User.user_id "
-                + " ORDER BY sum_copies DESC"
+                + " ORDER BY sum_cost DESC"
                 + " LIMIT 5 ;";
 
         ResultSet result = null;
@@ -94,7 +94,7 @@ public class SalesDAO {
             while (result.next()){
                 String email,  fName,  lName,  phoneNumber,  shippingAddress;
 
-                int sum_copies;
+                int sum_copies, sum_cost;
 
                 email = result.getString("email");
                 fName = result.getString("first_name");
@@ -102,8 +102,10 @@ public class SalesDAO {
                 phoneNumber = result.getString("phone_number");
                 shippingAddress = result.getString("shipping_address");
                 sum_copies = result.getInt("sum_copies");
+                sum_cost = result.getInt("sum_cost");
 
                 User u = new User(email,fName,lName,phoneNumber,shippingAddress);
+                u.setSum_cost(sum_cost);
                 u.setSum_copies(sum_copies);
 
                 top_five.add(u);
