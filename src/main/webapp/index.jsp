@@ -169,7 +169,7 @@
                 <br>
                 <div class="list-group">
                     <% for(String category : BookDAO.getCategories()) {%>
-                        <a href="<%=category%>" class="list-group-item">
+                        <a href="searchCategory.jsp?category=<%= category %>" class="list-group-item">
                             <%= category %>
                         </a>
                     <% } %>
