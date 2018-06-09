@@ -84,7 +84,7 @@ public class UserDAO {
             if (!rs.isBeforeFirst()) {
                 // email is not registered.
                  PreparedStatement pst = ModelManager.getInstance().getConnection().prepareStatement(
-                        "INSERT INTO USER VALUES (UUID()," + "? , ? , ? , ? , ? , ?, ?, ?)");
+                        "INSERT INTO User VALUES (UUID()," + "? , ? , ? , ? , ? , ?, ?, ?)");
 
                 pst.setString(1, user.getEmail());
                 pst.setBytes(2, user.getEncryptedPassword());
@@ -118,7 +118,7 @@ public class UserDAO {
     public static User getUser(String email) {
         User user = new User();
 
-        String query = "SELECT * FROM USER WHERE EMAIL = '" + email + "';";
+        String query = "SELECT * FROM User WHERE EMAIL = '" + email + "';";
         ResultSet rs = null;
         try {
             rs = ModelManager.getInstance().executeQuery(query);
@@ -156,7 +156,7 @@ public class UserDAO {
     public static boolean updateUser(User user) {
         try {
             PreparedStatement pst = ModelManager.getInstance().getConnection().prepareStatement(
-                    "UPDATE USER SET email = ?, password = ?, first_name = ?, last_name = ?," +
+                    "UPDATE User SET email = ?, password = ?, first_name = ?, last_name = ?," +
                             "phone_number = ?, shipping_address = ?, is_manager = ? WHERE user_id = ?;");
             pst.setString(1, user.getEmail());
             pst.setBytes(2, user.getEncryptedPassword());
