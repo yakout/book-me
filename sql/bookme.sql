@@ -198,7 +198,7 @@ update book set copies = copies + old.quantity where ISBN = old.ISBN;
 END$$
 
 USE `bookme`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`MakeSale` AFTER INSERT ON `Sale` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`MakeSale` BEFORE INSERT ON `Sale` FOR EACH ROW
 BEGIN
 	update `bookme`.Book set copies = copies - new.copies where ISBN = new.ISBN;
 END$$
