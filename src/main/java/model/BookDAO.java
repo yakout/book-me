@@ -310,13 +310,13 @@ public class BookDAO {
             String names_list = "";
             for(String name : authorName){
                 if(names_list.isEmpty()){
-                    names_list += "\" " + name;
+                    names_list += "\"" + name.trim();
                 }
                 else {
-                    names_list += " , " + name;
+                    names_list += "," + name.trim();
                 }
             }
-            names_list += " \"";
+            names_list += "\"";
             query += "WHERE (FIND_IN_SET (author_name, " + names_list + "))";
             whereClause = true;
         }

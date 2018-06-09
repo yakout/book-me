@@ -8,8 +8,8 @@ import java.sql.*;
 public class ModelManager {
     private static String url = "jdbc:mysql://localhost:3306/bookme";
     private static String user = "root";
-    private static String pass = "admin"; // essam
-//    private static String pass = "yakout"; // yakout
+//    private static String pass = "admin"; // essam
+    private static String pass = "yakout"; // yakout
     private static ModelManager model;
     private Connection connection;
     static private int pagecount = 3;

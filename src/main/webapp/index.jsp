@@ -142,7 +142,8 @@
 
                                 <div class="form-group">
                                     <label for="author">Author</label>
-                                    <input type="text" class="form-control" id="author" name="author" placeholder="Book Author">
+                                    <input type="text" class="form-control" id="author" name="author"
+                                           placeholder="Author1, Author2, Author3 ..">
                                 </div>
 
                                 <div class="form-group">

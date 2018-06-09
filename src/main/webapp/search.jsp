@@ -2,6 +2,7 @@
 <%@ page import="beans.Book" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="beans.BookCategory" %>
+<%@ page import="java.util.Arrays" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -36,7 +37,7 @@
 
     ArrayList<String> authors = new ArrayList<>();
     if (author != null) {
-        authors.add(author);
+        authors.addAll(Arrays.asList(author.split(",")));
     }
 
     results.addAll(BookDAO.find(ISBN_INT, title, publisher, bookCategory, authors , pub_year,
