@@ -183,12 +183,8 @@ USE `bookme`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`PlaceOrder` AFTER UPDATE ON `Book` FOR EACH ROW
 BEGIN
 
-declare to_order INT;
-
-set to_order = new.copies - new.threshold;
-
-if to_order < 0 then
-	insert into bookme.order values (UUID(), new.ISBN, -1*to_order);
+if new.copies < new.threshold then
+	insert into bookme.order values (UUID(), new.ISBN, new.threshold - new.copies);
  end if;
 
 END$$
