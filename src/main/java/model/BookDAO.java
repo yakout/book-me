@@ -25,7 +25,7 @@ public class BookDAO {
      */
     public static ArrayList<Book> getBooks(Integer count)
     {
-        String query = "SELECT * FROM BOOK LIMIT " + count + ";";
+        String query = "SELECT * FROM Book LIMIT " + count + ";";
         return getMatchedBooks(query);
     }
 
@@ -35,7 +35,7 @@ public class BookDAO {
      */
     public static ArrayList<String> getCategories()
     {
-        String query = "SELECT * FROM CATEGORY;";
+        String query = "SELECT * FROM Category;";
 
         ArrayList<String> categories = new ArrayList<>();
         try{
@@ -53,7 +53,7 @@ public class BookDAO {
 
     static public ArrayList<String> getBookAuthors(Integer ISBN) {
         ArrayList<String> authors = new ArrayList<>();
-        String query = "SELECT author_name FROM AUTHOR WHERE ISBN = " + ISBN + ";";
+        String query = "SELECT author_name FROM Author WHERE ISBN = " + ISBN + ";";
         ResultSet rs = null;
         try {
             rs = ModelManager.getInstance().executeQuery(query);
@@ -75,7 +75,7 @@ public class BookDAO {
         /**
          * adding the new book.
          */
-        String query = "INSERT INTO BOOK VALUES "
+        String query = "INSERT INTO Book VALUES "
                 + "( "
                 + newBook.getISBN() + " , "
                 + "'" + newBook.getTitle() + "'" + " , "
@@ -144,14 +144,14 @@ public class BookDAO {
         }
         new_author_names += " )";
 
-        String delete_author_query = "DELETE FROM Author WHERE ISBN = " oldISBN + 
+        String delete_author_query = "DELETE FROM Author WHERE ISBN = " + oldISBN +
                             " AND name NOT IN" + new_author_names + " ;" ;
 
 
         /**
         * select the old authors then detect the new ones to be inserted.
         */
-        String select_author_query = "SELECT name FROM Author WHERE ISBN = " oldISBN + " ;";
+        String select_author_query = "SELECT name FROM Author WHERE ISBN = " + oldISBN + " ;";
         try {
             ModelManager.getInstance().executeQuery(delete_author_query);
             ResultSet rs = ModelManager.getInstance().executeQuery(select_author_query);
@@ -187,7 +187,7 @@ public class BookDAO {
         /**
         * update the existing book.
         */
-        String query = "UPDATE BOOK SET "
+        String query = "UPDATE Book SET "
                 + "ISBN = " + updatedBook.getISBN() + " , "
                 + "title = " + "'" + updatedBook.getTitle() + "'" + " , "
                 + "publisher = " + "'" + updatedBook.getPublisherName() + "'" + " , "
@@ -222,7 +222,7 @@ public class BookDAO {
      * @return the matched book.
      */
     public static Book findByTitle(@NotNull String title) {
-        String query = "SELECT * FROM BOOK "
+        String query = "SELECT * FROM Book "
                         + "WHERE TITLE = '" + title + "';";
 
         ResultSet resultSet = null;
@@ -243,7 +243,7 @@ public class BookDAO {
      * @return the matched book.
      */
     public static Book findByISBN(Integer ISBN) {
-        String query = "SELECT * FROM BOOK "
+        String query = "SELECT * FROM Book "
                 + "WHERE ISBN = " + ISBN + ";";
 
         ResultSet resultSet = null;
@@ -265,7 +265,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByAuthor(@NotNull String authorName) {
-        String query = "SELECT * FROM BOOK "
+        String query = "SELECT * FROM Book "
                 + "WHERE Author = " + "'" + authorName + "'" + ";";
         return getMatchedBooks(query);
     }
@@ -276,7 +276,7 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByCategory(@NotNull BookCategory category) {
-        String query = "SELECT * FROM BOOK "
+        String query = "SELECT * FROM Book "
                 + "WHERE category = " + "'" + category.name() + "'" + ";";
         return getMatchedBooks(query);
     }
@@ -287,13 +287,13 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> findByPublisher(@NotNull String publisherName) {
-        String query = "SELECT * FROM BOOK "
+        String query = "SELECT * FROM Book "
                 + "WHERE publisher = " + "'" + publisherName + "'" + ";";
         return getMatchedBooks(query);
     }
 
     public static ArrayList<Book> findByPubYear(String year) {
-        String query = "SELECT * FROM BOOK "
+        String query = "SELECT * FROM Book "
                 + "WHERE publication_year = " + "'" + year + "'" + ";";
         return getMatchedBooks(query);
     }
