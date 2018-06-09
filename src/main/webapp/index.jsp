@@ -185,6 +185,10 @@
 
                 <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
                     <ul class="pagination justify-content-end">
+                        <form action="promoteUser.jsp">
+                            <input class="btn btn-success" type="submit" name="action" value="Promote User">
+                        </form>
+                        <pre> </pre>
                         <form action="addNewBook.jsp">
                             <input class="btn btn-success" type="submit" name="action" value="+ Add New Book">
                         </form>
