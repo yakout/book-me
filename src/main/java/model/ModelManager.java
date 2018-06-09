@@ -40,14 +40,9 @@ public class ModelManager {
     }
 
     public ResultSet executeQuery(String query) throws SQLException {
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        statement = connection.createStatement();
+        Statement statement = connection.createStatement();
         statement.execute(query);
-        resultSet = statement.getResultSet();
-
-        return resultSet;
+        return statement.getResultSet();
     }
 
     public void closeConnection() {

@@ -53,15 +53,10 @@ public class BookDAO {
 
     static public ArrayList<String> getBookAuthors(Integer ISBN) {
         ArrayList<String> authors = new ArrayList<>();
-        String query = "SELECT author_name FROM AUTHOR WHERE ISBN = '" + ISBN + "';";
+        String query = "SELECT author_name FROM AUTHOR WHERE ISBN = " + ISBN + ";";
         ResultSet rs = null;
         try {
             rs = ModelManager.getInstance().executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return authors;
-        }
-        try {
             while (rs.next()) {
                 authors.add(rs.getString("author_name"));
             }
@@ -165,17 +160,19 @@ public class BookDAO {
      * @return the matched book.
      */
     public static Book findByTitle(@NotNull String title) {
-        String query = "SELECT FROM BOOK "
-                        + "WHERE TITLE = " + "'" + title + "'" + ";";
+        String query = "SELECT * FROM BOOK "
+                        + "WHERE TITLE = '" + title + "';";
 
         ResultSet resultSet = null;
         try {
             resultSet = ModelManager.getInstance().executeQuery(query);
+            Book book = buildBook(resultSet);
+            resultSet.close();
+            return book;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return buildBook(resultSet);
     }
 
     /**
@@ -183,18 +180,21 @@ public class BookDAO {
      * @param ISBN the ISBN we search by
      * @return the matched book.
      */
-    public static Book findByISBN(int ISBN) {
-        String query = "SELECT FROM BOOK "
+    public static Book findByISBN(Integer ISBN) {
+        String query = "SELECT * FROM BOOK "
                 + "WHERE ISBN = " + ISBN + ";";
 
         ResultSet resultSet = null;
         try {
             resultSet = ModelManager.getInstance().executeQuery(query);
+            resultSet.next();
+            Book book = buildBook(resultSet);
+            resultSet.close();
+            return book;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return buildBook(resultSet);
     }
 
     /**
