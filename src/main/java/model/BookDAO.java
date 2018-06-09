@@ -25,7 +25,7 @@ public class BookDAO {
      */
     public static ArrayList<Book> getBooks(Integer count, Integer offset)
     {
-        String query = "SELECT * FROM BOOK LIMIT " + count + " OFFSET " + offset + ";";
+        String query = "SELECT * FROM Book LIMIT " + count + " OFFSET " + offset + ";";
         return getMatchedBooks(query);
     }
 
@@ -303,7 +303,7 @@ public class BookDAO {
                                        ArrayList<String> authorName, String pub_year, Integer offset) {
         ArrayList<Book> matchedBooks = new ArrayList<>();
         Boolean whereClause = false;
-        String query = "SELECT * FROM (Book NATURAL JOIN Author) ";
+        String query = "SELECT DISTINCT Book.* FROM (Book NATURAL JOIN Author) ";
         if (authorName != null && authorName.size() > 0) {
             String names_list = "";
             for(String name : authorName){
