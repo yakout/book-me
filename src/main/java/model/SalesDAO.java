@@ -21,49 +21,25 @@ public class SalesDAO {
     /**
      * The total sales for books in the previous month.
      */
-    public static ArrayList<Sale> getTotalSales() {
+    public static Double getTotalSales() {
 
-        String query = "SELECT DISTINCT Sale.copies, Sale.ISBN, Sale.sale_date,"
-                + " User.first_name, User.last_name "
-                + " FROM (Sale NATURAL JOIN User) "
+        String query = "SELECT  SUM(Sale.copies * price) "
+                + " FROM (Sale NATURAL JOIN Book) "
                 + " WHERE "
                 + " YEAR(Sale.sale_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) "
                 + " AND MONTH(Sale.sale_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH);";
 
-        ArrayList<Sale> total_sales = new ArrayList<>();
+        Double total_sales = 0.0;
         ResultSet result = null;
+
         try {
             result = ModelManager.getInstance().executeQuery(query);
+            total_sales = result.getDouble(1);
+            result.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return total_sales;
         }
-
-
-        try {
-            while (result.next()) {
-                String user_first_name,user_last_name;
-                Date sale_date;
-                int copies, ISBN;
-
-                copies = result.getInt(1);
-                ISBN = result.getInt(2);
-                sale_date = result.getDate(3);
-                user_first_name = result.getString(4);
-                user_last_name = result.getString(5);
-
-                Sale s = new Sale(ISBN, copies);
-                s.setUser_first_name(user_first_name);
-                s.setUser_last_name(user_last_name);
-                s.setSale_date(sale_date);
-
-                total_sales.add(s);
-            }
-            result.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         return total_sales;
     }
 
