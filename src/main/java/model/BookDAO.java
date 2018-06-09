@@ -127,10 +127,66 @@ public class BookDAO {
      * negative.
      * @param updatedBook the modified book attributes
      */
-    public static boolean modifyBook(@NotNull Book updatedBook, Integer oldISBN) {
+    public static boolean modifyBook(@NotNull Book updatedBook, Integer oldISBN, ArrayList<String> newAuthors) {
+        
+        
         /**
-         * update the existing book.
-         */
+        * delete the old ones and not exist in the updated newAuthors.
+        */
+        String new_author_names = "";
+        for(String name : newAuthors){
+            if(new_author_names.isEmpty()){
+                new_author_names += "( " + "'" + name + "'";
+            }
+            else{
+                new_author_names += " , " + "'" + name + "'";
+            }
+        }
+        new_author_names += " )";
+
+        String delete_author_query = "DELETE FROM Author WHERE ISBN = " updatedBook.getISBN() + 
+                            " AND name NOT IN" + new_author_names + " ;" ;
+
+
+        /**
+        * select the old authors then detect the new ones to be inserted.
+        */
+        String select_author_query = "SELECT name FROM Author WHERE ISBN = " updatedBook.getISBN() + " ;";
+        try {
+            ModelManager.getInstance().executeQuery(delete_author_query);
+            ResultSet rs = ModelManager.getInstance().executeQuery(select_author_query);
+            while (rs.next()) {
+                newAuthors.remove(rs.getString("name"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        String new_author_values = "";
+        for(String name : newAuthors){
+            if(new_author_values.isEmpty()){
+                new_author_values += "( " + updatedBook.getISBN() + " , " + "'" + name + "'" + " )";
+            }
+            else{
+                new_author_values += " , " + "( " + updatedBook.getISBN() + " , " + "'" + name + "'" + " )";
+            }
+        }
+        new_author_values += " ;";
+
+        String insert_author_query = "INSERT INTO Author (ISBN, name) " + new_author_values;                                                                                                          
+        try {
+            ModelManager.getInstance().executeQuery(insert_author_query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        /**
+        * update the existing book.
+        */
         String query = "UPDATE BOOK SET "
                 + "ISBN = " + updatedBook.getISBN() + " , "
                 + "title = " + "'" + updatedBook.getTitle() + "'" + " , "
@@ -142,6 +198,7 @@ public class BookDAO {
                 + "copies = " + updatedBook.getNumberOfCopies() + " "
                 + "WHERE ISBN = " + oldISBN + ";" ;
 
+        
         try {
             System.out.println(query);
             ModelManager.getInstance().executeQuery(query);
@@ -246,16 +303,23 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> find(Integer ISBN, String title, String publisherName, BookCategory category,
-                                       String authorName, String pub_year) {
+                                       ArrayList<String> authorName, String pub_year) {
         ArrayList<Book> matchedBooks = new ArrayList<>();
         Boolean whereClause = false;
-        String query = "SELECT * FROM ";
-        if(authorName != null){
-            query += "( Book NATURAL JOIN Author ) " + "WHERE author_name = " + "'" + authorName + "'";
+        String query = "SELECT * FROM Book ";
+        if(authorName != null && authorName.size() > 0){
+            String names_list = "";
+            for(String name : authorName){
+                if(names_list.isEmpty()){
+                    names_list += "( " + name;
+                }
+                else{
+                    names_list += " , " + name;
+                }
+            }
+            names_list += " )";
+            query += "WHERE ( (SELECT name FROM ( Book NATURAL JOIN Author )) CONTAINS " + names_list + ") ";
             whereClause = true;
-        }
-        else{
-            query += "Book";
         }
         List<String> conditions = new ArrayList<String>();
 
