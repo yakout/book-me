@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `bookme`.`Book` (
   `ISBN` INT UNSIGNED NOT NULL,
   `title` VARCHAR(300) NOT NULL,
   `publisher` VARCHAR(100) NOT NULL,
-  `publication_year` CHAR(4),
+  `publication_year` DATE NULL DEFAULT NULL,
   `category` VARCHAR(45) NOT NULL,
   `price` DOUBLE UNSIGNED NULL DEFAULT 10,
   `threshold` INT UNSIGNED NULL DEFAULT 0,
@@ -130,14 +130,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bookme`.`User` (
   `user_id` VARCHAR(36) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `password` blob NOT NULL,
-  `salt` blob NOT NULL,
+  `passowrd` VARCHAR(50) NOT NULL,
   `first_name` VARCHAR(30) NOT NULL,
   `last_name` VARCHAR(30) NOT NULL,
   `phone_number` VARCHAR(45) NOT NULL,
   `shipping_address` VARCHAR(100) NOT NULL,
-  `is_manager` TINYINT NULL DEFAULT 0,
+  `is_manger` TINYINT NULL DEFAULT 0,
+  `email` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB;
 
@@ -174,7 +173,7 @@ CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`ModifyBook` BEFORE UPDATE ON `Bo
 BEGIN
 
 if new.copies < 0 then
-	signal sqlstate '45000';
+	signal sqlstate '45000';	
 end if;
 
 END$$
@@ -187,8 +186,8 @@ declare to_order INT;
 
 set to_order = new.copies - new.threshold;
 
-if to_order < 0 then
-	insert into bookme.order values (UUID(), new.ISBN, -1*to_order);
+if to_order < 0 then 
+	insert into bookme.order values (UUID(), new.ISBN, to_order);
  end if;
 
 END$$
@@ -202,7 +201,7 @@ update book set copies = copies + old.quantity where ISBN = old.ISBN;
 END$$
 
 USE `bookme`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`Sale_AFTER_INSERT` AFTER INSERT ON `Sale` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`MakeSale` AFTER INSERT ON `Sale` FOR EACH ROW
 BEGIN
 	update `bookme`.Book set copies = copies - new.copies where ISBN = new.ISBN;
 END$$
