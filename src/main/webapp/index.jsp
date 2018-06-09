@@ -2,6 +2,7 @@
 <%@ page import="model.BookDAO" %>
 <%@ page import="beans.Book" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="model.ModelManager" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -186,7 +187,12 @@
                         if (request.getAttribute("searchResults") != null) {
                             books = (ArrayList<Book>) request.getAttribute("searchResults");
                         } else {
-                            books = BookDAO.getBooks(20);
+                            books = BookDAO.getBooks(ModelManager.getPagecount(), session.getAttribute("offset") == null ? 0 :
+                                    (Integer) session.getAttribute("offset"));
+                            if (books.isEmpty()) {
+                                session.setAttribute("offset", (Integer) session.getAttribute("offset") -
+                                        ModelManager.getPagecount());
+                            }
                         }
                     %>
 
@@ -238,6 +244,15 @@
 
                 </div>
                 <!-- /.row -->
+
+                <nav aria-label="Books Navigation">
+                    <ul class="pagination justify-content-center">
+                        <form action="pagination.jsp">
+                            <input class="btn btn-dark" type="submit" name="action" value="< Previous">
+                            <input class="btn btn-dark" type="submit" name="action" value="Next >">
+                        </form>
+                    </ul>
+                </nav>
 
             </div>
             <!-- /.col-lg-9 -->

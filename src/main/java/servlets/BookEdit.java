@@ -79,7 +79,15 @@ public class BookEdit extends HttpServlet {
 
         book.setNumberOfCopies(Integer.parseInt(originalCopies));
 
-        if (!BookDAO.modifyBook(book, Integer.parseInt(oldISBN))) {
+        ArrayList<String> authors = new ArrayList<>();
+        for (String author : BookDAO.getBookAuthors(Integer.parseInt(oldISBN))) {
+            String new_author = request.getParameter(author);
+            if (!new_author.isEmpty()) {
+                authors.add(new_author);
+            }
+        }
+
+        if (!BookDAO.modifyBook(book, Integer.parseInt(oldISBN), authors)) {
             request.setAttribute("errorMessage", "Updating book info failed.");
             request.getRequestDispatcher("editBook.jsp").forward(request, response);
         } else {

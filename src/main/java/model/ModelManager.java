@@ -12,6 +12,7 @@ public class ModelManager {
     private static String pass = "yakout"; // yakout
     private static ModelManager model;
     private Connection connection;
+    static private int pagecount = 3;
 
     private ModelManager() {
         startConnection();
@@ -43,6 +44,10 @@ public class ModelManager {
         Statement statement = connection.createStatement();
         statement.execute(query);
         return statement.getResultSet();
+    }
+
+    static public int getPagecount() {
+        return pagecount;
     }
 
     public void closeConnection() {

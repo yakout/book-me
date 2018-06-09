@@ -23,9 +23,9 @@ public class BookDAO {
      * @param count
      * @return array of book beans.
      */
-    public static ArrayList<Book> getBooks(Integer count)
+    public static ArrayList<Book> getBooks(Integer count, Integer offset)
     {
-        String query = "SELECT * FROM BOOK LIMIT " + count + ";";
+        String query = "SELECT * FROM BOOK LIMIT " + count + " OFFSET " + offset + ";";
         return getMatchedBooks(query);
     }
 
@@ -134,24 +134,23 @@ public class BookDAO {
         * delete the old ones and not exist in the updated newAuthors.
         */
         String new_author_names = "";
-        for(String name : newAuthors){
+        for(String name : newAuthors) {
             if(new_author_names.isEmpty()){
                 new_author_names += "( " + "'" + name + "'";
-            }
-            else{
+            } else {
                 new_author_names += " , " + "'" + name + "'";
             }
         }
         new_author_names += " )";
 
-        String delete_author_query = "DELETE FROM Author WHERE ISBN = " oldISBN + 
+        String delete_author_query = "DELETE FROM Author WHERE ISBN = " + oldISBN +
                             " AND name NOT IN" + new_author_names + " ;" ;
 
 
         /**
         * select the old authors then detect the new ones to be inserted.
         */
-        String select_author_query = "SELECT name FROM Author WHERE ISBN = " oldISBN + " ;";
+        String select_author_query = "SELECT name FROM Author WHERE ISBN = " + oldISBN + " ;";
         try {
             ModelManager.getInstance().executeQuery(delete_author_query);
             ResultSet rs = ModelManager.getInstance().executeQuery(select_author_query);
@@ -303,22 +302,22 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> find(Integer ISBN, String title, String publisherName, BookCategory category,
-                                       ArrayList<String> authorName, String pub_year) {
+                                       ArrayList<String> authorName, String pub_year, Integer offset) {
         ArrayList<Book> matchedBooks = new ArrayList<>();
         Boolean whereClause = false;
-        String query = "SELECT * FROM Book ";
-        if(authorName != null && authorName.size() > 0){
+        String query = "SELECT * FROM (Book NATURAL JOIN Author) ";
+        if (authorName != null && authorName.size() > 0) {
             String names_list = "";
             for(String name : authorName){
                 if(names_list.isEmpty()){
-                    names_list += "( " + name;
+                    names_list += "\" " + name;
                 }
-                else{
+                else {
                     names_list += " , " + name;
                 }
             }
-            names_list += " )";
-            query += "WHERE ( (SELECT name FROM ( Book NATURAL JOIN Author )) CONTAINS " + names_list + ") ";
+            names_list += " \"";
+            query += "WHERE (FIND_IN_SET (author_name, " + names_list + "))";
             whereClause = true;
         }
         List<String> conditions = new ArrayList<String>();
@@ -342,7 +341,7 @@ public class BookDAO {
                 }
             }
         }
-        query += ";";
+        query += " LIMIT 3 OFFSET " + (offset == null? 0 : offset) + ";";
         System.out.println(query);
         return getMatchedBooks(query);
     }
