@@ -144,14 +144,14 @@ public class BookDAO {
         }
         new_author_names += " )";
 
-        String delete_author_query = "DELETE FROM Author WHERE ISBN = " updatedBook.getISBN() + 
+        String delete_author_query = "DELETE FROM Author WHERE ISBN = " oldISBN + 
                             " AND name NOT IN" + new_author_names + " ;" ;
 
 
         /**
         * select the old authors then detect the new ones to be inserted.
         */
-        String select_author_query = "SELECT name FROM Author WHERE ISBN = " updatedBook.getISBN() + " ;";
+        String select_author_query = "SELECT name FROM Author WHERE ISBN = " oldISBN + " ;";
         try {
             ModelManager.getInstance().executeQuery(delete_author_query);
             ResultSet rs = ModelManager.getInstance().executeQuery(select_author_query);
@@ -167,10 +167,10 @@ public class BookDAO {
         String new_author_values = "";
         for(String name : newAuthors){
             if(new_author_values.isEmpty()){
-                new_author_values += "( " + updatedBook.getISBN() + " , " + "'" + name + "'" + " )";
+                new_author_values += "( " + oldISBN + " , " + "'" + name + "'" + " )";
             }
             else{
-                new_author_values += " , " + "( " + updatedBook.getISBN() + " , " + "'" + name + "'" + " )";
+                new_author_values += " , " + "( " + oldISBN + " , " + "'" + name + "'" + " )";
             }
         }
         new_author_values += " ;";
