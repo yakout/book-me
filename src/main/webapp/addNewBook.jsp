@@ -98,10 +98,9 @@
             <h3 class="mb-0">Add New Book</h3>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off" method="post" action="/addBook">
+            <form class="form" role="form" autocomplete="off" method="post" action="/BookUpdate">
 
-                <input type="hidden" value="" name="oldISBN">
-                <input type="hidden" value="" name="originalCopies">
+                <input type="hidden" value="add" name="action">
 
                 <div class="form-group">
                     <label for="ISBN">ISBN</label>
@@ -140,6 +139,12 @@
                     <input type="text" class="form-control" value=""  id="threshold"
                            name="threshold"
                            placeholder="Book Threshold" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="threshold">Copies Available</label>
+                    <input type="text" class="form-control" value=""  id="copies"
+                           name="copies" placeholder="Book Copies Available" required>
                 </div>
 
                 <div class="form-group">
