@@ -53,15 +53,10 @@ public class BookDAO {
 
     static public ArrayList<String> getBookAuthors(Integer ISBN) {
         ArrayList<String> authors = new ArrayList<>();
-        String query = "SELECT author_name FROM AUTHOR WHERE ISBN = '" + ISBN + "';";
+        String query = "SELECT author_name FROM AUTHOR WHERE ISBN = " + ISBN + ";";
         ResultSet rs = null;
         try {
             rs = ModelManager.getInstance().executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return authors;
-        }
-        try {
             while (rs.next()) {
                 authors.add(rs.getString("author_name"));
             }
@@ -132,24 +127,86 @@ public class BookDAO {
      * negative.
      * @param updatedBook the modified book attributes
      */
-    public static void modifyBook(@NotNull Book updatedBook) {
+    public static boolean modifyBook(@NotNull Book updatedBook, Integer oldISBN, ArrayList<String> newAuthors) {
+        
+        
         /**
-         * update the existing book.
-         */
-        String query = "UPDATE BOOK SET "
-                + "title = " + "'" + updatedBook.getTitle() + "'" + " , "
-                + "publisher = " + "'" + updatedBook.getPublisherName() + "'" + " , "
-                + "category = " + "'" + updatedBook.getCategory() + "'" + " , "
-                + "price = " + updatedBook.getPrice() + " , "
-                + "threshold = " + updatedBook.getThreshold() + " , "
-                + "copies = " + updatedBook.getNumberOfCopies()
-                + "WHERE ISBN = " + updatedBook.getISBN() + ";" ;
+        * delete the old ones and not exist in the updated newAuthors.
+        */
+        String new_author_names = "";
+        for(String name : newAuthors){
+            if(new_author_names.isEmpty()){
+                new_author_names += "( " + "'" + name + "'";
+            }
+            else{
+                new_author_names += " , " + "'" + name + "'";
+            }
+        }
+        new_author_names += " )";
 
+        String delete_author_query = "DELETE FROM Author WHERE ISBN = " oldISBN + 
+                            " AND name NOT IN" + new_author_names + " ;" ;
+
+
+        /**
+        * select the old authors then detect the new ones to be inserted.
+        */
+        String select_author_query = "SELECT name FROM Author WHERE ISBN = " oldISBN + " ;";
         try {
-            ModelManager.getInstance().executeQuery(query);
+            ModelManager.getInstance().executeQuery(delete_author_query);
+            ResultSet rs = ModelManager.getInstance().executeQuery(select_author_query);
+            while (rs.next()) {
+                newAuthors.remove(rs.getString("name"));
+            }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+        String new_author_values = "";
+        for(String name : newAuthors){
+            if(new_author_values.isEmpty()){
+                new_author_values += "( " + oldISBN + " , " + "'" + name + "'" + " )";
+            }
+            else{
+                new_author_values += " , " + "( " + oldISBN + " , " + "'" + name + "'" + " )";
+            }
+        }
+        new_author_values += " ;";
+
+        String insert_author_query = "INSERT INTO Author (ISBN, name) " + new_author_values;                                                                                                          
+        try {
+            ModelManager.getInstance().executeQuery(insert_author_query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        /**
+        * update the existing book.
+        */
+        String query = "UPDATE BOOK SET "
+                + "ISBN = " + updatedBook.getISBN() + " , "
+                + "title = " + "'" + updatedBook.getTitle() + "'" + " , "
+                + "publisher = " + "'" + updatedBook.getPublisherName() + "'" + " , "
+                + "publication_year = " + "'" + updatedBook.getPublicationYear() + "'" + " , "
+                + "category = " + "'" + updatedBook.getCategory().toString() + "'" + " , "
+                + "price = " + updatedBook.getPrice() + " , "
+                + "threshold = " + updatedBook.getThreshold() + " , "
+                + "copies = " + updatedBook.getNumberOfCopies() + " "
+                + "WHERE ISBN = " + oldISBN + ";" ;
+
+        
+        try {
+            System.out.println(query);
+            ModelManager.getInstance().executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
@@ -165,17 +222,19 @@ public class BookDAO {
      * @return the matched book.
      */
     public static Book findByTitle(@NotNull String title) {
-        String query = "SELECT FROM BOOK "
-                        + "WHERE TITLE = " + "'" + title + "'" + ";";
+        String query = "SELECT * FROM BOOK "
+                        + "WHERE TITLE = '" + title + "';";
 
         ResultSet resultSet = null;
         try {
             resultSet = ModelManager.getInstance().executeQuery(query);
+            Book book = buildBook(resultSet);
+            resultSet.close();
+            return book;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return buildBook(resultSet);
     }
 
     /**
@@ -183,18 +242,21 @@ public class BookDAO {
      * @param ISBN the ISBN we search by
      * @return the matched book.
      */
-    public static Book findByISBN(int ISBN) {
-        String query = "SELECT FROM BOOK "
+    public static Book findByISBN(Integer ISBN) {
+        String query = "SELECT * FROM BOOK "
                 + "WHERE ISBN = " + ISBN + ";";
 
         ResultSet resultSet = null;
         try {
             resultSet = ModelManager.getInstance().executeQuery(query);
+            resultSet.next();
+            Book book = buildBook(resultSet);
+            resultSet.close();
+            return book;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return buildBook(resultSet);
     }
 
     /**
@@ -241,16 +303,23 @@ public class BookDAO {
      * @return the matched books.
      */
     public static ArrayList<Book> find(Integer ISBN, String title, String publisherName, BookCategory category,
-                                       String authorName, String pub_year) {
+                                       ArrayList<String> authorName, String pub_year) {
         ArrayList<Book> matchedBooks = new ArrayList<>();
         Boolean whereClause = false;
-        String query = "SELECT * FROM ";
-        if(authorName != null){
-            query += "( Book NATURAL JOIN Author ) " + "WHERE author_name = " + "'" + authorName + "'";
+        String query = "SELECT * FROM Book ";
+        if(authorName != null && authorName.size() > 0){
+            String names_list = "";
+            for(String name : authorName){
+                if(names_list.isEmpty()){
+                    names_list += "( " + name;
+                }
+                else{
+                    names_list += " , " + name;
+                }
+            }
+            names_list += " )";
+            query += "WHERE ( (SELECT name FROM ( Book NATURAL JOIN Author )) CONTAINS " + names_list + ") ";
             whereClause = true;
-        }
-        else{
-            query += "Book";
         }
         List<String> conditions = new ArrayList<String>();
 

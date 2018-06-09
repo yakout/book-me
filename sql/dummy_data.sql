@@ -17,10 +17,6 @@ insert into Book values (3, "The Art of War", "Unknown", "1999", "History", 12.9
 insert into Book values (4, "1984", "Unknown", "2003", "History", 27.0, 5, 10);
 insert into Book values (5, "The New Drawing on the Right Side of the Brain (Paperback) ", "Unknown", "2011", "Art", 39.0, 5, 10);
 
-
-
-
-
 insert into Author values("Yakout", 0);
 insert into Author values("Ahmed", 1);
 insert into Author values("Essam", 2);
@@ -30,3 +26,7 @@ insert into Author values("Khamis", 5);
 insert into Author values("Hamada", 5);
 insert into Author values("King", 5);
 insert into Author values("Ali", 2);
+
+
+-- ****** after registering the email ****
+update user set is_manager = 1 where email = 'iyakout@hotmail.com';
