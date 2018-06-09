@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TopTenBooks" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55f4c0b7-7de0-4bad-b2b5-fea3f2e6c9df">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[YFNhbGVgICwxMTMsMTUsMmU1OGIwNzYtNjEwNC00ODc0LWI4OGUtMTBkMjEzNjJlMDBjO2BCb29r
+YCAsMTUsMjksMTk3OTBlNGYtZjM3YS00NmJjLWJmYWYtZWUwNWU1NjVmYjczOw==]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Book-me"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT DISTINCT Book.*,
+	SUM( Sale.copies) AS sum_copies
+FROM `Book`,
+	`Sale`
+WHERE 
+	 `Book`.`ISBN` = `Sale`.`ISBN` 
+GROUP BY `Book`.`ISBN`]]>
+	</queryString>
+	<field name="ISBN" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="ISBN"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Book"/>
+	</field>
+	<field name="title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Book"/>
+	</field>
+	<field name="publisher" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="publisher"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Book"/>
+	</field>
+	<field name="publication_year" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="publication_year"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Book"/>
+	</field>
+	<field name="category" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="category"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Book"/>
+	</field>
+	<field name="price" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="price"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Book"/>
+	</field>
+	<field name="sum_copies" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="sum_copies"/>
+	</field>
+	<group name="ISBN">
+		<groupExpression><![CDATA[$F{ISBN}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="230" y="20" width="100" height="30" uuid="f6c2424d-9308-42cd-a942-d00b7b6d357c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Top 10 Books]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="100" height="30" uuid="626f7b0b-8992-4c6c-bea5-e676436c29de"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ISBN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="10" width="100" height="30" uuid="c857782b-8de4-4372-a26e-1a2eeadc4b34"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="10" width="100" height="30" uuid="6f541d2c-77c0-4570-92a2-4b2de36d0ed3"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Category]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="10" width="100" height="30" uuid="46207b67-0333-400f-ac12-3c202ca631af"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="10" width="100" height="30" uuid="f38e50f5-c356-43f2-b008-6381ce5c36f3"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Total Saled Copies]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="70" width="100" height="30" uuid="258771ec-71e6-463b-b431-c461b40cc03b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{ISBN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="70" width="100" height="30" uuid="74ab3cc7-2d6d-4077-9bb2-da82eb36b9be"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="70" width="100" height="30" uuid="1e6c415a-3321-40ca-8242-9013d5436842"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sum_copies}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="70" width="100" height="30" uuid="fd4ac89a-0974-4b03-8b9d-871b285e3ce1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="70" width="100" height="30" uuid="1c167331-4b86-4cb1-84a2-2f90ff92795c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

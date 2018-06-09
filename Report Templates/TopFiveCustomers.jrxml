@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TopFiveCustomers" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3a9697c2-57b5-43af-8581-ae15d7907f4f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="269"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="719"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Book-me"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT User.* , SUM(Sale.copies) AS sum_copies,
+ SUM(Sale.copies * Book.price) AS sum_paid
+ FROM Sale,Book,User
+ WHERE   YEAR(Sale.sale_date) >= YEAR(CURRENT_DATE - INTERVAL 3 MONTH)
+AND YEAR(Sale.sale_date) <= YEAR(CURRENT_DATE)
+AND MONTH(Sale.sale_date) >= MONTH(CURRENT_DATE - INTERVAL 3 MONTH)
+AND MONTH(Sale.sale_date) <= MONTH(CURRENT_DATE)
+AND Sale.ISBN=Book.ISBN AND Sale.user_id = User.user_id
+GROUP BY User.user_id 
+ORDER BY sum_paid DESC
+LIMIT 5]]>
+	</queryString>
+	<field name="user_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="user_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="User"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="User"/>
+	</field>
+	<field name="first_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="first_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="User"/>
+	</field>
+	<field name="last_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="last_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="User"/>
+	</field>
+	<field name="phone_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="phone_number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="User"/>
+	</field>
+	<field name="shipping_address" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="shipping_address"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="User"/>
+	</field>
+	<field name="sum_copies" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="sum_copies"/>
+	</field>
+	<field name="sum_paid" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="sum_paid"/>
+	</field>
+	<group name="user_id">
+		<groupExpression><![CDATA[$F{user_id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="230" y="20" width="100" height="30" uuid="09ca19b8-0212-451d-be19-ef185afc2f03"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Top 5 Customers]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="60" width="100" height="30" uuid="78728ceb-01b1-422c-b016-bd25107ef51b"/>
+				<textFieldExpression><![CDATA[$F{first_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="10" width="100" height="30" uuid="b97a947e-c4b3-42b4-a8d1-fdb4461cbb31"/>
+				<text><![CDATA[First name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="10" width="100" height="30" uuid="585462ba-0513-420e-9dab-bf3818194c2e"/>
+				<text><![CDATA[Last name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="10" width="100" height="30" uuid="f3389cff-2f30-412e-91e3-51b0f7bf98cf"/>
+				<text><![CDATA[E-mail]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="10" width="100" height="30" uuid="d7841dbc-6663-49d9-a5d4-a456d75b3d12"/>
+				<text><![CDATA[Copies]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="10" width="100" height="30" uuid="52ec4c63-89ad-4da3-85d3-755416c8bebd"/>
+				<text><![CDATA[Paid]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="60" width="100" height="30" uuid="4bdc14e4-a8f8-4237-969e-5b42d1dc043e"/>
+				<textFieldExpression><![CDATA[$F{last_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="60" width="100" height="30" uuid="24cd3e90-d9af-4493-8c86-9fb05272cd66"/>
+				<textFieldExpression><![CDATA[$F{sum_paid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="60" width="100" height="30" uuid="177fe9a4-7ffa-404b-9d19-7f1263a26562"/>
+				<textFieldExpression><![CDATA[$F{sum_copies}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="60" width="100" height="30" uuid="514321aa-607e-4ef6-8ee3-f0564c7f6007"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
