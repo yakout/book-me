@@ -51,8 +51,10 @@ public class SalesDAO {
         String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies, "
                 + " SUM(Sale.copies * Book.price) AS sum_paid "
                 + " FROM (Sale NATURAL JOIN Book NATURAL JOIN User)"
-                + " WHERE " + " YEAR(sale_date) = YEAR(CURRENT_DATE - INTERVAL 3 MONTH) "
-                + " AND MONTH(sale_date) = MONTH(CURRENT_DATE - INTERVAL 3 MONTH) "
+                + " WHERE " + " YEAR(sale_date) >= YEAR(CURRENT_DATE - INTERVAL 3 MONTH) "
+                + " AND MONTH(sale_date) >= MONTH(CURRENT_DATE - INTERVAL 3 MONTH) "
+                + " AND YEAR(sale_date) < YEAR(CURRENT_DATE) "
+                + " AND MONTH(sale_date) < MONTH(CURRENT_DATE) "
                 + " GROUP BY User.user_id "
                 + " ORDER BY sum_paid DESC"
                 + " LIMIT 5 ;";
