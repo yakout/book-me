@@ -4,7 +4,7 @@
 <html>
 
 <head>
-    <title>User Promotion</title>
+    <title>Statistics</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -95,25 +95,27 @@
     <!-- form card register -->
     <div class="card card-outline-secondary">
         <div class="card-header">
-            <h3 class="mb-0">Promote User</h3>
+            <h3 class="mb-0">Statistics</h3>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off" method="post" action="/profile">
-
-                <input type="hidden" value="promote" name="action">
-
+            <form class="form" role="form" autocomplete="off" method="post" action="/Statistics">
                 <div class="form-group">
-                    <label for="email">User Email</label>
-                    <input type="text" class="form-control"
-                           value="" id="email" name="email" placeholder="email" required>
+                    <label for="stat1">Show the total sales for books in the previous month</label>
+                    <br>
+                    <input type="submit" class="btn btn-secondary" id="stat1" name="stat1" value="Show" style="width: 100%">
                 </div>
-
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-lg float-right">Promote</button>
+                    <label for="stat2">Show the top 5 customers who purchase the most purchase amount in
+                        descending order for the last three months</label>
+                    <br>
+                    <input type="submit" class="btn btn-secondary" id="stat2" name="stat2" value="Show" style="width: 100%">
                 </div>
-
+                <div class="form-group">
+                    <label for="stat3">Show the top 10 selling books for the last three months</label>
+                    <br>
+                    <input type="submit" class="btn btn-secondary" id="stat3" name="stat3" value="Show" style="width: 100%">
+                </div>
             </form>
-
         </div>
     </div>
     <!-- /form card register -->

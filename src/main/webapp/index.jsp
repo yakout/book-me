@@ -89,6 +89,12 @@
                         </a>
                     </li>
 
+                    <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
+                    <li class="nav-item">
+                        <a href="statistics.jsp" class="nav-link"><i class="fa fa-bar-chart"></i> Statistics</a>
+                    </li>
+                    <% } %>
+
                     <li class="nav-item">
                         <a href="logout" class="nav-link"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
                     </li>
