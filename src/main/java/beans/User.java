@@ -17,6 +17,15 @@ public class User {
      *  will be used by Statistics.
      * */
     int sum_copies;
+    int sum_paid;
+
+    public int getSum_paid() {
+        return sum_paid;
+    }
+
+    public void setSum_paid(int sum_paid) {
+        this.sum_paid = sum_paid;
+    }
 
     public int getSum_copies() {
         return sum_copies;

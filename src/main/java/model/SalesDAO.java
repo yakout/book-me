@@ -23,7 +23,7 @@ public class SalesDAO {
      */
     public static ArrayList<Sale> getTotalSales() {
 
-        String query = "SELECT Sale.copies, Sale.ISBN, Sale.sale_date,"
+        String query = "SELECT DISTINCT Sale.copies, Sale.ISBN, Sale.sale_date,"
                 + " User.first_name, User.last_name "
                 + " FROM (Sale NATURAL JOIN User) "
                 + " WHERE " + " YEAR(Sale.sale_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) "
@@ -73,12 +73,13 @@ public class SalesDAO {
      */
     public static ArrayList<User> getTopFiveCustomers() {
         ArrayList<User> top_five = new ArrayList<>();
-        String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies "
-                + " FROM (Sale NATURAL JOIN User)"
+        String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies, "
+                + " SUM(Sale.copies * Book.price) AS sum_paid "
+                + " FROM (Sale NATURAL JOIN Book NATURAL JOIN User)"
                 + " WHERE " + " YEAR(sale_date) = YEAR(CURRENT_DATE - INTERVAL 3 MONTH) "
                 + " AND MONTH(sale_date) = MONTH(CURRENT_DATE - INTERVAL 3 MONTH) "
                 + " GROUP BY User.user_id "
-                + " ORDER BY sum_copies DESC"
+                + " ORDER BY sum_paid DESC"
                 + " LIMIT 5 ;";
 
         ResultSet result = null;
@@ -94,7 +95,7 @@ public class SalesDAO {
             while (result.next()){
                 String email,  fName,  lName,  phoneNumber,  shippingAddress;
 
-                int sum_copies;
+                int sum_copies , sum_paid;
 
                 email = result.getString("email");
                 fName = result.getString("first_name");
@@ -102,9 +103,11 @@ public class SalesDAO {
                 phoneNumber = result.getString("phone_number");
                 shippingAddress = result.getString("shipping_address");
                 sum_copies = result.getInt("sum_copies");
+                sum_paid = result.getInt("sum_paid");
 
                 User u = new User(email,fName,lName,phoneNumber,shippingAddress);
                 u.setSum_copies(sum_copies);
+                u.setSum_paid(sum_paid);
 
                 top_five.add(u);
 
