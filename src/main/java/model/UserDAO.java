@@ -16,6 +16,7 @@ import java.util.Arrays;
  *      2. login user.
  *      3. get user as bean.
  *      4. update user.
+ *      5. promote user.
  */
 public class UserDAO {
     /**
@@ -176,5 +177,16 @@ public class UserDAO {
         }
 
         return false;
+    }
+
+    public static boolean promoteUser(String email) {
+        String query = "update user set is_manager = 1 where email = '" + email + "';";
+        try {
+            ModelManager.getInstance().executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

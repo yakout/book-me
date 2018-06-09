@@ -19,6 +19,17 @@ public class Profile extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+        if (request.getParameter("action").equals("promote")) {
+            if (UserDAO.promoteUser(request.getParameter("email"))) {
+                request.setAttribute("successMessage", "Promotion Done.");
+                request.getRequestDispatcher("promoteUser.jsp").forward(request, response);
+            } else {
+                request.setAttribute("errorMessage", "Promotion Failed.");
+                request.getRequestDispatcher("promoteUser.jsp").forward(request, response);
+            }
+            return;
+        }
+
         User new_user = new User(
                 request.getParameter("email"),
                 request.getParameter("FName"),
