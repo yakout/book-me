@@ -9,6 +9,7 @@ import com.sun.istack.internal.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 
 /**
  *
@@ -20,23 +21,46 @@ public class SalesDAO {
     /**
      * The total sales for books in the previous month.
      */
-    public static int getTotalSales() {
+    public static ArrayList<Sale> getTotalSales() {
 
-        String query = "SELECT SUM(copies) FROM Sale"
-                + " WHERE " + " YEAR(sale_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) "
-                + " AND MONTH(sale_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) ;";
+        String query = "SELECT Sale.copies, Sale.ISBN, Sale.sale_date,"
+                + " User.first_name, User.last_name "
+                + " FROM (Sale NATURAL JOIN User) "
+                + " WHERE " + " YEAR(Sale.sale_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) "
+                + " AND MONTH(Sale.sale_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH);";
 
+        ArrayList<Sale> total_sales = new ArrayList<>();
         ResultSet result = null;
         try {
             result = ModelManager.getInstance().executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
+            return total_sales;
         }
 
-        int total_sales = -1;
 
         try {
-            total_sales = result.getInt(1);
+            while (result.next()){
+                String user_first_name,user_last_name;
+                Date sale_date;
+                int copies , ISBN;
+
+                copies = result.getInt(1);
+                ISBN = result.getInt(2);
+                sale_date = result.getDate(3);
+                user_first_name = result.getString(4);
+                user_last_name = result.getString(5);
+
+
+
+                Sale s = new Sale(ISBN,copies);
+                s.setUser_first_name(user_first_name);
+                s.setUser_last_name(user_last_name);
+                s.setSale_date(sale_date);
+
+                total_sales.add(s);
+
+            }
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -49,11 +73,10 @@ public class SalesDAO {
      */
     public static ArrayList<User> getTopFiveCustomers() {
         ArrayList<User> top_five = new ArrayList<>();
-        String query = "SELECT User.* , SUM(copies) AS sum_copies "
-                + " FROM Sale , User"
+        String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies "
+                + " FROM (Sale NATURAL JOIN User)"
                 + " WHERE " + " YEAR(sale_date) = YEAR(CURRENT_DATE - INTERVAL 3 MONTH) "
                 + " AND MONTH(sale_date) = MONTH(CURRENT_DATE - INTERVAL 3 MONTH) "
-                + " AND Sale.user_id = User.user_id "
                 + " GROUP BY User.user_id "
                 + " ORDER BY sum_copies DESC"
                 + " LIMIT 5 ;";
@@ -70,17 +93,18 @@ public class SalesDAO {
 
             while (result.next()){
                 String email,  fName,  lName,  phoneNumber,  shippingAddress;
-                byte[] password;
+
+                int sum_copies;
 
                 email = result.getString("email");
-                password = result.getBytes("password");
                 fName = result.getString("first_name");
                 lName = result.getString("last_name");
                 phoneNumber = result.getString("phone_number");
                 shippingAddress = result.getString("shipping_address");
+                sum_copies = result.getInt("sum_copies");
 
                 User u = new User(email,fName,lName,phoneNumber,shippingAddress);
-                u.setEncryptedPassword(password);
+                u.setSum_copies(sum_copies);
 
                 top_five.add(u);
 
@@ -100,10 +124,8 @@ public class SalesDAO {
     public static ArrayList<Book> getTopTenBooks() {
         ArrayList<Book> top_ten = new ArrayList<>();
 
-        String query = "SELECT Book.* , SUM(copies) AS sum_copies "
-                + " FROM Sale , Book"
-                + " WHERE "
-                + " Sale.ISBN = Book.ISBN "
+        String query = "SELECT Book.* , SUM(Sale.copies) AS sum_copies "
+                + " FROM (Book NATURAL JOIN Sale)"
                 + " GROUP BY Book.ISBN "
                 + " ORDER BY sum_copies DESC"
                 + " LIMIT 10 ;";
@@ -126,7 +148,7 @@ public class SalesDAO {
                 book.setPrice(result.getDouble("price"));
                 book.setThreshold(result.getInt("threshold"));
                 book.setNumberOfCopies(result.getInt("copies"));
-
+                book.setNumberOfSalesCopies(result.getInt("sum_copies"));
                 top_ten.add(book);
 
             }

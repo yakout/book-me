@@ -13,7 +13,19 @@ public class User {
     private String shippingAddress;
     private boolean isManager;
 
-    private List<Book> shoppingCart;
+    /**
+     *  will be used by Statistics.
+     * */
+    int sum_copies;
+
+    public int getSum_copies() {
+        return sum_copies;
+    }
+
+    public void setSum_copies(int sum_copies) {
+        this.sum_copies = sum_copies;
+    }
+
 
     public User() {
 

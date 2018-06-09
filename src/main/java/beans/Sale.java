@@ -9,17 +9,49 @@ public class Sale {
     private String sale_name;
 
 
+    /**
+     *  will be used by statistics page.
+     * */
+    private Date sale_date;
+
+    /**
+     *  the user made that sale.
+     * */
+    private String user_first_name;
+    private String user_last_name;
+
+
+    public Date getSale_date() {
+        return sale_date;
+    }
+
+    public void setSale_date(Date sale_date) {
+        this.sale_date = sale_date;
+    }
+
+    public String getUser_first_name() {
+        return user_first_name;
+    }
+
+    public void setUser_first_name(String user_first_name) {
+        this.user_first_name = user_first_name;
+    }
+
+    public String getUser_last_name() {
+        return user_last_name;
+    }
+
+    public void setUser_last_name(String user_last_name) {
+        this.user_last_name = user_last_name;
+    }
+
     public Sale() { }
 
-    public Sale(String user_id, int ISBN, Date sale_date, int copies) {
+    public Sale(int ISBN, int copies) {
         this.ISBN = ISBN;
         this.copies = copies;
     }
 
-    public Sale(String sale_id, String user_id, int ISBN, Date sale_date, int copies) {
-        this.ISBN = ISBN;
-        this.copies = copies;
-    }
 
     public int getCopies() { return copies; }
 

@@ -12,6 +12,7 @@ public class Book {
     private int threshold;
     private int numberOfCopies;
     private ArrayList<String> authorsNames;
+    private int numberOfSalesCopies;
 
 
     // default constructor if we don't know the values yet
@@ -20,6 +21,7 @@ public class Book {
         threshold = 0;
         numberOfCopies = 0;
         publicationYear = "";
+        numberOfSalesCopies = 0;
     }
 
     // GETTERS
@@ -59,6 +61,10 @@ public class Book {
         return authorsNames;
     }
 
+    public int getNumberOfSalesCopies() {
+        return numberOfSalesCopies;
+    }
+
     // SETTERS
     public void setCategory(BookCategory category) {
         this.category = category;
@@ -94,5 +100,9 @@ public class Book {
 
     public void setAuthorsNames(ArrayList<String> authorsNames) {
         this.authorsNames = authorsNames;
+    }
+
+    public void setNumberOfSalesCopies(int numberOfSalesCopies) {
+        this.numberOfSalesCopies = numberOfSalesCopies;
     }
 }
