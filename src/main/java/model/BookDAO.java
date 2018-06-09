@@ -71,7 +71,7 @@ public class BookDAO {
      * To add a new book to the online store.
      * @param newBook the new book we want to add into our store.
      */
-    public static void addNewBook(@NotNull Book newBook) {
+    public static boolean addNewBook(@NotNull Book newBook) {
         /**
          * adding the new book.
          */
@@ -80,25 +80,18 @@ public class BookDAO {
                 + newBook.getISBN() + " , "
                 + "'" + newBook.getTitle() + "'" + " , "
                 + "'" + newBook.getPublisherName() + "'" + " , "
+                + "'" + newBook.getPublicationYear() + "'" + " , "
                 + "'" + newBook.getCategory() + "'" + " , "
                 + newBook.getPrice() + " , "
                 + newBook.getThreshold() + " , "
                 + newBook.getNumberOfCopies()
                 + " );" ;
 
-        ResultSet rs1 = null;
         try {
-            rs1 = ModelManager.getInstance().executeQuery(query);
+            ModelManager.getInstance().executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
-        }
-
-        // TODO process rs
-        try {
-            rs1.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return false;
         }
 
         /**
@@ -116,8 +109,8 @@ public class BookDAO {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
+        return true;
     }
 
     /**

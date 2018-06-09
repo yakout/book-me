@@ -100,9 +100,10 @@
             <h3 class="mb-0">Book Edit</h3>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off" method="post" action="/editBook">
+            <form class="form" role="form" autocomplete="off" method="post" action="/BookUpdate">
                 <% Book book = BookDAO.findByISBN(Integer.parseInt(request.getParameter("ISBN")));%>
 
+                <input type="hidden" value="edit" name="action">
                 <input type="hidden" value="<%=book.getISBN()%>" name="oldISBN">
                 <input type="hidden" value="<%=book.getNumberOfCopies()%>" name="originalCopies">
 

@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `bookme`.`Book`
+-- Table `bookme`.`BookUpdate`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bookme`.`Book` (
   `ISBN` INT UNSIGNED NOT NULL,
