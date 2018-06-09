@@ -182,6 +182,15 @@
 
                 <div class="my-4"></div>
 
+
+                <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
+                    <ul class="pagination justify-content-end">
+                        <form action="addNewBook.jsp">
+                            <input class="btn btn-success" type="submit" name="action" value="+ Add New Book">
+                        </form>
+                    </ul>
+                <% } %>
+
                 <div class="row">
 
                     <% ArrayList<Book> books = null;
