@@ -128,14 +128,12 @@ public class BookDAO {
      * @param updatedBook the modified book attributes
      */
     public static boolean modifyBook(@NotNull Book updatedBook, Integer oldISBN, ArrayList<String> newAuthors) {
-        
-        
         /**
         * delete the old ones and not exist in the updated newAuthors.
         */
         String new_author_names = "";
         for(String name : newAuthors) {
-            if(new_author_names.isEmpty()){
+            if (new_author_names.isEmpty()) {
                 new_author_names += "( " + "'" + name + "'";
             } else {
                 new_author_names += " , " + "'" + name + "'";
@@ -144,18 +142,20 @@ public class BookDAO {
         new_author_names += " )";
 
         String delete_author_query = "DELETE FROM Author WHERE ISBN = " + oldISBN +
-                            " AND name NOT IN" + new_author_names + " ;" ;
+                            " AND author_name NOT IN " + new_author_names + " ;" ;
 
 
         /**
         * select the old authors then detect the new ones to be inserted.
         */
-        String select_author_query = "SELECT name FROM Author WHERE ISBN = " + oldISBN + " ;";
+        String select_author_query = "SELECT author_name FROM Author WHERE ISBN = " + oldISBN + " ;";
         try {
+            System.out.println("delete_author_query: " + delete_author_query);
+            System.out.println("select_author_query: " + select_author_query);
             ModelManager.getInstance().executeQuery(delete_author_query);
             ResultSet rs = ModelManager.getInstance().executeQuery(select_author_query);
             while (rs.next()) {
-                newAuthors.remove(rs.getString("name"));
+                newAuthors.remove(rs.getString("author_name"));
             }
             rs.close();
         } catch (SQLException e) {
@@ -166,17 +166,22 @@ public class BookDAO {
         String new_author_values = "";
         for(String name : newAuthors){
             if(new_author_values.isEmpty()){
-                new_author_values += "( " + oldISBN + " , " + "'" + name + "'" + " )";
+                new_author_values += "( '" + name + "' , " + oldISBN + " )";
             }
             else{
-                new_author_values += " , " + "( " + oldISBN + " , " + "'" + name + "'" + " )";
+                new_author_values += " , " + "( '" + name + "' , " + oldISBN + " )";
             }
         }
         new_author_values += " ;";
 
-        String insert_author_query = "INSERT INTO Author (ISBN, name) " + new_author_values;                                                                                                          
+        String insert_author_query = "INSERT INTO Author VALUES" + new_author_values;
+
+
         try {
-            ModelManager.getInstance().executeQuery(insert_author_query);
+            if (!new_author_values.equals(" ;")) {
+                System.out.println("insert_author_query: " + insert_author_query);
+                ModelManager.getInstance().executeQuery(insert_author_query);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -199,7 +204,7 @@ public class BookDAO {
 
         
         try {
-            System.out.println(query);
+            System.out.println("UPDATE Book query: " + query);
             ModelManager.getInstance().executeQuery(query);
             return true;
         } catch (SQLException e) {

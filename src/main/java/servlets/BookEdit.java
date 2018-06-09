@@ -81,10 +81,14 @@ public class BookEdit extends HttpServlet {
 
         ArrayList<String> authors = new ArrayList<>();
         for (String author : BookDAO.getBookAuthors(Integer.parseInt(oldISBN))) {
-            String new_author = request.getParameter(author);
-            if (!new_author.isEmpty()) {
-                authors.add(new_author);
+            String edited_author = request.getParameter(author);
+            if (!edited_author.isEmpty()) {
+                authors.add(edited_author);
             }
+        }
+
+        if (!newAuthor.isEmpty()) {
+            authors.add(newAuthor);
         }
 
         if (!BookDAO.modifyBook(book, Integer.parseInt(oldISBN), authors)) {
