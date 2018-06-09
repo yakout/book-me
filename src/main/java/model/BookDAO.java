@@ -127,24 +127,29 @@ public class BookDAO {
      * negative.
      * @param updatedBook the modified book attributes
      */
-    public static void modifyBook(@NotNull Book updatedBook) {
+    public static boolean modifyBook(@NotNull Book updatedBook, Integer oldISBN) {
         /**
          * update the existing book.
          */
         String query = "UPDATE BOOK SET "
+                + "ISBN = " + updatedBook.getISBN() + " , "
                 + "title = " + "'" + updatedBook.getTitle() + "'" + " , "
                 + "publisher = " + "'" + updatedBook.getPublisherName() + "'" + " , "
-                + "category = " + "'" + updatedBook.getCategory() + "'" + " , "
+                + "publication_year = " + "'" + updatedBook.getPublicationYear() + "'" + " , "
+                + "category = " + "'" + updatedBook.getCategory().toString() + "'" + " , "
                 + "price = " + updatedBook.getPrice() + " , "
                 + "threshold = " + updatedBook.getThreshold() + " , "
-                + "copies = " + updatedBook.getNumberOfCopies()
-                + "WHERE ISBN = " + updatedBook.getISBN() + ";" ;
+                + "copies = " + updatedBook.getNumberOfCopies() + " "
+                + "WHERE ISBN = " + oldISBN + ";" ;
 
         try {
+            System.out.println(query);
             ModelManager.getInstance().executeQuery(query);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
