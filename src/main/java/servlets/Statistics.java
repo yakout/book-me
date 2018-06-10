@@ -21,11 +21,11 @@ public class Statistics extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String reportPath = "/media/muhammed/Shared/Work/CSED19/Java/book-me/Report Templates/";
+        String reportPath = "/media/muhammed/Shared/Work/CSED19/Java/book-me/templates/";
         String file_name = "";
         if (request.getParameter("stat1") != null) {
             System.out.print("stat1");
-            file_name = "total_sales.jrxml";
+            file_name = "dummy0.jrxml";//"total_sales.jrxml";
         }
         else if (request.getParameter("stat2") != null) {
             System.out.print("stat2");
