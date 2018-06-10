@@ -50,16 +50,17 @@ public class Statistics extends HttpServlet {
             System.out.print("stat2");
             file_name = "TopFiveCustomers.jrxml";
 
-            String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies, "
-                    + " SUM(Sale.copies * Book.price) AS sum_paid "
-                    + " FROM (Sale NATURAL JOIN Book NATURAL JOIN User)"
-                    + " WHERE " + " YEAR(sale_date) >= YEAR(CURRENT_DATE - INTERVAL 3 MONTH) "
-                    + " AND MONTH(sale_date) >= MONTH(CURRENT_DATE - INTERVAL 3 MONTH) "
-                    + " AND YEAR(sale_date) < YEAR(CURRENT_DATE) "
-                    + " AND MONTH(sale_date) < MONTH(CURRENT_DATE) "
-                    + " GROUP BY User.user_id "
-                    + " ORDER BY sum_paid DESC"
-                    + " LIMIT 5 ;";
+            String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies,\n" +
+                    " SUM(Sale.copies * Book.price) AS sum_paid\n" +
+                    " FROM Sale,Book,User\n" +
+                    " WHERE   YEAR(Sale.sale_date) >= YEAR(CURRENT_DATE - INTERVAL 3 MONTH)\n" +
+                    "AND YEAR(Sale.sale_date) <= YEAR(CURRENT_DATE)\n" +
+                    "AND MONTH(Sale.sale_date) >= MONTH(CURRENT_DATE - INTERVAL 3 MONTH)\n" +
+                    "AND MONTH(Sale.sale_date) <= MONTH(CURRENT_DATE)\n" +
+                    "AND Sale.ISBN=Book.ISBN AND Sale.user_id = User.user_id\n" +
+                    "GROUP BY User.user_id \n" +
+                    "ORDER BY sum_paid DESC\n" +
+                    "LIMIT 5;";
 
             report
                     .columns(
@@ -77,11 +78,13 @@ public class Statistics extends HttpServlet {
             System.out.print("stat3");
             file_name = "TopTenBooks.jrxml";
 
-            String query = "SELECT Book.* , SUM(Sale.copies) AS sum_copies "
-                    + " FROM (Book NATURAL JOIN Sale)"
-                    + " GROUP BY Book.ISBN "
-                    + " ORDER BY sum_copies DESC"
-                    + " LIMIT 10 ;";
+            String query = "SELECT DISTINCT Book.*,\n" +
+                    "\tSUM( Sale.copies) AS sum_copies\n" +
+                    "FROM `Book`,\n" +
+                    "\t`Sale`\n" +
+                    "WHERE \n" +
+                    "\t `Book`.`ISBN` = `Sale`.`ISBN` \n" +
+                    "GROUP BY `Book`.`ISBN`;";
 
             report
                     .columns(
@@ -96,7 +99,6 @@ public class Statistics extends HttpServlet {
         }
 
         try {
-            report.show();
             response.setContentType("application/pdf");
             report.toPdf(response.getOutputStream());
             response.getOutputStream().flush();
