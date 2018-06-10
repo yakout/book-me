@@ -26,6 +26,7 @@ import static net.sf.dynamicreports.report.constant.HorizontalAlignment.CENTER;
 public class Statistics extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        JasperReportBuilder report = DynamicReports.report();
         String reportPath = "/ReportTemplates/";
         String file_name = "";
         String query = null;
@@ -36,6 +37,14 @@ public class Statistics extends HttpServlet {
             // THIS QUERY WORKS
             query = "SELECT SUM(Sale.copies * price) from Sale Join book on (Sale.ISBN = Book.ISBN) " +
                     "WHERE sale_date > (current_Date() - Interval 1 MONTH);";
+
+            report
+                    .columns(Columns.column("Total Profit Last Month", "SUM(Sale.copies * price)",
+                            DataTypes.stringType()))
+                    .title(Components.text("Total Profit Last Month")
+                            .setHorizontalAlignment(CENTER))
+                    .pageFooter(Components.pageXofY())
+                    .setDataSource(query, ModelManager.getInstance().getConnection());
         }
         else if (request.getParameter("stat2") != null) {
             System.out.print("stat2");
@@ -63,19 +72,11 @@ public class Statistics extends HttpServlet {
                     + " LIMIT 10 ;";
         }
 
-        JasperReportBuilder totalSales = DynamicReports.report();
-        totalSales
-                .columns(Columns.column("Total Profit Last Month", "SUM(Sale.copies * price)",
-                        DataTypes.stringType()))
-                .title(Components.text("Total Profit Last Month")
-                        .setHorizontalAlignment(CENTER))
-                .pageFooter(Components.pageXofY())
-                .setDataSource(query, ModelManager.getInstance().getConnection());
         try {
-            totalSales.show();
+            report.show();
 
             response.setContentType("application/pdf");
-            totalSales.toPdf(response.getOutputStream());
+            report.toPdf(response.getOutputStream());
             response.getOutputStream().flush();
             response.getOutputStream().close();
         } catch (Exception e1) {
