@@ -22,6 +22,15 @@
     <!-- Custom styles for this template -->
     <link href="css/shop-homepage.css" rel="stylesheet">
 
+    <style>
+        <% if (session.getAttribute("user") == null || !((User)session.getAttribute("user")).isManager()) {%>
+        #editsubmit
+        {
+            visibility: hidden;
+        }
+        <% } %>
+    </style>
+
     <script>
         $(document).ready(function() {
             // TODO validation for update profile form
@@ -38,26 +47,17 @@
         })
     </script>
 
-    <style>
-        <% if (session.getAttribute("user") == null || !((User)session.getAttribute("user")).isManager()) {%>
-            #editsubmit
-            {
-                visibility: hidden;
-            }
-        <% } %>
-    </style>
-
 </head>
 <body>
 
-    <% if(request.getAttribute("errorMessage") != null) { %>
+    <% if (request.getAttribute("errorMessage") != null) { %>
     <div class="alert alert-danger" id="error-alert">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Error!</strong> ${errorMessage}
     </div>
     <% } %>
 
-    <% if(request.getAttribute("successMessage") != null) { %>
+    <% if (request.getAttribute("successMessage") != null) { %>
     <div class="alert alert-success" id="success-alert">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Success!</strong> ${successMessage}
@@ -92,6 +92,10 @@
                     <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
                     <li class="nav-item">
                         <a href="statistics.jsp" class="nav-link"><i class="fa fa-bar-chart"></i> Statistics</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="orders.jsp" class="nav-link"><i class="fas fa-book"></i> Orders<a>
                     </li>
                     <% } %>
 
@@ -244,7 +248,7 @@
                                         </ul>
                                     </div>
                                     <div class="card-footer">
-                                        <form action="addToCart.jsp" class="form">
+                                        <form action="bookItem.jsp" class="form">
                                             <div class="form-group">
                                                 <input type="number" min="1" value="1" class="form-control"
                                                        name="quantity" placeholder="Quantity">
@@ -252,8 +256,13 @@
                                             <input type="hidden" value="<%=book.getTitle()%>" name="name">
                                             <input type="hidden" value="<%=book.getISBN()%>" name="ISBN">
                                             <input type="hidden" value="<%=book.getPrice()%>" name="price">
+                                            <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
+                                            <input type="submit" class="btn btn-primary" name="action"
+                                                   value="Place Order"/>
+                                            <% } else { %>
                                             <input type="submit" class="btn btn-primary" name="action"
                                                    value="Add to Cart"/>
+                                            <% } %>
                                             <input id="editsubmit" type="submit" class="btn btn-primary" name="action"
                                                    value="Edit"/>
                                         </form>
@@ -287,7 +296,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; BookMe.com 2017</p>
+            <p class="m-0 text-center text-white">Copyright &copy; BookMe.com 2018</p>
         </div>
         <!-- /.container -->
     </footer>

@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="book-me:war exploded">
+  <artifact type="war" build-on-make="true" name="book-me:war exploded">
     <output-path>$PROJECT_DIR$/target/BookMe-1.0-SNAPSHOT</output-path>
-    <root id="root">
+    <root id="archive" name="book-me_war exploded.war">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="book-me" />
