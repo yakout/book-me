@@ -1,7 +1,7 @@
 package beans;
 
 public class Order {
-    private int orderID;
+    private String orderID;
     private int ISBN;
     private int quantity;
 
@@ -10,7 +10,7 @@ public class Order {
         return ISBN;
     }
 
-    public int getOrderID() {
+    public String getOrderID() {
         return orderID;
     }
 
@@ -18,13 +18,12 @@ public class Order {
         return quantity;
     }
 
-
     // SETTERS
     public void setISBN(int ISBN) {
         this.ISBN = ISBN;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
 
