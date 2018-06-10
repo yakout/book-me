@@ -2,7 +2,11 @@ package model;
 
 import beans.Order;
 import com.sun.istack.internal.NotNull;
+import com.sun.tools.corba.se.idl.constExpr.Or;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,25 +22,21 @@ public class OrderDAO {
      * (the minimum quantity in stock) to below the given threshold.
      *
      */
-    public static void placeOrder(@NotNull Order newOrder) {
+    public static boolean placeOrder(@NotNull Order newOrder) {
         /**
-         *
          *  Inserting new Order.
-         *
          * */
-        String query = "INSERT INTO Order VALUES"
-                + "( "
-                + "'"  + newOrder.getOrderID() + "'" + " , "
-                + newOrder.getISBN() + " , "
-                + newOrder.getQuantity() + " , "
-                + " );" ;
+        String query = "INSERT INTO `Order` VALUES"
+                + "(UUID(), "
+                + newOrder.getISBN() + ", "
+                + newOrder.getQuantity() + ");" ;
         try {
             ModelManager.getInstance().executeQuery(query);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
         }
-
+        return false;
     }
 
     /**
@@ -61,6 +61,27 @@ public class OrderDAO {
             e.printStackTrace();
         }
 
+    }
+
+
+    public static ArrayList<Order> getOrders() {
+        String query = "SELECT * FROM `Order`;";
+
+        ArrayList<Order> orders = new ArrayList<>();
+        try {
+            ResultSet rs = ModelManager.getInstance().executeQuery(query);
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrderID(rs.getString("order_id"));
+                order.setISBN(rs.getInt("ISBN"));
+                order.setQuantity(rs.getInt("quantity"));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
     }
 
 }
