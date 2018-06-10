@@ -2,7 +2,6 @@ package model;
 
 import beans.Order;
 import com.sun.istack.internal.NotNull;
-import com.sun.tools.corba.se.idl.constExpr.Or;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,22 +44,21 @@ public class OrderDAO {
      * Assume that deleting the order means that the order is received from publisher
      *
      */
-    public static void confirmOrder(@NotNull Order confirmedOrder) {
+    public static boolean confirmOrder(@NotNull Order confirmedOrder) {
         /**
-         *
          * Deleting the confirmed order.
-         *
          * */
-        String query = "DELETE FROM Order"
+        String query = "DELETE FROM `Order`"
                         + " WHERE " + " order_id "
-                        + " = " + confirmedOrder.getOrderID() + " ; ";
+                        + " = " + confirmedOrder.getOrderID() + ";";
 
         try {
             ModelManager.getInstance().executeQuery(query);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return false;
     }
 
 
