@@ -184,7 +184,7 @@ CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`PlaceOrder` AFTER UPDATE ON `Boo
 BEGIN
 
 if new.copies < new.threshold then
-	insert into bookme.order values (UUID(), new.ISBN, new.threshold - new.copies);
+	insert into bookme.Order values (UUID(), new.ISBN, new.threshold - new.copies);
  end if;
 
 END$$
@@ -193,7 +193,7 @@ USE `bookme`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `bookme`.`ConfirmOrder` BEFORE DELETE ON `Order` FOR EACH ROW
 BEGIN
 
-update book set copies = copies + old.quantity where ISBN = old.ISBN;
+update Book set copies = copies + old.quantity where ISBN = old.ISBN;
 
 END$$
 

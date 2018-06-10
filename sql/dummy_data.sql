@@ -34,23 +34,23 @@ insert into Book values (3, "The Art of War", "Unknown", "1999", "History", 12.9
 insert into Book values (4, "1984", "Unknown", "2003", "History", 27.0, 5, 20);
 insert into Book values (5, "The New Drawing on the Right Side of the Brain (Paperback) ", "Unknown", "2011", "Art", 39.0, 5, 20);
 
-INSERT INTO Sale VALUES (UUID(),0, 0,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),0, 1,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),1, 2,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),1, 3,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),2, 4,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),2, 5,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),2, 0,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),3, 1,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),3, 2,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),4, 3,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),4, 4,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),5, 5,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),6, 0,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),7, 1,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),8, 2,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),9, 3,NOW(),3);
-INSERT INTO Sale VALUES (UUID(),10, 4,NOW(),3);
+INSERT INTO Sale VALUES (UUID(),0, 0,current_date()- interval 1 month,3);
+INSERT INTO Sale VALUES (UUID(),0, 1,current_date()-interval 5 month,3);
+INSERT INTO Sale VALUES (UUID(),1, 2,current_date()-interval 3 month,3);
+INSERT INTO Sale VALUES (UUID(),1, 3,current_date()-interval 1 month,3);
+INSERT INTO Sale VALUES (UUID(),2, 4,current_date()-interval 4 month,3);
+INSERT INTO Sale VALUES (UUID(),2, 5,current_date()-interval 2 month,3);
+INSERT INTO Sale VALUES (UUID(),2, 0,current_date()-interval 9 month,3);
+INSERT INTO Sale VALUES (UUID(),3, 1,current_date()-interval 7 month,3);
+INSERT INTO Sale VALUES (UUID(),3, 2,current_date()-interval 2 month,3);
+INSERT INTO Sale VALUES (UUID(),4, 3,current_date()-interval 1 month,3);
+INSERT INTO Sale VALUES (UUID(),4, 4,current_date()-interval 1 month,3);
+INSERT INTO Sale VALUES (UUID(),5, 5,current_date()-interval 4 month,3);
+INSERT INTO Sale VALUES (UUID(),6, 0,current_date()-interval 7 month,3);
+INSERT INTO Sale VALUES (UUID(),7, 1,current_date()-interval 5 month,3);
+INSERT INTO Sale VALUES (UUID(),8, 2,current_date()-interval 1 month,3);
+INSERT INTO Sale VALUES (UUID(),9, 3,current_date()-interval 5 month,3);
+INSERT INTO Sale VALUES (UUID(),10, 4,current_date()-interval 2 month,3);
 
 
 insert into Author values("Yakout", 0);

@@ -26,8 +26,24 @@ public class Statistics extends HttpServlet {
             System.out.print("stat1");
 
             // THIS QUERY WORKS
-            String query = "SELECT SUM(Sale.copies * price) from Sale Join book on (Sale.ISBN = Book.ISBN) " +
+            String query = "SELECT SUM(Sale.copies * price) from Sale Join Book on (Sale.ISBN = Book.ISBN) " +
                     "WHERE sale_date > (current_Date() - Interval 1 MONTH);";
+
+
+            /**
+             *
+             *  This is the right query as assume that we are in the middle of month May and we called to make this report
+             *  then the result will contain the sales of last Month which is April and the period I spent in May
+             *  which is not what we want, so this query below get the total sales of last month only which would be April
+             *  according to my assumption said.
+             *
+             *
+             * Extra: I have tested this Query on MySQL workbench and worked fine.
+             *             String query = "SELECT SUM(Sale.copies * price) from Sale Join book on (Sale.ISBN = Book.ISBN) " +
+             *                     "WHERE YEAR(sale_date) = YEAR(current_Date() - Interval 1 MONTH)" +
+             *                     " AND MONTH(sale_date) = MONTH(current_Date()- Interval 1 MONTH);";
+             *
+             * */
 
             report
                     .columns(Columns.column("Total Profit Last Month", "SUM(Sale.copies * price)",
