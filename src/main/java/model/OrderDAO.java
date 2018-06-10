@@ -63,7 +63,7 @@ public class OrderDAO {
 
 
     public static ArrayList<Order> getOrders() {
-        String query = "SELECT * FROM `Order`;";
+        String query = "SELECT Order.* , title FROM ( `Order` NATURAL JOIN `Book` );";
 
         ArrayList<Order> orders = new ArrayList<>();
         try {
@@ -73,6 +73,7 @@ public class OrderDAO {
                 order.setOrderID(rs.getString("order_id"));
                 order.setISBN(rs.getInt("ISBN"));
                 order.setQuantity(rs.getInt("quantity"));
+                order.setBook_name(rs.getString("title"));
                 orders.add(order);
             }
         } catch (SQLException e) {

@@ -113,7 +113,7 @@
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Order ID</th>
+                    <th scope="col">Book Name</th>
                     <th scope="col">Book ISBN</th>
                     <th scope="col">Quantity</th>
                     <th scope="col"></th>
@@ -124,7 +124,7 @@
                     for (Order order : OrderDAO.getOrders()) {%>
                 <tr>
                     <th scope="row"><%=count++%></th>
-                    <td><%=order.getOrderID()%></td>
+                    <td><%=order.getBook_name()%></td>
                     <td><%=order.getISBN()%></td>
                     <td><%=order.getQuantity()%></td>
                     <td>
