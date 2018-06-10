@@ -28,7 +28,7 @@ public class Statistics extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String reportPath = "/ReportTemplates/";
         String file_name = "";
-        String query;
+        String query = null;
         if (request.getParameter("stat1") != null) {
             System.out.print("stat1");
             file_name = "total_sales.jrxml";
