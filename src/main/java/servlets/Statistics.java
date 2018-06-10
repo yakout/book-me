@@ -8,6 +8,7 @@ import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.column.Columns;
 import net.sf.dynamicreports.report.builder.component.Components;
 import net.sf.dynamicreports.report.builder.datatype.DataTypes;
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.jasperreports.engine.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
@@ -29,13 +30,12 @@ public class Statistics extends HttpServlet {
         JasperReportBuilder report = DynamicReports.report();
         String reportPath = "/ReportTemplates/";
         String file_name = "";
-        String query = null;
         if (request.getParameter("stat1") != null) {
             System.out.print("stat1");
             file_name = "total_sales.jrxml";
 
             // THIS QUERY WORKS
-            query = "SELECT SUM(Sale.copies * price) from Sale Join book on (Sale.ISBN = Book.ISBN) " +
+            String query = "SELECT SUM(Sale.copies * price) from Sale Join book on (Sale.ISBN = Book.ISBN) " +
                     "WHERE sale_date > (current_Date() - Interval 1 MONTH);";
 
             report
@@ -50,7 +50,7 @@ public class Statistics extends HttpServlet {
             System.out.print("stat2");
             file_name = "TopFiveCustomers.jrxml";
 
-            query = "SELECT User.* , SUM(Sale.copies) AS sum_copies, "
+            String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies, "
                     + " SUM(Sale.copies * Book.price) AS sum_paid "
                     + " FROM (Sale NATURAL JOIN Book NATURAL JOIN User)"
                     + " WHERE " + " YEAR(sale_date) >= YEAR(CURRENT_DATE - INTERVAL 3 MONTH) "
@@ -60,21 +60,43 @@ public class Statistics extends HttpServlet {
                     + " GROUP BY User.user_id "
                     + " ORDER BY sum_paid DESC"
                     + " LIMIT 5 ;";
+
+            report
+                    .columns(
+                            Columns.column("First Name", "first_name", DataTypes.stringType()),
+                            Columns.column("Last Name", "last_name", DataTypes.stringType()),
+                            Columns.column("number of books Bought", "sum_copies",
+                                    DataTypes.stringType()))
+                    .title(
+                            Components.text("Top 5 Customer")
+                                    .setHorizontalAlignment(CENTER))
+                    .pageFooter(Components.pageXofY())
+                    .setDataSource(query, ModelManager.getInstance().getConnection());
         }
         else if (request.getParameter("stat3") != null) {
             System.out.print("stat3");
             file_name = "TopTenBooks.jrxml";
 
-            query = "SELECT Book.* , SUM(Sale.copies) AS sum_copies "
+            String query = "SELECT Book.* , SUM(Sale.copies) AS sum_copies "
                     + " FROM (Book NATURAL JOIN Sale)"
                     + " GROUP BY Book.ISBN "
                     + " ORDER BY sum_copies DESC"
                     + " LIMIT 10 ;";
+
+            report
+                    .columns(
+                            Columns.column("ISBN", "ISBN", DataTypes.stringType()),
+                            Columns.column("Number of books Sold", "sum_copies",
+                                    DataTypes.stringType()))
+                    .title(
+                            Components.text("Top 10 Books")
+                                    .setHorizontalAlignment(CENTER))
+                    .pageFooter(Components.pageXofY())
+                    .setDataSource(query, ModelManager.getInstance().getConnection());
         }
 
         try {
             report.show();
-
             response.setContentType("application/pdf");
             report.toPdf(response.getOutputStream());
             response.getOutputStream().flush();
