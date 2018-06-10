@@ -1,14 +1,11 @@
 package servlets;
 
-
-
 import model.ModelManager;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.column.Columns;
 import net.sf.dynamicreports.report.builder.component.Components;
 import net.sf.dynamicreports.report.builder.datatype.DataTypes;
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.jasperreports.engine.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 

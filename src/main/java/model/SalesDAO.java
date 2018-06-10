@@ -23,6 +23,7 @@ public class SalesDAO {
      */
     public static Double getTotalSales() {
 
+        // not tested
         String query = "SELECT  SUM(Sale.copies * price) "
                 + " FROM (Sale NATURAL JOIN Book) "
                 + " WHERE "
@@ -48,6 +49,8 @@ public class SalesDAO {
      */
     public static ArrayList<User> getTopFiveCustomers() {
         ArrayList<User> top_five = new ArrayList<>();
+
+        // not tested
         String query = "SELECT User.* , SUM(Sale.copies) AS sum_copies, "
                 + " SUM(Sale.copies * Book.price) AS sum_paid "
                 + " FROM (Sale NATURAL JOIN Book NATURAL JOIN User)"
@@ -104,6 +107,7 @@ public class SalesDAO {
     public static ArrayList<Book> getTopTenBooks() {
         ArrayList<Book> top_ten = new ArrayList<>();
 
+        // not tested
         String query = "SELECT Book.* , SUM(Sale.copies) AS sum_copies "
                 + " FROM (Book NATURAL JOIN Sale)"
                 + " GROUP BY Book.ISBN "
