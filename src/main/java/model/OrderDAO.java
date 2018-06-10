@@ -50,7 +50,7 @@ public class OrderDAO {
          * */
         String query = "DELETE FROM `Order`"
                         + " WHERE " + " order_id "
-                        + " = " + confirmedOrder.getOrderID() + ";";
+                        + " = '" + confirmedOrder.getOrderID() + "';";
 
         try {
             ModelManager.getInstance().executeQuery(query);
