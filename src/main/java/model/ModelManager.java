@@ -12,7 +12,7 @@ public class ModelManager {
     private static String pass = "yakout"; // yakout
     private static ModelManager model;
     private Connection connection;
-    static private int pagecount = 3;
+    static private int pagecount = 20;
 
     private ModelManager() {
         startConnection();

@@ -339,7 +339,7 @@ public class BookDAO {
                 }
             }
         }
-        query += " LIMIT 3 OFFSET " + (offset == null? 0 : offset) + ";";
+        query += " LIMIT " + ModelManager.getPagecount() + " OFFSET " + (offset == null? 0 : offset) + ";";
         System.out.println(query);
         return getMatchedBooks(query);
     }
