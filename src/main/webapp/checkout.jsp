@@ -171,7 +171,7 @@
 
                     <% if (session.getAttribute("user") != null) { %>
 
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a href="index.jsp" class="nav-link">Home</a>
                         <span class="sr-only">(current)</span>
                     </li>
@@ -183,15 +183,29 @@
                         </a>
                     </li>
 
+                    <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
+                    <li class="nav-item">
+                        <a href="statistics.jsp" class="nav-link"><i class="fa fa-bar-chart"></i> Statistics</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="orders.jsp" class="nav-link"><i class="fas fa-book"></i> Orders</a>
+                    </li>
+                    <% } else {%>
+
+                    <li class="nav-item active">
+                        <a class="nav-link cart-item-count" href="cart.jsp" data-cesta-feira-items-count>
+                            <span class="fa fa-shopping-cart"></span> Shopping Cart</a>
+                    </li>
+
+                    <% } %>
+
                     <li class="nav-item">
                         <a href="logout" class="nav-link"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link cart-item-count" href="cart.jsp" data-cesta-feira-items-count>
-                            <span class="fa fa-shopping-cart"></span> Shopping Cart</a>
-                    </li>
                     <% } else {	%>
+
                     <li class="nav-item">
                         <a href="login.jsp" class="nav-link">Login</a>
                     </li>

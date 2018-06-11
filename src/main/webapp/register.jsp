@@ -8,6 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link href="vendor/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet"/>
+
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -50,7 +52,7 @@
 
                 <% if (session.getAttribute("user") != null) { %>
 
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="#" class="nav-link">Home</a>
                     <span class="sr-only">(current)</span>
                 </li>
