@@ -114,6 +114,7 @@ public class SalesDAO {
                 + " ORDER BY sum_copies DESC"
                 + " LIMIT 10 ;";
 
+
         ResultSet result = null;
         try {
             result = ModelManager.getInstance().executeQuery(query);
@@ -123,7 +124,7 @@ public class SalesDAO {
         }
 
         try {
-            while (result.next()){
+            while (result.next()) {
                 Book book = new Book();
                 book.setISBN(result.getInt("ISBN"));
                 book.setTitle(result.getString("title"));
@@ -134,10 +135,8 @@ public class SalesDAO {
                 book.setNumberOfCopies(result.getInt("copies"));
                 book.setNumberOfSalesCopies(result.getInt("sum_copies"));
                 top_ten.add(book);
-
             }
-
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return top_ten;

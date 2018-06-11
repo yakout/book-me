@@ -47,7 +47,9 @@ public class Profile extends HttpServlet {
 
         try {
             if (pw.authenticate(old_password, old_user.getEncryptedPassword(), old_user.getSalt())) {
-                new_user.setEncryptedPassword(pw.getEncryptedPassword(new_password, old_user.getSalt()));
+                if (!new_password.isEmpty()) {
+                    new_user.setEncryptedPassword(pw.getEncryptedPassword(new_password, old_user.getSalt()));
+                }
                 System.out.println("Old Password matched.");
             } else {
                 System.out.println("Old Password did not match.");

@@ -78,12 +78,13 @@
                     <% if (session.getAttribute("user") != null) { %>
 
                     <li class="nav-item active">
-                        <a href="index.jsp" class="nav-link">Home</a>
+                        <a href="index.jsp" class="nav-link"><i class="fa fa-home"></i> Home</a>
                         <span class="sr-only">(current)</span>
                     </li>
 
                     <li class="nav-item">
                         <a href="profile.jsp" class="nav-link">
+                            <i class="fa fa-user"></i>
                             <%= ((User) session.getAttribute("user")).getfName() %>
                             <%= ((User) session.getAttribute("user")).getlName() %>
                         </a>
@@ -95,16 +96,14 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="orders.jsp" class="nav-link"><i class="fas fa-book"></i> Orders</a>
+                        <a href="orders.jsp" class="nav-link"><i class="fa fa-book"></i> Orders</a>
                     </li>
-                    <% } else {%>
+                    <% } %>
 
                     <li class="nav-item">
-                        <a class="nav-link cart-item-count" href="cart.jsp" data-cesta-feira-items-count>
+                        <a class="nav-link cart-item-count" href="cart.jsp">
                             <span class="fa fa-shopping-cart"></span> Shopping Cart</a>
                     </li>
-
-                    <% } %>
 
                     <li class="nav-item">
                         <a href="logout" class="nav-link"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
@@ -260,15 +259,16 @@
                                             <input type="hidden" value="<%=book.getTitle()%>" name="name">
                                             <input type="hidden" value="<%=book.getISBN()%>" name="ISBN">
                                             <input type="hidden" value="<%=book.getPrice()%>" name="price">
-                                            <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
-                                            <input type="submit" class="btn btn-primary" name="action"
-                                                   value="Place Order"/>
-                                            <% } else { %>
+
                                             <input type="submit" class="btn btn-primary" name="action"
                                                    value="Add to Cart"/>
-                                            <% } %>
                                             <input id="editsubmit" type="submit" class="btn btn-primary" name="action"
                                                    value="Edit"/>
+                                            <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
+                                            <hr>
+                                            <input type="submit" class="btn btn-secondary" name="action"
+                                                   value="Place Order" style="width: 100%;"/>
+                                            <% } %>
                                         </form>
                                     </div>
                                 </div>

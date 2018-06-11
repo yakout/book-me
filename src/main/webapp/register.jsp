@@ -49,32 +49,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-
-                <% if (session.getAttribute("user") != null) { %>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Home</a>
-                    <span class="sr-only">(current)</span>
-                </li>
-                <li class="nav-item">
-                    <a href="profile.jsp" class="nav-link">
-                        <%= ((User) session.getAttribute("user")).getfName() %>
-                        <%= ((User) session.getAttribute("user")).getlName() %>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="logout" class="nav-link">Logout</a>
-                </li>
-                <%
-                    response.sendRedirect("index.jsp");
-                } else { %>
-
                 <li class="nav-item">
                     <a href="login.jsp" class="nav-link">Login</a>
                 </li>
-                <% } %>
-
             </ul>
         </div>
     </div>
