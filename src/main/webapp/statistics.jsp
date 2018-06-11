@@ -71,6 +71,7 @@
                     <a href="index.jsp" class="nav-link">Home</a>
                     <span class="sr-only">(current)</span>
                 </li>
+
                 <li class="nav-item">
                     <a href="profile.jsp" class="nav-link">
                         <%= ((User) session.getAttribute("user")).getfName() %>
@@ -78,10 +79,34 @@
                     </a>
                 </li>
 
+                <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
+                <li class="nav-item active">
+                    <a href="statistics.jsp" class="nav-link"><i class="fa fa-bar-chart"></i> Statistics</a>
+                </li>
+
                 <li class="nav-item">
-                    <a href="logout" class="nav-link">Logout</a>
+                    <a href="orders.jsp" class="nav-link"><i class="fas fa-book"></i> Orders<a>
                 </li>
                 <% } %>
+
+                <li class="nav-item">
+                    <a href="logout" class="nav-link"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link cart-item-count" href="cart.jsp" data-cesta-feira-items-count>
+                        <span class="fa fa-shopping-cart"></span> Shopping Cart</a>
+                </li>
+                <% } else {	%>
+                <li class="nav-item">
+                    <a href="login.jsp" class="nav-link">Login</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="register.jsp" class="nav-link">Register</a>
+                </li>
+                <% } %>
+
             </ul>
         </div>
     </div>

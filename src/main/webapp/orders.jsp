@@ -59,7 +59,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.jsp">Orders</a>
+        <a class="navbar-brand" href="index.jsp">Book Me</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -81,13 +81,22 @@
                     </a>
                 </li>
 
+                <% if (session.getAttribute("user") != null && ((User)session.getAttribute("user")).isManager()) {%>
                 <li class="nav-item">
-                    <a href="logout" class="nav-link">Logout</a>
+                    <a href="statistics.jsp" class="nav-link"><i class="fa fa-bar-chart"></i> Statistics</a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link cart-item-count" href="cart.jsp"
-                       data-cesta-feira-items-count>
+                    <a href="orders.jsp" class="nav-link"><i class="fas fa-book"></i> Orders<a>
+                </li>
+                <% } %>
+
+                <li class="nav-item">
+                    <a href="logout" class="nav-link"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link cart-item-count" href="cart.jsp" data-cesta-feira-items-count>
                         <span class="fa fa-shopping-cart"></span> Shopping Cart</a>
                 </li>
                 <% } else {	%>
