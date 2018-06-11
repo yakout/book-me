@@ -3,6 +3,7 @@
 <%@ page import="beans.Cart" %>
 <%@ page import="model.OrderDAO" %>
 <%@ page import="beans.Order" %>
+<%@ page import="model.ModelManager" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -121,7 +122,8 @@
                 </thead>
                 <tbody>
                 <% int count = 0;
-                    for (Order order : OrderDAO.getOrders()) {%>
+                    for (Order order : OrderDAO.getOrders(session.getAttribute("offset") == null ? 0 :
+                            (Integer) session.getAttribute("offset"))) {%>
                 <tr>
                     <th scope="row"><%=count++%></th>
                     <td><%=order.getBook_name()%></td>
@@ -136,9 +138,24 @@
                         </form>
                     </td>
                 </tr>
-                <% } %>
+                <% }
+                    // if there are no results reset decrement back the offset.
+                    if (count == 0) {
+                        session.setAttribute("offset", (Integer) session.getAttribute("offset") -
+                                ModelManager.getPagecount());
+                    }
+                %>
                 </tbody>
             </table>
+            <nav aria-label="Books Navigation">
+                <ul class="pagination justify-content-center">
+                    <form action="pagination.jsp">
+                        <input type="hidden" name="from" value="orders">
+                        <input class="btn btn-dark" type="submit" name="action" value="< Previous">
+                        <input class="btn btn-dark" type="submit" name="action" value="Next >">
+                    </form>
+                </ul>
+            </nav>
         </div>
     </div>
     <br>

@@ -19,6 +19,11 @@
     }
 
     System.out.println("offset = " + session.getAttribute("offset"));
-    request.getRequestDispatcher("index.jsp").forward(request, response);
+    if (request.getParameter("from").equals("orders")) {
+        request.getRequestDispatcher("orders.jsp").forward(request, response);
+    } else {
+        // from index
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
 
 %>

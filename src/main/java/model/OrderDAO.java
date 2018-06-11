@@ -62,8 +62,10 @@ public class OrderDAO {
     }
 
 
-    public static ArrayList<Order> getOrders() {
-        String query = "SELECT Order.* , title FROM ( `Order` NATURAL JOIN `Book` );";
+    public static ArrayList<Order> getOrders(Integer offset) {
+        String query = "SELECT `Order`.* , title FROM `Order` NATURAL JOIN `Book` LIMIT "
+                + ModelManager.getPagecount()
+                + " OFFSET " + offset + ";";
 
         ArrayList<Order> orders = new ArrayList<>();
         try {
