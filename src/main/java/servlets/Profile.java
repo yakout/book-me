@@ -19,7 +19,7 @@ public class Profile extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        if (request.getParameter("action").equals("promote")) {
+        if (request.getParameter("action") != null && request.getParameter("action").equals("promote")) {
             if (UserDAO.promoteUser(request.getParameter("email"))) {
                 request.setAttribute("successMessage", "Promotion Done.");
                 request.getRequestDispatcher("promoteUser.jsp").forward(request, response);
@@ -65,6 +65,7 @@ public class Profile extends HttpServlet {
 
         if (UserDAO.updateUser(new_user)) {
             System.out.println("UPDATE PROFILE SUCCESS.");
+            request.getSession().setAttribute("user", new_user);
             request.setAttribute("successMessage", "Updated profile successfully.");
             request.getRequestDispatcher("profile.jsp").forward(request, response);
         } else {
