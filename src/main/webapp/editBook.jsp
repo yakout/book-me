@@ -219,6 +219,7 @@
         </div>
     </div>
     <!-- /form card register -->
+    <br>
 </div>
 
 <!-- Footer -->

@@ -270,11 +270,13 @@ public class BookDAO {
     /**
      * find many books by searching by category.
      * @param category the category class we search by
+     * @param offset
      * @return the matched books.
      */
-    public static ArrayList<Book> findByCategory(@NotNull BookCategory category) {
+    public static ArrayList<Book> findByCategory(@NotNull BookCategory category, Integer offset) {
         String query = "SELECT * FROM Book "
-                + "WHERE category = " + "'" + category.name() + "'" + ";";
+                + "WHERE category = " + "'" + category.name() + "'"
+                + " LIMIT " + ModelManager.getPagecount() + " OFFSET " + offset + ";";
         return getMatchedBooks(query);
     }
 
